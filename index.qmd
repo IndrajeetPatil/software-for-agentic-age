@@ -690,7 +690,7 @@ description: Manage todos with the `todo` CLI.
 :::
 
 ::: {.card .cream}
-**Libraries ship them too:** FastAPI bundles a skill in the package.
+**Tools ship them too:** Astral publishes an official `uv` skill.
 :::
 
 :::
@@ -698,7 +698,7 @@ description: Manage todos with the `todo` CLI.
 ::::
 
 ::: {.source}
-Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.md/), [FastAPI: AI agent skills](https://fastapi.tiangolo.com/tutorial/#ai-agent-skills)
+Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.md/), [Astral's uv skill](https://github.com/astral-sh/claude-code-plugins/blob/main/plugins/astral/skills/uv/SKILL.md)
 :::
 
 ## Packages: docs agents can fetch
@@ -796,28 +796,28 @@ Abridged from uv's [`mkdocs.yml`](https://github.com/astral-sh/uv/blob/main/mkdo
 
 ## Get indexed by Context7
 
-![](media/context7-fastapi.webp){.shot width="680" height="178" fig-alt="Context7 page for FastAPI showing 484,382 tokens, 3,457 snippets, trust score 9, and a benchmark score of 86.99"}
+![](media/context7-uv.webp){.shot width="680" height="178" fig-alt="Context7 page for uv showing 637,996 tokens, 4,273 snippets, trust score 9.4, Apache-2.0 licence, and a benchmark score of 79.68"}
 
 ::: {.credit}
-Screenshot of [context7.com/websites/fastapi_tiangolo](https://context7.com/websites/fastapi_tiangolo), 7 Oct 2026
+Screenshot of [context7.com/astral-sh/uv](https://context7.com/astral-sh/uv), 7 Oct 2026
 :::
 
 ::: {.grid-2}
 
 ::: {.card .yellow .tilt-l}
-**Add** your repo or docs site at [context7.com](https://context7.com/) and steer the parser with `context7.json`. **Agents** then call `resolve-library-id` and `query-docs` over MCP.
+**Add** your repo at [context7.com](https://context7.com/) and steer the parser with `context7.json`. **Agents** then call `resolve-library-id` and `query-docs` over MCP.
 :::
 
 ::: {.code-sm}
 
-```{.python filename="what the agent gets back"}
-# query-docs("/websites/fastapi_tiangolo",
-#   "declare a path parameter with a type")
-# → "Declare Path Parameter with Type
-#    Annotation" (tutorial/path-params)
-@app.get("/items/{item_id}")
-async def read_item(item_id: int):
-    return {"item_id": item_id}
+```{.bash filename="what the agent gets back"}
+# query-docs("/astral-sh/uv",
+#   "add a dependency to a project")
+# → "Adding a dependency with uv add"
+#   (docs/guides/projects.md)
+uv add requests
+uv add --dev pytest
+uv add --group lint ruff
 ```
 
 :::
@@ -833,17 +833,17 @@ Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.
 ::: {.grid-3}
 
 ::: {.card .yellow .stat .tilt-l}
-<span class="num">3,457</span>
+<span class="num">4,273</span>
 <span class="label">code snippets extracted</span>
 :::
 
 ::: {.card .green .stat}
-<span class="num">484,382</span>
+<span class="num">637,996</span>
 <span class="label">tokens of docs indexed</span>
 :::
 
 ::: {.card .pink .stat .tilt-r}
-<span class="num">87</span>
+<span class="num">80</span>
 <span class="label">benchmark score</span>
 :::
 
@@ -860,7 +860,7 @@ Ask Context7 your users' top five questions. If the snippets can't answer them, 
 :::
 
 ::: {.source}
-Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). FastAPI figures from Context7 on 7 Oct 2026. Scores are LLM-judged, so treat them as a guide.
+Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). uv figures from Context7 on 7 Oct 2026. Scores are LLM-judged, so treat them as a guide.
 :::
 
 ## Agents act with your users' credentials
