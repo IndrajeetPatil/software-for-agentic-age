@@ -1301,6 +1301,8 @@ Sources: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/gu
 | **Agent Skills index** | `/.well-known/agent-skills/index.json` | You have tasks worth teaching |
 | **Agentic commerce** | x402, ACP, UCP | Agents can buy from you |
 
+: {tbl-colwidths="[26,44,30]"}
+
 ::: {.callout-big}
 Never advertise a capability you don't have. A **false signal is worse than none**.
 :::
