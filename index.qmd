@@ -124,7 +124,7 @@ flowchart LR
 ```
 
 ::: {.callout-big}
-The agent is a user with **no eyes**, a **limited memory**, and **no patience for prompts**.
+The agent is a user with **no eyes**, a **limited memory**, and **no way to answer an interactive prompt**.
 :::
 
 ## How an agent works with your product
@@ -886,7 +886,7 @@ Ask Context7 your users' top five questions. If the snippets can't answer them, 
 Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). md2linkedin had no benchmark score yet on 7 Oct 2026; scores are LLM-judged, so treat them as a guide.
 :::
 
-## Agents act with borrowed hands
+## Agents act with your users' credentials
 
 ::: {.grid-2}
 
@@ -921,7 +921,7 @@ Identify agent traffic and log every action it takes.
 :::
 
 ::: {.callout-big}
-Treat tool output as **untrusted input**: prompt injection rides in on data.
+Treat tool output as **untrusted input**: text in the data can carry instructions that hijack the agent (prompt injection).
 :::
 
 # Websites agents can read {background-color="#FFD600"}
@@ -1454,7 +1454,7 @@ Some failing checks are **hosting decisions, not code bugs**. Use the static sub
 | **Track** | Search Console, an occasional scan | Citation rate and share of voice in AI answers |
 
 ::: {.callout-big}
-Size the effort to the site. **A portfolio is not an API.**
+Size the effort to the site. **If visitors can't *do* anything there, skip the API layer.**
 :::
 
 ::: {.source}
@@ -1604,7 +1604,7 @@ Adoption among Cloudflare Radar's top 200,000 domains, Apr 2026:
 ```
 
 ::: {.callout-big}
-Early movers get the advantage that early SEO adopters once had.
+Most sites stop at `robots.txt`. **A few small changes already put you ahead.**
 :::
 
 ::: {.source}
