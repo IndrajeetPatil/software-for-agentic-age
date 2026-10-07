@@ -869,7 +869,7 @@ Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.
 : {tbl-colwidths="[18,82]"}
 
 ::: {.callout-big}
-Ask Context7 your users' top five questions. If it can't surface the answers, **your docs are hard to find** through that channel.
+Ask Context7 your users' top five questions. No answers? **Your docs are hard to find there.**
 :::
 
 ::: {.source}
