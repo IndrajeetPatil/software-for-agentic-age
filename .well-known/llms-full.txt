@@ -10,7 +10,7 @@ Language: English
 
 ## Summary
 
-AI agents are a new kind of user: they read text instead of pixels, pay for every token they read, and cannot answer interactive prompts. This deck explains what products and websites need so that agents can operate and read them, and argues that most of it builds on established engineering, SEO, and accessibility practice.
+AI agents are a new kind of user: they work best with text, pay for every token they read, and cannot answer interactive prompts (they can read screenshots and click, but products should not require it). This deck explains what products and websites need so that agents can operate and read them, and argues that most of it builds on established engineering, SEO, and accessibility practice.
 
 The talk assumes the audience knows what large language models and agents are. It is aimed at developers, product engineers, and site owners.
 
@@ -19,31 +19,31 @@ The talk assumes the audience knows what large language models and agents are. I
 - Agents reach products through three interfaces: an HTTP API, a CLI, and an MCP server. CLI and MCP are thin layers over a good API.
 - Agent-friendly CLIs provide structured output (`--json`), field selection, non-interactive flags (`--yes`), headless authentication via environment variables, meaningful exit codes, actionable errors on stderr, examples in `--help`, and stable output schemas.
 - Exemplars: the GitHub CLI (`gh --json --jq`, `GH_TOKEN`, `GH_PROMPT_DISABLED`, `gh api`) and the Azure CLI (`az --query`, `-o tsv`, `--yes --no-wait`, `az login --identity`, `az rest`).
-- MCP (Model Context Protocol) exposes tools, resources, and prompts to any agent host. The deck uses the current spec, 2026-07-28: every request is self-contained, carrying its protocol version and client capabilities in `_meta`, so any server replica can answer it; `server/discover` reports capabilities, servers ask for user input by returning `input_required`, and cross-call state travels as explicit handles in tool arguments. A minimal Python server (MCP Python SDK 2.3.0) derives tool schemas from type hints and docstrings.
-- Prefer a CLI for coding agents with a terminal and a single user's credentials; prefer MCP for agents without a shell, per-user OAuth, and central governance. An MCP server's token cost depends mostly on how many tool schemas it exposes; a few well-described tools (for example Cloudflare's Code Mode) keep it small.
+- MCP (Model Context Protocol) exposes tools, resources, and prompts to any agent host. The deck uses the current spec, 2026-07-28: every request is self-contained, carrying its protocol version and client capabilities in `_meta`, so no session pins it to one server replica; the HTTP transport also requires `MCP-Protocol-Version`, `Mcp-Method`, and `Mcp-Name` headers; `server/discover` reports capabilities, servers ask for user input by returning `input_required`, and cross-call state travels as explicit handles in tool arguments. A minimal Python server (MCP Python SDK 2.3.0) derives tool schemas from type hints and docstrings.
+- Prefer a CLI for coding agents with a terminal and a single user's credentials; prefer MCP for agents without a shell, per-user OAuth, and central governance. The context cost of an MCP server's tool definitions depends on how many it exposes and whether the host loads them up front or on demand; discoverable, task-shaped tools (for example Cloudflare's Code Mode) keep it small.
 - Ship Agent Skills (SKILL.md) or AGENTS.md so agents learn how to use a tool on demand.
 - Software packages should publish documentation for agents: `llms.txt` (summary and curated links), `llms-full.txt` (all pages in one file) and a Markdown twin of every HTML page, advertised with `<link rel="alternate">`. Docs generators can build these, for example the `llmstxt` plugin for MkDocs and Zensical. `/.well-known/` copies only count at the domain root.
-- Indexing documentation in Context7 lets agents retrieve it over MCP (`resolve-library-id`, `query-docs`). Context7's snippet count, LLM-judged benchmark, and trust score double as a check on documentation quality for agents.
-- Agents act with borrowed credentials: least privilege, dry runs, explicit consent for destructive actions, audit trails, and treating tool output as untrusted input.
+- Indexing documentation in Context7 lets agents retrieve it over MCP (`resolve-library-id`, `query-docs`). Context7's snippet count, LLM-judged benchmark, and trust score are signals of how discoverable documentation is through that channel, not certificates of correctness.
+- Agents act with borrowed credentials: least privilege, dry runs, idempotent writes that are safe to retry, explicit flags for destructive actions with consent from the user via the host, audit trails, and treating tool output as untrusted input.
 
 ## Part 2: websites agents can read
 
 - Machine visitors include search crawlers, training crawlers, user-directed fetchers, and browser agents. Each can be allowed or refused separately.
-- Participating in the agentic web is a choice; opting out is legitimate. robots.txt and Content Signals express preferences but do not enforce them.
+- Participating in the agentic web is a choice; opting out is legitimate. robots.txt and Content Signals express preferences but do not enforce them; to refuse training, `Disallow` training crawlers by name and add Content Signals as an extra declaration.
 - SEO, accessibility, performance, and semantic HTML remain the foundation. Agents use the accessibility tree.
-- A maturity ladder: foundations, discoverable (robots.txt, sitemap, content signals), readable (server-rendered HTML, llms.txt, Markdown via content negotiation or .md mirrors), trustworthy (structured data, trust pages, honest status codes), and operable (API catalogue, OAuth discovery, MCP Server Card, Agent Skills index, WebMCP, agentic commerce).
+- A maturity ladder: foundations, discoverable (robots.txt, sitemap, content signals), readable (server-rendered HTML, llms.txt, Markdown via content negotiation or .md mirrors), trustworthy (structured data, trust pages, honest status codes), and operable (API catalogue, OAuth protected-resource metadata, MCP Server Card, Agent Skills index, WebMCP, agentic commerce).
 - Never advertise a capability a site does not have. Personal, non-commercial sites rarely need anything beyond the trustworthy level.
 - Some checks depend on hosting: static hosts cannot set response headers or negotiate content; programmable edges can.
 
 ## Part 3: measure and iterate
 
 - Cloudflare's isitagentready.com and Vercel's is-agentic.com scan a URL, score it, and generate prompts for coding agents. The same site can score very differently on each, so read the findings rather than the number.
-- `npx is-agentic <domain>`, `@vercel/agent-readability`, and Lighthouse's experimental Agentic Browsing category support scanning from the terminal and CI.
+- `npx is-agentic <domain>`, `@vercel/agent-readability`, and Lighthouse's experimental Agentic Browsing category support scanning from the terminal and CI. Scanner scores do not certify compatibility: test representative agent tasks and measure success, wrong actions, latency, and token cost.
 - Adoption is low: Cloudflare found robots.txt on 78% of top sites, Content Signals on 4%, and Markdown negotiation on 3.9%.
 
 ## Key takeaways
 
 - Design for text and tokens.
-- Offer an API, a CLI, and an MCP server so agents can operate the product.
+- Build a good API, then add the CLI or MCP server your users' agents actually need.
 - Keep SEO and accessibility first; agent extras build on them.
 - Opting out is fine; whatever the choice, send honest, consistent signals.
