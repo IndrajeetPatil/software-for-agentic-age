@@ -232,7 +232,7 @@ Nothing enters context until it runs.
 | **Field selection** | Smaller output, fewer tokens | `--json name,id`, `--query` |
 | **Never block on input** | No one is there to type `y` | `--yes`, `GH_PROMPT_DISABLED=1` |
 | **Headless auth** | Agents can't click "Sign in" | `GH_TOKEN=…`, `az login --identity` |
-| **Meaningful exit codes** | Branch on success vs failure | `0` ok, `2` not found, `3` refused |
+| **Meaningful exit codes** | Branch on success vs failure | `0` ok, `2` bad usage, `3` not found, `4` refused |
 | **Actionable errors on stderr** | Self-correct on the next turn | `error: no todo 7; run todo list` |
 | **Examples in `--help`** | Learn usage on demand | `gh pr create --help` |
 | **Stable, versioned output** | Scripts and agents break silently | Add fields; never rename them |
@@ -243,35 +243,40 @@ Sources: [Arcjet](https://blog.arcjet.com/designing-a-cli-for-ai-agents/), [Spea
 
 ## A minimal agent-friendly CLI
 
-A complete toy `todo` CLI in 22 lines. Highlighted lines are the agent-friendly bits.
+A toy `todo` CLI in [Typer](https://typer.tiangolo.com/). Highlights mark the agent-friendly bits.
 
 ::: {.code-sm}
 
-```{.python code-line-numbers="5,10,16-17,19-20"}
-import argparse, json, sys
+```{.python filename="todo.py" code-line-numbers="4,8,13,16-17,19-20"}
+from json import dumps
+import typer
 
+app = typer.Typer(rich_markup_mode=None)  # plain text: no box art for agents
 TODOS = [{"id": 1, "title": "Write slides"}]
-cli = argparse.ArgumentParser(prog="todo")
-cli.add_argument("--json", action="store_true", help="machine-readable output")
-sub = cli.add_subparsers(dest="cmd", required=True)
-sub.add_parser("list", help="show all todos")
-rm = sub.add_parser("delete", help="delete a todo by id")
-rm.add_argument("id", type=int)
-rm.add_argument("--yes", action="store_true", help="skip the confirmation")
-args = cli.parse_args()
 
-if args.cmd == "list":
-    print(json.dumps(TODOS) if args.json else "\n".join(t["title"] for t in TODOS))
-elif args.id not in {t["id"] for t in TODOS}:
-    print(f"error: no todo {args.id}; run `todo list`", file=sys.stderr)
-    sys.exit(2)
-elif not args.yes:
-    print("error: deleting needs --yes", file=sys.stderr)
-    sys.exit(3)
-else:
-    print(json.dumps({"deleted": args.id}))
+@app.command("list")
+def list_todos(json: bool = typer.Option(False, "--json")):
+    """Show all todos."""
+    print(dumps(TODOS) if json else "\n".join(t["title"] for t in TODOS))
+
+@app.command()
+def delete(todo_id: int, yes: bool = typer.Option(False, "--yes")):
+    """Delete a todo by id."""
+    if todo_id not in {t["id"] for t in TODOS}:
+        typer.echo(f"error: no todo {todo_id}; run `todo list`", err=True)
+        raise typer.Exit(3)
+    if not yes:
+        typer.echo("error: deleting needs --yes", err=True)
+        raise typer.Exit(4)
+    print(dumps({"deleted": todo_id}))
+
+app()
 ```
 
+:::
+
+::: {.source}
+Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with Typer 0.27.3.
 :::
 
 ## The same CLI, seen by an agent
@@ -294,7 +299,7 @@ Agent mode
 :::
 
 ```{.bash filename="terminal"}
-$ todo --json list
+$ todo list --json
 [{"id": 1, "title": "Write slides"}]
 ```
 
@@ -303,17 +308,17 @@ $ todo --json list
 ::: {.column width="50%"}
 
 ::: {.tag .red}
-Failures that teach
+Failures that teach the agent
 :::
 
 ```{.bash filename="terminal"}
 $ todo delete 7; echo "exit $?"
 error: no todo 7; run `todo list`
-exit 2
+exit 3
 
 $ todo delete 1; echo "exit $?"
 error: deleting needs --yes
-exit 3
+exit 4
 
 $ todo delete 1 --yes
 {"deleted": 1}
@@ -416,7 +421,7 @@ Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-
 
 ## What is MCP?
 
-The **Model Context Protocol** is an open standard for plugging tools and data into any agent host. This talk assumes the current spec, <span class="sticker yellow">2026-07-28</span>.
+The **Model Context Protocol** is an open standard for plugging tools and data into any agent host. Current spec: <span class="sticker yellow">2026-07-28</span>
 
 ```{mermaid}
 %%| eval: true
@@ -520,26 +525,7 @@ Type hints and docstrings **become the interface**. Write them for a reader with
 Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0, which speaks protocol 2026-07-28; schema output abridged.
 :::
 
-## MCP is stateless now
-
-| | Before (2025-11-25 and earlier) | Now (2026-07-28) |
-|---|---|---|
-| **Start-up** | `initialize` handshake first | None: each request's `_meta` carries version and capabilities |
-| **Sessions** | `Mcp-Session-Id` pins client to server | None: any replica answers any request |
-| **Discovery** | Learned in the handshake | `server/discover`, one call |
-| **Asking the user** | Server sends requests to the client | Server returns `input_required`; client retries |
-| **State across calls** | Hidden in the session | Explicit handles in tool arguments |
-| **Caching** | Poll for changes | `ttlMs` and `cacheScope` on list results |
-
-::: {.callout-big}
-Each request stands alone: MCP servers **scale and cache like any HTTP API**.
-:::
-
-::: {.source}
-Source: [MCP 2026-07-28 key changes](https://modelcontextprotocol.io/specification/2026-07-28/changelog). Roots, Sampling, and Logging are deprecated: pass paths as tool arguments, call LLM APIs directly, and log to `stderr` or OpenTelemetry.
-:::
-
-## One request, no handshake
+## Every request stands alone
 
 :::: {.columns}
 
@@ -573,7 +559,7 @@ Source: [MCP 2026-07-28 key changes](https://modelcontextprotocol.io/specificati
 
 ::: {.code-sm}
 
-```{.json filename="200 OK: no session to keep"}
+```{.json filename="200 OK: the result"}
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -591,7 +577,7 @@ Source: [MCP 2026-07-28 key changes](https://modelcontextprotocol.io/specificati
 :::
 
 ::: {.card .yellow style="font-size: 0.7em;"}
-**Headers** mirror the body, so gateways route without parsing JSON: `Mcp-Method`, `Mcp-Name`, `MCP-Protocol-Version`.
+Each request carries everything the server needs, so any replica can answer: MCP servers **scale and cache like any HTTP API**.
 :::
 
 :::
@@ -599,7 +585,7 @@ Source: [MCP 2026-07-28 key changes](https://modelcontextprotocol.io/specificati
 ::::
 
 ::: {.source}
-Sent with `curl` to the minimal `server.py` from two slides back (MCP Python SDK 2.3.0); response abridged.
+Sent with `curl` to the minimal `server.py` from the previous slide (MCP Python SDK 2.3.0); response abridged.
 :::
 
 ## CLI or MCP?
@@ -694,7 +680,7 @@ description: Manage todos with the `todo` CLI.
 # Using the todo CLI
 
 - Always pass `--json` and parse stdout.
-- Exit code 2 means "not found":
+- Exit code 3 means "not found":
   run `todo list` to get valid ids.
 - Deleting needs `--yes`; ask the user first.
 ```
@@ -1661,7 +1647,6 @@ Standards
 :::
 
 - [Model Context Protocol](https://modelcontextprotocol.io/)
-- [MCP 2026-07-28: key changes](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
 - [llms.txt](https://llmstxt.org/) · [Content Signals](https://contentsignals.org/)
 - [Agent Skills](https://agentskills.io/) · [AGENTS.md](https://agents.md/)
 - [Context7: adding libraries](https://context7.com/docs/adding-libraries)
