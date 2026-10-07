@@ -82,8 +82,8 @@ Source code for these slides can be found [on GitHub](https://github.com/Indraje
 :::
 
 - how agents *experience* products
-- products agents can **operate**
-- websites agents can **read**
+- products agents **act** on
+- websites agents **read** and cite
 - tools to measure readiness
 :::
 
@@ -150,46 +150,6 @@ The agent is a user with **no eyes**, a **limited memory**, and **no way to answ
 
 ::: {.callout-big}
 Good news: most of what agents need is **what good engineering already recommends**.
-:::
-
-## Two front doors for agents
-
-::: {.grid-2}
-
-::: {.card .yellow .tilt-l}
-::: {.tag}
-Part 1
-:::
-
-::: {.card-title}
-🛠️ Products agents can operate
-:::
-
-Agents **act**: create issues, deploy apps, query data.
-
-Doors: **CLI**, **MCP server**, API, docs
-:::
-
-::: {.card .green .tilt-r}
-::: {.tag}
-Part 2
-:::
-
-::: {.card-title}
-🌐 Websites agents can read
-:::
-
-Agents **read**: answer questions, compare, cite and recommend.
-
-Doors: **robots.txt**, HTML, Markdown, `llms.txt`
-:::
-
-:::
-
-::: {style="text-align: center; margin-top: 1em;"}
-::: {.tag}
-Part 3 · Measure and iterate
-:::
 :::
 
 # Products agents can operate {background-color="#FFD600"}
@@ -440,30 +400,18 @@ $ az rest --method get --url "<management-endpoint>"
 - `--query` filters *before* output
 - `-o json`, `tsv` or `table` everywhere
 - `--yes`, `--no-wait` for unattended runs
-- Sibling: **Azure MCP Server**
 :::
 
 :::
 
 ::::
 
-::: {.source}
-Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-us/cli/azure/query-azure-cli), [Azure MCP Server overview](https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/overview)
-:::
-
-## Same ideas, two CLIs
-
-| Agent need | `gh` (GitHub) | `az` (Azure) |
-|------------|---------------|--------------|
-| Structured output | `--json <fields>` | `-o json` (default) |
-| Filter before printing | `--jq` | `--query` (JMESPath) |
-| Never prompt | `GH_PROMPT_DISABLED=1` | `--yes`, `--only-show-errors` |
-| Headless auth | `GH_TOKEN` | `az login --identity`, service principals |
-| Escape hatch to the API | `gh api` | `az rest` |
-| MCP sibling | [GitHub MCP Server](https://github.com/github/github-mcp-server) | [Azure MCP Server](https://github.com/microsoft/mcp) |
-
 ::: {.callout-big}
 Pattern: **human-friendly by default, machine-friendly by flag**, with the full API one command away.
+:::
+
+::: {.source}
+Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-us/cli/azure/query-azure-cli), [Azure MCP Server overview](https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/overview)
 :::
 
 ## What is MCP?
@@ -727,7 +675,7 @@ Source: Cloudflare, [Code Mode: give agents an entire API in 1,000 tokens](https
 | **Vercel** | `vercel` CLI | Remote MCP at `mcp.vercel.com` | Markdown via content negotiation |
 
 ::: {.callout-big}
-The leaders ship **all three doors**: API, CLI *and* MCP, plus docs that agents can read.
+The leaders ship **all three interfaces**: API, CLI *and* MCP, plus docs that agents can read.
 :::
 
 ## Teach the agent: ship a skill
@@ -777,21 +725,25 @@ Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.m
 
 ## Packages: docs agents can fetch
 
-Coding agents read your package docs before they call your code. Serve them **Markdown**, not page chrome.
+Coding agents read your docs, in **Markdown**, before they call your code.
 
 | File | What it holds | md2linkedin |
 |------|---------------|-------------|
 | `/llms.txt` | Summary plus curated links to Markdown pages | 0.7 KB |
 | `/llms-full.txt` | Every docs page concatenated into one file | 33 KB |
 | `/<page>/index.md` | A Markdown twin of each HTML page | 6 KB vs 39 KB HTML |
-| `<link rel="alternate">` | Points crawlers at the files above | In every `<head>` |
+| `<link>` tag | `rel="alternate"` points crawlers at the `.md` twin | In every `<head>` |
 
 ::: {.callout-big}
 `llms.txt` to **navigate**, `.md` pages to **read one topic**, `llms-full.txt` to **load everything**.
 :::
 
+::: {.card .amber style="font-size: 0.7em;"}
+**Hype check:** Google says AI search needs no `llms.txt`, but it's cheap and Lighthouse checks it. Start it with a **"When to use this"** line.
+:::
+
 ::: {.source}
-Measured on [indrapatil.com/md2linkedin](https://www.indrapatil.com/md2linkedin/) on 7 Oct 2026. `/.well-known/` copies only count at the domain root ([RFC 8615](https://www.rfc-editor.org/rfc/rfc8615)), not under a project path.
+Sizes from [indrapatil.com/md2linkedin](https://www.indrapatil.com/md2linkedin/), 7 Oct 2026. `/.well-known/` copies count only at the domain root ([RFC 8615](https://www.rfc-editor.org/rfc/rfc8615)). Sources: [llmstxt.org](https://llmstxt.org/), [Google](https://developers.google.com/search/docs/appearance/ai-features), [Lighthouse](https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt).
 :::
 
 ## Generate them at build time
@@ -1251,55 +1203,6 @@ curl -iL -A 'Claude-User/1.0' https://example.com/pricing
 
 ::: {.source}
 Source: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents)
-:::
-
-## Level 2: publish an `llms.txt`
-
-:::: {.columns}
-
-::: {.column width="52%"}
-
-```{.markdown filename="llms.txt"}
-# Acme
-
-> Acme ships a payments API for developers.
-
-**When to use this:** answering questions about
-Acme's API, pricing and status. This is a site to
-read, not an API to call.
-
-## Docs
-
-- [Quickstart](https://acme.dev/docs/quickstart.md):
-  first charge in one request
-- [Authentication](https://acme.dev/docs/auth.md):
-  API keys, scopes, rotation
-
-## Optional
-
-- [Changelog](https://acme.dev/changelog.md)
-```
-
-:::
-
-::: {.column width="48%"}
-
-![](media/llmstxt-spec.webp){.shot width="400" height="236" fig-alt="Screenshot of llmstxt.org showing the heading The /llms.txt file, v2"}
-
-::: {.credit}
-Screenshot of [llmstxt.org](https://llmstxt.org/), 7 Oct 2026
-:::
-
-::: {.card .amber .tilt-r}
-**Hype check:** Google says AI search needs no `llms.txt`. It's cheap, though, and Lighthouse now checks it.
-:::
-
-:::
-
-::::
-
-::: {.source}
-Sources: [llmstxt.org](https://llmstxt.org/), [Google: AI features](https://developers.google.com/search/docs/appearance/ai-features), [Lighthouse llms.txt audit](https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt)
 :::
 
 ## Level 2: serve Markdown to agents
@@ -1783,7 +1686,6 @@ Further reading
 | The command line is back | DEC VT100 terminal | [Jason Scott](https://commons.wikimedia.org/wiki/File:DEC_VT100_terminal.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), resized |
 | The web was built for people | First web server at CERN | [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
 | Exemplar: GitHub CLI | cli.github.com | Screenshot, GitHub, 7 Oct 2026 |
-| Publish an `llms.txt` | llmstxt.org | Screenshot, Answer.AI, 7 Oct 2026 |
 | Get indexed by Context7 | context7.com | Screenshot, Context7 (Upstash), 7 Oct 2026 |
 | Measure and iterate | isitagentready.com | Screenshots, Cloudflare, 7 Oct 2026 |
 | Measure and iterate | is-agentic.com | Screenshots, Vercel, 7 Oct 2026 |

@@ -16,7 +16,7 @@ The talk assumes the audience knows what large language models and agents are. I
 
 ## Part 1: products agents can operate
 
-- Agents reach products through three doors: an HTTP API, a CLI and an MCP server. CLI and MCP are thin layers over a good API.
+- Agents reach products through three interfaces: an HTTP API, a CLI and an MCP server. CLI and MCP are thin layers over a good API.
 - Agent-friendly CLIs provide structured output (`--json`), field selection, non-interactive flags (`--yes`), headless authentication via environment variables, meaningful exit codes, actionable errors on stderr, examples in `--help`, and stable output schemas.
 - Exemplars: the GitHub CLI (`gh --json --jq`, `GH_TOKEN`, `GH_PROMPT_DISABLED`, `gh api`) and the Azure CLI (`az --query`, `-o tsv`, `--yes --no-wait`, `az login --identity`, `az rest`).
 - MCP (Model Context Protocol) exposes tools, resources and prompts to any agent host. The deck assumes the current spec, 2026-07-28, which is stateless: no initialize handshake and no sessions; every request carries its protocol version and client capabilities in `_meta`, `server/discover` replaces the handshake, servers ask for user input by returning `input_required`, and cross-call state travels as explicit handles in tool arguments. A minimal Python server (MCP Python SDK 2.3.0) derives tool schemas from type hints and docstrings.
