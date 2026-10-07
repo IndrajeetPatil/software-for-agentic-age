@@ -8,7 +8,7 @@
 This presentation covers what it takes for software products and websites to work well with AI agents:
 
 - **Products agents can operate**: agent-friendly CLIs, stateless MCP servers (spec 2026-07-28), and how GitHub (`gh`) and Azure (`az`) do it well, plus package docs for agents (`llms.txt` and its variants) and indexing them in Context7.
-- **Websites agents can read**: choosing whether to take part, robots.txt and Content Signals, `llms.txt`, Markdown for agents, structured data and trust signals, on top of the SEO and accessibility basics that still matter.
+- **Websites agents can read**: choosing whether to take part; robots.txt and Content Signals; `llms.txt` and Markdown for agents; and structured data and trust signals, all on top of the SEO and accessibility basics that still matter.
 - **Measuring readiness** with Cloudflare's [Is It Agent Ready?](https://isitagentready.com/) and Vercel's [Is Agentic](https://is-agentic.com/).
 
 The slides will be available here once published:<br>

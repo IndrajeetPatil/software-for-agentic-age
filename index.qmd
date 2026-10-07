@@ -51,7 +51,7 @@ CLI · MCP · Agentic web
 :::
 
 ::: {.hero-sub}
-Your next user <span class="sticker">reads text</span>, <span class="sticker amber">calls tools</span> and <span class="sticker pink">never clicks</span>.
+Your next user <span class="sticker">reads text</span>, <span class="sticker amber">calls tools</span>, and <span class="sticker pink">never clicks</span>.
 :::
 
 ::: {.hero-author}
@@ -73,7 +73,7 @@ Source code for these slides can be found [on GitHub](https://github.com/Indraje
 
 - what a large language model (LLM) is
 - an **agent** is an LLM calling tools in a loop
-- CLI, HTTP and HTML basics
+- CLI, HTTP, and HTML basics
 :::
 
 ::: {.card .yellow .tilt-r}
@@ -122,7 +122,7 @@ The agent is a user with **no eyes**, a **limited memory**, and **no way to answ
 ::: {.column width="52%"}
 
 ::: {.card .tilt-l}
-**Everything is text.** Output, errors and docs all land in the context window.
+**Everything is text.** Output, errors, and docs all land in the context window.
 :::
 
 ::: {.card .amber .tilt-r}
@@ -201,7 +201,7 @@ Models have read decades of shell scripts and docs.
 ::: {.card-title}
 Composable
 :::
-Pipe into `jq`, `grep` and `xargs`.
+Pipe into `jq`, `grep`, and `xargs`.
 :::
 
 ::: {.card .pink}
@@ -398,7 +398,7 @@ $ az rest --method get --url "<management-endpoint>"
 
 ::: {.card .green .tilt-r}
 - `--query` filters *before* output
-- `-o json`, `tsv` or `table` everywhere
+- `-o json`, `tsv`, or `table` everywhere
 - `--yes`, `--no-wait` for unattended runs
 :::
 
@@ -536,7 +536,7 @@ Each request stands alone: MCP servers **scale and cache like any HTTP API**.
 :::
 
 ::: {.source}
-Source: [MCP 2026-07-28 key changes](https://modelcontextprotocol.io/specification/2026-07-28/changelog). Roots, Sampling and Logging are deprecated: pass paths as tool arguments, call LLM APIs directly, log to `stderr` or OpenTelemetry.
+Source: [MCP 2026-07-28 key changes](https://modelcontextprotocol.io/specification/2026-07-28/changelog). Roots, Sampling, and Logging are deprecated: pass paths as tool arguments, call LLM APIs directly, and log to `stderr` or OpenTelemetry.
 :::
 
 ## One request, no handshake
@@ -951,7 +951,7 @@ The first web server, CERN. Photo: [Coolcaesar](https://commons.wikimedia.org/wi
 :::
 
 ::: {.card .cream}
-Search crawlers, AI crawlers and agents now read your pages **more often than people do**.
+Search crawlers, AI crawlers, and agents now read your pages **more often than people do**.
 :::
 
 :::
@@ -1105,7 +1105,7 @@ Structured data, trust pages, honest status codes
 ::: {.step .s4}
 [LEVEL 4]{.lvl}
 [Operable]{.name}
-API catalog, OAuth, MCP, WebMCP
+API catalogue, OAuth, MCP, WebMCP
 :::
 
 :::
@@ -1290,7 +1290,7 @@ Source: [schema.org](https://schema.org/ProfilePage). Mismatched locale or canon
 ::: {.card-title}
 🪪 Trust pages
 :::
-Real **About**, **Contact** and **Privacy** pages, with substance, linked from every footer.
+Real **About**, **Contact**, and **Privacy** pages, with substance, linked from every footer.
 :::
 
 ::: {.card .green .tilt-r}
@@ -1304,7 +1304,7 @@ Real **About**, **Contact** and **Privacy** pages, with substance, linked from e
 ::: {.card-title}
 🧭 Helpful 404s
 :::
-Point lost agents to the sitemap, `llms.txt` and the About page.
+Point lost agents to the sitemap, `llms.txt`, and the About page.
 :::
 
 ::: {.card .cream .tilt-l}
@@ -1324,7 +1324,7 @@ Sources: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/gu
 
 | Signal | Location | Publish only if… |
 |--------|----------|------------------|
-| **API catalog** (RFC 9727) | `/.well-known/api-catalog` | You have a public API |
+| **API catalogue** (RFC 9727) | `/.well-known/api-catalog` | You have a public API |
 | **OpenAPI spec** | e.g. `/openapi.json` | You have a public API |
 | **OAuth discovery** | `/.well-known/oauth-authorization-server` | Agents must sign in |
 | **MCP Server Card** | `/.well-known/mcp/server-card.json` | You run an MCP server |
@@ -1397,10 +1397,10 @@ Some failing checks are **hosting decisions, not code bugs**. Use the static sub
 
 | | Personal, non-commercial | Commercial |
 |---|---|---|
-| **Goal** | Be found and cited correctly | Be found, recommended and *used* |
+| **Goal** | Be found and cited correctly | Be found, recommended, and *used* |
 | **Must** | Levels 0–1, server-rendered HTML | Levels 0–3 everywhere |
 | **Worth it** | `llms.txt`, `.md` mirrors, `Person` JSON-LD, trust pages | Markdown negotiation, OpenAPI, CLI, MCP, OAuth |
-| **Skip** | API catalog, OAuth, MCP card, WebMCP: nothing to call | Signals for features you don't offer |
+| **Skip** | API catalogue, OAuth, MCP card, WebMCP: nothing to call | Signals for features you don't offer |
 | **Track** | Search Console, an occasional scan | Citation rate and share of voice in AI answers |
 
 ::: {.callout-big}
@@ -1430,7 +1430,7 @@ Part 3 · Tools
 :::
 
 ::: {.card .amber}
-Discoverability, content, bot access, protocol discovery and (unscored) commerce
+Discoverability, content, bot access, protocol discovery, and (unscored) commerce
 :::
 
 :::
@@ -1531,7 +1531,7 @@ Chrome **Lighthouse** has an experimental *Agentic Browsing* category: accessibi
 :::
 
 ::: {.card .green .tilt-r}
-The scanners **practise what they preach**: they offer CLIs, APIs and MCP servers of their own.
+The scanners **practise what they preach**: they offer CLIs, APIs, and MCP servers of their own.
 :::
 
 :::
@@ -1574,7 +1574,7 @@ Recap
 | **This week** | Add `--json` and non-interactive flags; fix exit codes | Decide your AI stance; update `robots.txt` and the sitemap |
 | **This month** | Headless auth with scoped tokens; `llms.txt` for your docs | Server-render key pages; add `llms.txt` and `.md` mirrors |
 | **This quarter** | Ship a small MCP server and a skill; get indexed by Context7 | Structured data, trust pages, Markdown negotiation |
-| **Always** | Version the output; never rename fields | Keep SEO, accessibility and performance healthy |
+| **Always** | Version the output; never rename fields | Keep SEO, accessibility, and performance healthy |
 
 ::: {.callout-big}
 Run a scanner **before and after**. Fix what matters for *your* users.

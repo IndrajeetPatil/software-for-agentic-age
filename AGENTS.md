@@ -55,9 +55,10 @@ Check which set is present to know which language context applies.
 
 - **Single-file deck.** All slides live in `index.qmd`. There are no partial includes or multi-file splits.
 - **Slide syntax.** Slides are separated by `##` headings. Use Quarto's RevealJS dialect: fenced divs (`:::`), columns (`.columns` / `.column`), raw HTML blocks (`{=html}`), and the `{.smaller}` class for dense slides.
-- **Brand first.** Colours and fonts live in `_brand.yml` (Quarto brand.yml). `style.css` reads them as `--brand-*` custom properties and adds the neo-brutalist shapes: 3px ink borders, hard offset shadows and slightly tilted cards, inspired by [loot-drop.io](https://www.loot-drop.io/). Add a colour to the brand palette before using it anywhere else; avoid inline `style` colours.
-- **Component classes.** Use the existing classes rather than inline styles: `.card` (with colour modifiers `.yellow`, `.green`, `.pink`, `.amber`, `.cream`, `.ink`, `.forest`, `.red` and tilts `.tilt-l` / `.tilt-r`), `.grid-2|3|4`, `.callout-big`, `.tag`, `.sticker`, `.stat`, `.ladder`, `.pyramid`, `.bars`, and `.code-sm` for dense code. Section dividers are `#` headings with `background-color="#FFD600"`.
-- **Visual over text.** No large blocks of prose on a slide. Prefer tables, Mermaid diagrams, cards and screenshots.
+- **Brand first.** Colours and fonts live in `_brand.yml` (Quarto brand.yml). `style.css` reads them as `--brand-*` custom properties and adds the neo-brutalist shapes: 3px ink borders, hard offset shadows, and slightly tilted cards, inspired by [loot-drop.io](https://www.loot-drop.io/). Add a colour to the brand palette before using it anywhere else; avoid inline `style` colours.
+- **Component classes.** Use the existing classes rather than inline styles: `.card` (with colour modifiers `.yellow`, `.green`, `.pink`, `.amber`, `.cream`, `.ink`, `.forest`, and `.red`; tilts `.tilt-l` / `.tilt-r`), `.grid-2|3|4`, `.callout-big`, `.tag`, `.sticker`, `.stat`, `.ladder`, `.pyramid`, `.bars`, and `.code-sm` for dense code. Section dividers are `#` headings with `background-color="#FFD600"`.
+- **Visual over text.** No large blocks of prose on a slide. Prefer tables, Mermaid diagrams, cards, and screenshots.
+- **Spelling and punctuation.** Use British spelling in prose (colour, licence, catalogue, artefact) and the Oxford comma in lists of three or more. Leave code, identifiers, file names, URLs, quotations, and proper names (`license` in YAML, `.well-known/api-catalog`) as they are.
 - **Image classes.** Screenshots use `.shot`; photos use `.photo`. Both get ink borders and shadows in `style.css`.
 - **Sources and credits.** Every factual claim has a `.source` div at the bottom of its slide. Every third-party image has a `.credit` line under it **and** a row on the "Image credits" slide; screenshots record the capture date. Keep both in sync.
 - **Code blocks.** Always tag the language (`bash`, `python`, `json`, `markdown`, `html`). Files with no Pandoc grammar (`robots.txt`, HTTP headers) use `{.default}` for plain text. Add `filename="…"` for a labelled header.
@@ -90,7 +91,7 @@ Check which set is present to know which language context applies.
   ([2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/changelog)): no
   `initialize` handshake, no `Mcp-Session-Id`, `server/discover` for capabilities, and
   `input_required` results instead of server-initiated requests. Do not teach handshake or
-  session-era patterns, or the deprecated Roots, Sampling and Logging features. When a newer
+  session-era patterns, or the deprecated Roots, Sampling, and Logging features. When a newer
   revision ships, update the deck and re-verify examples against the MCP Python SDK.
 - **Mermaid performance boundary.** Keep Mermaid diagrams as Mermaid source. Do not replace them with pre-rendered SVGs solely to reduce the website bundle.
 - **No code execution.** The YAML front matter sets `execute: eval: false`. Code blocks are for display only; they are not executed during render.
@@ -107,7 +108,7 @@ just update    # Update language dependencies
 just render    # Render index.qmd to _site/
 just preview   # Live-reload dev server
 just open      # Alias for preview (live-reload dev server over localhost)
-just clean     # Remove build artifacts
+just clean     # Remove build artefacts
 just check     # Verify Quarto setup
 just axe       # Preview with the axe accessibility checker enabled
 ```
