@@ -203,7 +203,7 @@ Part 1 · CLI and MCP
 | | HTTP API | CLI | MCP server |
 |---|---|---|---|
 | **Agent needs** | An HTTP client and your docs | A shell | An MCP-capable host |
-| **Discovery** | OpenAPI spec, docs pages | `--help`, man pages, training data | `tools/list` returns schemas |
+| **Discovery** | OpenAPI spec, docs pages | `--help`, man pages, training data | `server/discover`, then `tools/list` returns schemas |
 | **Auth** | API keys, OAuth | Token in env var, stored login | Per-user OAuth (remote) or local credentials |
 | **Context cost** | Whatever docs it reads | Pay only for commands used | Tool schemas loaded up front |
 | **Sweet spot** | Everything builds on it | Coding agents with a terminal | Chat apps and hosted agents with no shell |
@@ -468,7 +468,7 @@ Pattern: **human-friendly by default, machine-friendly by flag**, with the full 
 
 ## What is MCP?
 
-The **Model Context Protocol** is an open standard for plugging tools and data into any agent host.
+The **Model Context Protocol** is an open standard for plugging tools and data into any agent host. This talk assumes the current spec, <span class="sticker yellow">2026-07-28</span>.
 
 ```{mermaid}
 %%| eval: true
@@ -478,7 +478,7 @@ flowchart LR
     subgraph Host["Agent host"]
         M[LLM] <--> C[MCP client]
     end
-    C <-- "tools/list<br/>tools/call" --> S[Your MCP server]
+    C <-- "server/discover<br/>tools/list<br/>tools/call" --> S[Your MCP server]
     S <--> API[Your API]
 
     classDef box fill:#ffffff,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
@@ -505,7 +505,7 @@ flowchart LR
 :::
 
 ::: {.source}
-Source: [modelcontextprotocol.io](https://modelcontextprotocol.io/)
+Source: [MCP specification 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28)
 :::
 
 ## A minimal MCP server
@@ -531,7 +531,7 @@ def add_todo(
 
 
 if __name__ == "__main__":
-    mcp.run()
+    mcp.run("streamable-http")
 ```
 
 :::
@@ -569,7 +569,89 @@ Type hints and docstrings **become the interface**. Write them for a reader with
 :::
 
 ::: {.source}
-Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0; schema output abridged.
+Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0, which speaks protocol 2026-07-28; schema output abridged.
+:::
+
+## MCP is stateless now
+
+| | Before (2025-11-25 and earlier) | Now (2026-07-28) |
+|---|---|---|
+| **Start-up** | `initialize` handshake first | None: each request's `_meta` carries version and capabilities |
+| **Sessions** | `Mcp-Session-Id` pins client to server | None: any replica answers any request |
+| **Discovery** | Learned in the handshake | `server/discover`, one call |
+| **Asking the user** | Server sends requests to the client | Server returns `input_required`; client retries |
+| **State across calls** | Hidden in the session | Explicit handles in tool arguments |
+| **Caching** | Poll for changes | `ttlMs` and `cacheScope` on list results |
+
+::: {.callout-big}
+Each request stands alone: MCP servers **scale and cache like any HTTP API**.
+:::
+
+::: {.source}
+Source: [MCP 2026-07-28 key changes](https://modelcontextprotocol.io/specification/2026-07-28/changelog). Roots, Sampling and Logging are deprecated: pass paths as tool arguments, call LLM APIs directly, log to `stderr` or OpenTelemetry.
+:::
+
+## One request, no handshake
+
+:::: {.columns}
+
+::: {.column width="58%"}
+
+::: {.code-sm}
+
+```{.json filename="POST /mcp: the whole conversation"}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "add_todo",
+    "arguments": {"title": "Write slides"},
+    "_meta": {
+      "io.modelcontextprotocol/protocolVersion":
+        "2026-07-28",
+      "io.modelcontextprotocol/clientCapabilities":
+        {}
+    }
+  }
+}
+```
+
+:::
+
+:::
+
+::: {.column width="42%"}
+
+::: {.code-sm}
+
+```{.json filename="200 OK: no session to keep"}
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": {
+    "resultType": "complete",
+    "content": [{
+      "type": "text",
+      "text": "{\"id\": 42, ...}"
+    }],
+    "isError": false
+  }
+}
+```
+
+:::
+
+::: {.card .yellow style="font-size: 0.7em;"}
+**Headers** mirror the body, so gateways route without parsing JSON: `Mcp-Method`, `Mcp-Name`, `MCP-Protocol-Version`.
+:::
+
+:::
+
+::::
+
+::: {.source}
+Sent with `curl` to the minimal `server.py` from two slides back (MCP Python SDK 2.3.0); response abridged.
 :::
 
 ## CLI or MCP?
@@ -1676,6 +1758,7 @@ Standards
 :::
 
 - [Model Context Protocol](https://modelcontextprotocol.io/)
+- [MCP 2026-07-28: key changes](https://modelcontextprotocol.io/specification/2026-07-28/changelog)
 - [llms.txt](https://llmstxt.org/) · [Content Signals](https://contentsignals.org/)
 - [Agent Skills](https://agentskills.io/) · [AGENTS.md](https://agents.md/)
 - [Context7: adding libraries](https://context7.com/docs/adding-libraries)

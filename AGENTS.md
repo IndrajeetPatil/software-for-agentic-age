@@ -86,6 +86,12 @@ Check which set is present to know which language context applies.
   measured in the diagram's own units and stay correct at any scale. Never restyle Mermaid fonts from
   `style.css`: a font swap after measurement clips labels. Avoid cylinder nodes (`[( )]`); they ignore
   padding and hug their text.
+- **MCP spec version.** All MCP content assumes the current, stateless spec
+  ([2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28/changelog)): no
+  `initialize` handshake, no `Mcp-Session-Id`, `server/discover` for capabilities, and
+  `input_required` results instead of server-initiated requests. Do not teach handshake or
+  session-era patterns, or the deprecated Roots, Sampling and Logging features. When a newer
+  revision ships, update the deck and re-verify examples against the MCP Python SDK.
 - **Mermaid performance boundary.** Keep Mermaid diagrams as Mermaid source. Do not replace them with pre-rendered SVGs solely to reduce the website bundle.
 - **No code execution.** The YAML front matter sets `execute: eval: false`. Code blocks are for display only; they are not executed during render.
 - **Compute engine.** Python decks declare `jupyter: python3` in the front matter; R decks declare `engine: knitr`. The virtualenv or renv exists to satisfy Quarto's engine, not to run slide code.
