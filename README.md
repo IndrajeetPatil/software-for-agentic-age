@@ -7,7 +7,7 @@
 
 This presentation covers what it takes for software products and websites to work well with AI agents:
 
-- **Products agents can operate**: agent-friendly CLIs, MCP servers, and how GitHub (`gh`) and Azure (`az`) do it well.
+- **Products agents can operate**: agent-friendly CLIs, MCP servers, and how GitHub (`gh`) and Azure (`az`) do it well, plus package docs for agents (`llms.txt` and its variants) and indexing them in Context7.
 - **Websites agents can read**: choosing whether to take part, robots.txt and Content Signals, `llms.txt`, Markdown for agents, structured data and trust signals, on top of the SEO and accessibility basics that still matter.
 - **Measuring readiness** with Cloudflare's [Is It Agent Ready?](https://isitagentready.com/) and Vercel's [Is Agentic](https://is-agentic.com/).
 
@@ -31,6 +31,7 @@ Third-party images keep their own licences; the [CC0](LICENSE) dedication covers
 | [`media/first-web-server.webp`](media/first-web-server.webp) | First web server at CERN by [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
 | [`media/gh-cli-home.webp`](media/gh-cli-home.webp) | Screenshot of [cli.github.com](https://cli.github.com/), captured 7 Oct 2026 |
 | [`media/llmstxt-spec.webp`](media/llmstxt-spec.webp) | Screenshot of [llmstxt.org](https://llmstxt.org/), captured 7 Oct 2026 |
+| [`media/context7-md2linkedin.webp`](media/context7-md2linkedin.webp) | Screenshot of [context7.com/indrajeetpatil/md2linkedin](https://context7.com/indrajeetpatil/md2linkedin), captured 7 Oct 2026 |
 | `media/isitagentready-*.webp` | Screenshots of Cloudflare's [isitagentready.com](https://isitagentready.com/), captured 7 Oct 2026 |
 | `media/is-agentic-*.webp` | Screenshots of Vercel's [is-agentic.com](https://is-agentic.com/), captured 7 Oct 2026 |
 

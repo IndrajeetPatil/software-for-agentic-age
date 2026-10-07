@@ -17,6 +17,7 @@
 - How AI agents experience software products
 - Agent-friendly command-line interfaces (structured output, exit codes, headless auth)
 - Model Context Protocol (MCP) servers and when to prefer them over a CLI
+- Package documentation for agents: llms.txt, llms-full.txt, Markdown pages and Context7
 - The agentic web: robots.txt, Content Signals, llms.txt, Markdown for agents
 - Structured data, trust signals and agent-readiness scanners
 

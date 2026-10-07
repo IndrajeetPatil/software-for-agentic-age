@@ -22,6 +22,8 @@ The talk assumes the audience knows what large language models and agents are. I
 - MCP (Model Context Protocol) exposes tools, resources and prompts to any agent host. A minimal Python server derives tool schemas from type hints and docstrings.
 - Prefer a CLI for coding agents with a terminal and a single user's credentials; prefer MCP for agents without a shell, per-user OAuth and central governance. Tool schema overhead dominates MCP token cost; few well-described tools (for example Cloudflare's Code Mode) close the gap.
 - Ship Agent Skills (SKILL.md) or AGENTS.md so agents learn how to use a tool on demand.
+- Software packages should publish documentation for agents: `llms.txt` (summary and curated links), `llms-full.txt` (all pages in one file) and a Markdown twin of every HTML page, advertised with `<link rel="alternate">`. Docs generators can build these: the `llmstxt` plugin for MkDocs and Zensical, and pkgdown 2.2.0+ for R. `/.well-known/` copies only count at the domain root.
+- Indexing documentation in Context7 lets agents retrieve it over MCP (`resolve-library-id`, `query-docs`). Context7's snippet count, LLM-judged benchmark and trust score double as a check on documentation quality for agents.
 - Agents act with borrowed credentials: least privilege, dry runs, explicit consent for destructive actions, audit trails, and treating tool output as untrusted input.
 
 ## Part 2: websites agents can read

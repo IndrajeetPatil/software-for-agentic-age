@@ -200,7 +200,7 @@ Part 1
 
 Agents **act**: create issues, deploy apps, query data.
 
-Doors: **CLI**, **MCP server**, API
+Doors: **CLI**, **MCP server**, API, docs
 :::
 
 ::: {.card .green .tilt-r}
@@ -723,6 +723,164 @@ Only the `name` and `description` sit in context until the skill is triggered.
 
 ::: {.source}
 Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.md/)
+:::
+
+## Packages: docs agents can fetch
+
+Coding agents read your package docs before they call your code. Serve them **Markdown**, not page chrome.
+
+| File | What it holds | md2linkedin |
+|------|---------------|-------------|
+| `/llms.txt` | Summary plus curated links to Markdown pages | 0.7 KB |
+| `/llms-full.txt` | Every docs page concatenated into one file | 33 KB |
+| `/<page>/index.md` | A Markdown twin of each HTML page | 6 KB vs 39 KB HTML |
+| `<link rel="alternate">` | Points crawlers at the files above | In every `<head>` |
+
+::: {.callout-big}
+`llms.txt` to **navigate**, `.md` pages to **read one topic**, `llms-full.txt` to **load everything**.
+:::
+
+::: {.source}
+Measured on [indrapatil.com/md2linkedin](https://www.indrapatil.com/md2linkedin/) on 7 Oct 2026. `/.well-known/` copies only count at the domain root ([RFC 8615](https://www.rfc-editor.org/rfc/rfc8615)), not under a project path.
+:::
+
+## Generate them at build time
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.code-sm}
+
+```{.yaml filename="mkdocs.yml: you write"}
+plugins:
+  - llmstxt:
+      full_output: llms-full.txt
+      markdown_description: |-
+        md2linkedin is a Python library and
+        CLI tool that converts Markdown ...
+      sections:
+        Home documentation:
+          - index.md
+        API documentation:
+          - reference/*.md
+```
+
+:::
+
+:::
+
+::: {.column width="50%"}
+
+::: {.code-sm}
+
+```{.markdown filename="llms.txt: the build writes"}
+# md2linkedin
+
+> Convert Markdown to LinkedIn-friendly
+> Unicode text
+
+md2linkedin is a Python library and ...
+
+## Home documentation
+
+- [Home](https://www.indrapatil.com/
+  md2linkedin/index.md)
+
+## API documentation
+
+- [Converter](https://www.indrapatil.com/
+  md2linkedin/reference/converter/index.md)
+```
+
+:::
+
+:::
+
+::::
+
+::: {.grid-2}
+
+::: {.card .yellow .tilt-l}
+**Python:** the `llmstxt` plugin for MkDocs, built into Zensical since 0.0.67
+:::
+
+::: {.card .green .tilt-r}
+**R:** pkgdown 2.2.0+ writes `llms.txt` and a `.md` for every page by default
+:::
+
+:::
+
+::: {.source}
+Abridged from [md2linkedin](https://github.com/IndrajeetPatil/md2linkedin) (long lines wrapped). Sources: [mkdocs-llmstxt](https://github.com/pawamoy/mkdocs-llmstxt), [Zensical plugins](https://zensical.org/docs/compatibility/mkdocs/plugins/), [pkgdown `build_llm_docs()`](https://pkgdown.r-lib.org/reference/build_llm_docs.html)
+:::
+
+## Get indexed by Context7
+
+![](media/context7-md2linkedin.webp){.shot width="680" height="189" fig-alt="Context7 page for md2linkedin showing 26,135 tokens, 182 snippets, trust score 9.5, MIT licence"}
+
+::: {.credit}
+Screenshot of [context7.com/indrajeetpatil/md2linkedin](https://context7.com/indrajeetpatil/md2linkedin), 7 Oct 2026
+:::
+
+::: {.grid-2}
+
+::: {.card .yellow .tilt-l}
+**Add** your repo at context7.com and steer the parser with `context7.json`. **Agents** then call `resolve-library-id` and `query-docs` over MCP.
+:::
+
+::: {.code-sm}
+
+```{.bash filename="what the agent gets back"}
+# query-docs("/indrajeetpatil/md2linkedin",
+#   "convert a markdown file from the CLI")
+# → "Convert Markdown using CLI" (README.md)
+md2linkedin post.md -o linkedin_post.txt
+echo "**Hello**, *world*!" | md2linkedin
+md2linkedin post.md --preserve-links
+```
+
+:::
+
+:::
+
+::: {.source}
+Sources: Context7, [Adding libraries](https://context7.com/docs/adding-libraries) and [Library owners](https://context7.com/docs/library-owners). Output abridged from a live query on 7 Oct 2026.
+:::
+
+## Context7 as a docs quality check
+
+::: {.grid-3}
+
+::: {.card .yellow .stat .tilt-l}
+<span class="num">182</span>
+<span class="label">code snippets extracted</span>
+:::
+
+::: {.card .green .stat}
+<span class="num">26,135</span>
+<span class="label">tokens of docs indexed</span>
+:::
+
+::: {.card .pink .stat .tilt-r}
+<span class="num">9.5</span>
+<span class="label">trust score</span>
+:::
+
+:::
+
+| Signal | What it tells you |
+|--------|-------------------|
+| **Snippets** | How many runnable examples an agent can copy. Few snippets means few examples. |
+| **Benchmark** | LLMs ask the questions developers ask, answer from your docs, and a jury scores the answers. |
+| **Trust score** | Organisation signals: age, stars, followers, contributors, referrals. |
+
+::: {.callout-big}
+Ask Context7 your users' top five questions. If the snippets can't answer them, **neither can an agent**.
+:::
+
+::: {.source}
+Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). md2linkedin had no benchmark score yet on 7 Oct 2026; scores are LLM-judged, so treat them as a guide.
 :::
 
 ## Agents act with borrowed hands
@@ -1461,8 +1619,8 @@ Recap
 | When | Product (CLI, MCP) | Website |
 |------|--------------------|---------|
 | **This week** | Add `--json` and non-interactive flags; fix exit codes | Decide your AI stance; update `robots.txt` and the sitemap |
-| **This month** | Headless auth with scoped tokens; examples in `--help` | Server-render key pages; add `llms.txt` and `.md` mirrors |
-| **This quarter** | Ship a small, well-described MCP server and a skill | Structured data, trust pages, Markdown negotiation |
+| **This month** | Headless auth with scoped tokens; `llms.txt` for your docs | Server-render key pages; add `llms.txt` and `.md` mirrors |
+| **This quarter** | Ship a small MCP server and a skill; get indexed by Context7 | Structured data, trust pages, Markdown negotiation |
 | **Always** | Version the output; never rename fields | Keep SEO, accessibility and performance healthy |
 
 ::: {.callout-big}
@@ -1552,6 +1710,7 @@ Standards
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 - [llms.txt](https://llmstxt.org/) · [Content Signals](https://contentsignals.org/)
 - [Agent Skills](https://agentskills.io/) · [AGENTS.md](https://agents.md/)
+- [Context7: adding libraries](https://context7.com/docs/adding-libraries)
 :::
 
 ::: {.card .cream}
@@ -1574,6 +1733,7 @@ Further reading
 | The web was built for people | First web server at CERN | [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
 | Exemplar: GitHub CLI | cli.github.com | Screenshot, GitHub, 7 Oct 2026 |
 | Publish an `llms.txt` | llmstxt.org | Screenshot, Answer.AI, 7 Oct 2026 |
+| Get indexed by Context7 | context7.com | Screenshot, Context7 (Upstash), 7 Oct 2026 |
 | Measure and iterate | isitagentready.com | Screenshots, Cloudflare, 7 Oct 2026 |
 | Measure and iterate | is-agentic.com | Screenshots, Vercel, 7 Oct 2026 |
 
