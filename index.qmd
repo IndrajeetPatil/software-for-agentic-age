@@ -616,14 +616,6 @@ Prefer MCP when
 
 :::
 
-::: {style="text-align: center; font-size: 0.8em; margin-top: 0.6em;"}
-Same GitHub question, Claude Sonnet 4: <span class="sticker green">CLI 1,365 tokens</span> vs <span class="sticker pink">MCP 44,026 tokens</span>
-:::
-
-::: {.source}
-Source: [Scalekit benchmark](https://www.scalekit.com/blog/mcp-vs-cli-use) (Mar 2026), 43 tool schemas loaded up front. Most of the gap is schema overhead, not the protocol.
-:::
-
 ## Design beats protocol
 
 A naive MCP server exposes one tool per endpoint. Cloudflare's API has **2,500+** endpoints.
