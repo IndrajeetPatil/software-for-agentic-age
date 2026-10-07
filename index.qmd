@@ -51,7 +51,7 @@ CLI · MCP · Agentic web
 :::
 
 ::: {.hero-sub}
-Your next user <span class="sticker">reads text</span>, <span class="sticker amber">calls tools</span>, and <span class="sticker pink">never clicks</span>.
+Your next user <span class="sticker">reads text</span>, <span class="sticker amber">calls tools</span>, and <span class="sticker pink">clicks as a last resort</span>.
 :::
 
 ::: {.hero-author}
@@ -106,7 +106,7 @@ For decades, every user reached your product through a **screen**. Now many arri
 ![](media/product-user-paths.webp){width="900" height="346" fig-alt="Two paths into the same product: a human uses GUI buttons, forms, and pages; another human delegates to an AI agent that uses text interfaces such as CLI, MCP, API, and Markdown."}
 
 ::: {.callout-big}
-The agent is a user with **no eyes**, a **limited memory**, and **no way to answer an interactive prompt**.
+Agents *can* see and click, but don't **require** it. Offer **text interfaces** and a **path for human approval**.
 :::
 
 ## How an agent works with your product
@@ -122,7 +122,7 @@ The agent is a user with **no eyes**, a **limited memory**, and **no way to answ
 ::: {.column width="52%"}
 
 ::: {.card .tilt-l}
-**Everything is text.** Output, errors, and docs all land in the context window.
+**Text works best.** Output, errors, and docs all land in the context window.
 :::
 
 ::: {.card .amber .tilt-r}
@@ -130,7 +130,7 @@ The agent is a user with **no eyes**, a **limited memory**, and **no way to answ
 :::
 
 ::: {.card .pink .tilt-l}
-**No human in the loop.** A prompt waiting for `y/N` is a dead end.
+**No one at the keyboard.** A `y/N` prompt stalls the loop; approval must come through the host.
 :::
 
 :::
@@ -165,13 +165,17 @@ Part 1 · CLI and MCP
 | **Agent needs** | An HTTP client and your docs | A shell | An MCP-capable host |
 | **Discovery** | OpenAPI spec, docs pages | `--help`, man pages, training data | `server/discover`, then `tools/list` returns schemas |
 | **Auth** | API keys, OAuth | Token in env var, stored login | Per-user OAuth (remote) or local credentials |
-| **Context cost** | Whatever docs it reads | Pay only for commands used | Tool schemas loaded up front |
+| **Context cost** | Whatever docs it reads | Pay only for commands used | Tool schemas, up front or searched on demand (host's choice) |
 | **Sweet spot** | Everything builds on it | Coding agents with a terminal | Chat apps and hosted agents with no shell |
 
 : {tbl-colwidths="[16,28,28,28]"}
 
 ::: {.callout-big}
 CLI and MCP are **thin layers over a good API**. Get the API right first.
+:::
+
+::: {.source}
+Hosts can defer MCP tool schemas and load them on demand: see Anthropic's [tool search tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool).
 :::
 
 ## The command line is back
@@ -233,7 +237,7 @@ Nothing enters context until it runs.
 | **Structured output** | Parse, don't scrape tables | `--json`, `-o json` |
 | **Field selection** | Smaller output, fewer tokens | `--json name,id`, `--query` |
 | **Never block on input** | No one is there to type `y` | `--yes`, `GH_PROMPT_DISABLED=1` |
-| **Headless auth** | Agents can't click "Sign in" | `GH_TOKEN=…`, `az login --identity` |
+| **Headless auth** | Agents can't click "Sign in" | `GH_TOKEN=…`, `az login --identity` (on Azure) |
 | **Meaningful exit codes** | Branch on success vs failure | `0` ok, `2` bad usage, `3` not found, `4` refused |
 | **Actionable errors on stderr** | Self-correct on the next turn | `error: no todo 7; run todo list` |
 | **Examples in `--help`** | Learn usage on demand | `gh pr create --help` |
@@ -280,7 +284,7 @@ app()
 :::
 
 ::: {.source}
-Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with [Typer](https://typer.tiangolo.com/) 0.27.3.
+A stub: `delete` validates and reports but stores nothing. Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with [Typer](https://typer.tiangolo.com/) 0.27.3.
 :::
 
 ## The same CLI, seen by an agent
@@ -391,10 +395,11 @@ Source: [GitHub CLI manual](https://cli.github.com/manual/)
 $ az vm list --show-details \
     --query "[?powerState=='VM running'].name" -o tsv
 
-# No confirmation prompt, no waiting on a long operation
+# No prompt; --no-wait returns once started
 $ az group delete --name rg-demo --yes --no-wait
+$ az group wait --name rg-demo --deleted
 
-# Headless sign-in with a managed identity
+# Managed identity: on an Azure VM or app
 $ az login --identity
 
 # Escape hatch: any Azure REST API, already authenticated
@@ -408,7 +413,7 @@ $ az rest --method get --url "<management-endpoint>"
 ::: {.card .green .tilt-r}
 - `--query` filters *before* output
 - `-o json`, `tsv`, or `table` everywhere
-- `--yes`, `--no-wait` for unattended runs
+- `--yes`, `--no-wait` for unattended runs, then `wait` to confirm
 :::
 
 :::
@@ -420,7 +425,7 @@ Pattern: **human-friendly by default, machine-friendly by flag**, with the full 
 :::
 
 ::: {.source}
-Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-us/cli/azure/query-azure-cli), [Azure MCP Server overview](https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/overview)
+Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-us/cli/azure/query-azure-cli), [`az group`](https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest), [managed identity sign-in](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-managed-identity), [Azure MCP Server overview](https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/overview)
 :::
 
 ## What is MCP?
@@ -526,7 +531,7 @@ Type hints and docstrings **become the interface**. Write them for a reader with
 :::
 
 ::: {.source}
-Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0, which speaks protocol 2026-07-28; schema output abridged.
+A stub: `add_todo` stores nothing and ignores `due`. Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0, which speaks protocol 2026-07-28; schema output abridged.
 :::
 
 ## Every request stands alone
@@ -537,7 +542,15 @@ Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3
 
 ::: {.code-sm}
 
-```{.json filename="POST /mcp: the whole conversation"}
+```{.default filename="POST /mcp: headers"}
+Content-Type: application/json
+Accept: application/json, text/event-stream
+MCP-Protocol-Version: 2026-07-28
+Mcp-Method: tools/call
+Mcp-Name: add_todo
+```
+
+```{.json filename="POST /mcp: body"}
 {
   "jsonrpc": "2.0",
   "id": 1,
@@ -581,7 +594,7 @@ Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3
 :::
 
 ::: {.card .yellow style="font-size: 0.7em;"}
-Each request carries everything the server needs, so any replica can answer: MCP servers **scale and cache like any HTTP API**.
+No sessions, so **any replica can take the request**. Cache discovery and reads by their hints; keep app state in a shared store.
 :::
 
 :::
@@ -589,7 +602,7 @@ Each request carries everything the server needs, so any replica can answer: MCP
 ::::
 
 ::: {.source}
-Sent with [curl](https://curl.se/) to the minimal `server.py` from the previous slide ([MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0); response abridged.
+Sent with [curl](https://curl.se/) to the minimal `server.py` from the previous slide ([MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0); without the headers the server returns `400`. Response abridged. Specs: [Streamable HTTP](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http), [caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching).
 :::
 
 ## CLI or MCP?
@@ -628,22 +641,22 @@ A naive MCP server exposes one tool per endpoint. Cloudflare's API has **2,500+*
 
 ::: {.card .red .stat}
 <span class="num">~1.17M</span>
-<span class="label">tokens: one tool per endpoint</span>
+<span class="label">tokens of tool definitions: one tool per endpoint</span>
 :::
 
 ::: {.card .green .stat}
 <span class="num">~1,000</span>
-<span class="label">tokens: two tools, search() + execute()</span>
+<span class="label">tokens of tool definitions: search() + execute()</span>
 :::
 
 :::
 
 ::: {.callout-big}
-Expose **few, well-described tools**. Let the agent search for detail on demand.
+Expose **discoverable, task-shaped tools**, not raw endpoints. Let the agent search for detail on demand.
 :::
 
 ::: {.source}
-Source: Cloudflare, [Code Mode: give agents an entire API in 1,000 tokens](https://blog.cloudflare.com/code-mode-mcp/)
+The numbers compare what the tool definitions cost in context, not total task tokens, latency, or success rate. Source: Cloudflare, [Code Mode: give agents an entire API in 1,000 tokens](https://blog.cloudflare.com/code-mode-mcp/)
 :::
 
 ## Who does this well?
@@ -657,7 +670,7 @@ Source: Cloudflare, [Code Mode: give agents an entire API in 1,000 tokens](https
 | **Vercel** | [`vercel` CLI](https://vercel.com/docs/cli) | Remote MCP at `mcp.vercel.com` | Markdown via [content negotiation](https://vercel.com/blog/making-agent-friendly-pages-with-content-negotiation) |
 
 ::: {.callout-big}
-The leaders ship **all three interfaces**: API, CLI *and* MCP, plus docs that agents can read.
+These vendors' users span terminals and chat apps, so they ship **all three**. Choose yours from **your users' workflows**.
 :::
 
 ## Teach the agent: ship a skill
@@ -675,7 +688,7 @@ description: Manage todos with the `todo` CLI.
 
 # Using the todo CLI
 
-- Always pass `--json` and parse stdout.
+- Run `todo list --json` and parse stdout.
 - Exit code 3 means "not found":
   run `todo list` to get valid ids.
 - Deleting needs `--yes`; ask the user first.
@@ -849,21 +862,21 @@ Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.
 
 | Signal | What it tells you |
 |--------|-------------------|
-| **Snippets** | How many runnable examples an agent can copy. Few snippets means few examples. |
+| **Snippets** | How many code examples Context7 extracted. Few snippets means few examples; extraction doesn't prove they run. |
 | **Benchmark** | LLMs ask the questions developers ask, answer from your docs, and a jury scores the answers. |
 | **Trust score** | Organisation signals: age, stars, followers, contributors, referrals. |
 
 : {tbl-colwidths="[18,82]"}
 
 ::: {.callout-big}
-Ask Context7 your users' top five questions. If the snippets can't answer them, **neither can an agent**.
+Ask Context7 your users' top five questions. If it can't surface the answers, **your docs are hard to find** through that channel.
 :::
 
 ::: {.source}
-Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). uv figures from Context7 on 7 Oct 2026. Scores are LLM-judged, so treat them as a guide.
+Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). uv figures from Context7 on 7 Oct 2026. Scores are LLM-judged signals, not a certificate of correctness or security.
 :::
 
-## Agents act with your users' credentials
+## Agents act with your users' credentials {.smaller}
 
 ::: {.grid-2}
 
@@ -876,16 +889,16 @@ Fine-grained, scoped, short-lived tokens. Read-only by default.
 
 ::: {.card .amber}
 ::: {.card-title}
-🧪 Dry runs
+🧪 Dry runs, safe retries
 :::
-`--dry-run` and plan/apply split for anything destructive.
+`--dry-run` first; idempotency keys so retries never write twice.
 :::
 
 ::: {.card .pink}
 ::: {.card-title}
-🛑 Explicit consent
+🛑 Explicit intent
 :::
-Destructive actions need an explicit flag, never a default.
+A flag for anything destructive; consent comes from the user.
 :::
 
 ::: {.card .green}
@@ -899,6 +912,10 @@ Identify agent traffic and log every action it takes.
 
 ::: {.callout-big}
 Treat tool output as **untrusted input**: text in the data can carry instructions that hijack the agent (prompt injection).
+:::
+
+::: {.source}
+Sources: [MCP tools: user interaction](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [Stripe idempotent requests](https://docs.stripe.com/api/idempotent_requests)
 :::
 
 # Websites agents can read {background-color="#FFD600"}
@@ -925,11 +942,11 @@ The first web server, CERN. Photo: [Coolcaesar](https://commons.wikimedia.org/wi
 
 ::: {.card .pink .stat .tilt-r}
 <span class="num">&lt; 50%</span>
-<span class="label">of HTML page requests now come from a human</span>
+<span class="label">of HTML page requests on Cloudflare now come from a human</span>
 :::
 
 ::: {.card .cream}
-Search crawlers, AI crawlers, and agents now read your pages **more often than people do**.
+Machines, from crawlers and scrapers to agents acting for people, now **request more pages than people do**.
 :::
 
 :::
@@ -970,6 +987,8 @@ Each group can be **allowed or refused separately**. That choice is yours.
 User-agent: GPTBot
 User-agent: ClaudeBot
 User-agent: CCBot
+User-agent: OAI-SearchBot
+User-agent: Claude-SearchBot
 Disallow: /
 ```
 :::
@@ -980,6 +999,11 @@ Disallow: /
 :::
 
 ```{.default filename="robots.txt"}
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+Disallow: /
+
 User-agent: *
 Allow: /
 Content-Signal: search=yes,
@@ -1007,7 +1031,7 @@ Not taking part is **completely legitimate**. Pick deliberately, then make the s
 :::
 
 ::: {.source}
-`robots.txt` is a request, not a lock: enforce with bot management or a WAF. Content-Signal values must sit on one line in a real file. Source: [contentsignals.org](https://contentsignals.org/)
+`robots.txt` is a request, not a lock: enforce with bot management or a WAF. Content signals state a preference; `Disallow` is what crawlers without signal support obey. Content-Signal values must sit on one line in a real file. Sources: [contentsignals.org](https://contentsignals.org/), [Cloudflare managed robots.txt](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/)
 :::
 
 ## The old rules still apply
@@ -1105,11 +1129,11 @@ User-agent: *
 Allow: /
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 
-# Name AI crawlers so intent is explicit
+# A signal alone won't stop training crawlers
 User-agent: GPTBot
 User-agent: ClaudeBot
-Allow: /
-Content-Signal: search=yes, ai-input=yes, ai-train=no
+User-agent: CCBot
+Disallow: /
 
 Sitemap: https://example.com/sitemap.xml
 ```
@@ -1121,7 +1145,7 @@ Sitemap: https://example.com/sitemap.xml
 ::: {.column width="45%"}
 
 ::: {.card .yellow .tilt-r}
-Crawlers obey only their **most specific group**, so repeat directives in every named group.
+Crawlers obey only their **most specific group**, so named training bots skip `*` and see only `Disallow`.
 :::
 
 ::: {.card .cream .tilt-l}
@@ -1133,7 +1157,7 @@ Crawlers obey only their **most specific group**, so repeat directives in every 
 ::::
 
 ::: {.source}
-Source: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/) (Apr 2026)
+Sources: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/) (Apr 2026); [Anthropic: blocking ClaudeBot](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler)
 :::
 
 ## Level 2: put content in the HTML
@@ -1304,7 +1328,7 @@ Sources: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/gu
 |--------|----------|------------------|
 | **API catalogue** (RFC 9727) | `/.well-known/api-catalog` | You have a public API |
 | **OpenAPI spec** | e.g. `/openapi.json` | You have a public API |
-| **OAuth discovery** | `/.well-known/oauth-authorization-server` | Agents must sign in |
+| **OAuth resource metadata** (RFC 9728) | `/.well-known/oauth-protected-resource` + resource path | Your API or MCP server needs a token |
 | **MCP Server Card** | `/.well-known/mcp/server-card.json` | You run an MCP server |
 | **Agent Skills index** | `/.well-known/agent-skills/index.json` | You have tasks worth teaching |
 | **Agentic commerce** | x402, ACP, UCP | Agents can buy from you |
@@ -1316,7 +1340,7 @@ Never advertise a capability you don't have. A **false signal is worse than none
 :::
 
 ::: {.source}
-Source: Cloudflare, [isitagentready.com](https://isitagentready.com/) check list
+For a server at `/mcp`, that is `/.well-known/oauth-protected-resource/mcp`; `WWW-Authenticate` can also point to it. The metadata names your authorisation server; that server, often an external identity provider, publishes `/.well-known/oauth-authorization-server`. Sources: Cloudflare, [isitagentready.com](https://isitagentready.com/) check list; [MCP authorisation](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
 :::
 
 ## Level 4: WebMCP, tools inside the page
@@ -1504,7 +1528,7 @@ npx is-agentic example.com --json
 # Or read a stored report over HTTP
 curl -s 'https://is-agentic.com/api/v1/report?url=example.com'
 
-# Fail CI when agent readability drops below a threshold
+# Catch regressions in CI: set the threshold from your own baseline
 npx @vercel/agent-readability audit https://example.com --min-score 80
 ```
 
@@ -1521,7 +1545,7 @@ The scanners **practise what they preach**: they offer CLIs, APIs, and MCP serve
 :::
 
 ::: {.source}
-Sources: [Vercel KB](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents), [@vercel/agent-readability](https://www.npmjs.com/package/@vercel/agent-readability), [Lighthouse agentic browsing](https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring)
+Scores shift with methodology and certify nothing ([Is Agentic's limitations](https://is-agentic.com/methodology)). Sources: [Vercel KB](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents), [@vercel/agent-readability](https://www.npmjs.com/package/@vercel/agent-readability), [Lighthouse agentic browsing](https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring)
 :::
 
 ## Most of the web isn't there yet
@@ -1557,13 +1581,13 @@ Recap
 |------|--------------------|---------|
 | **This week** | Add `--json` and non-interactive flags; fix exit codes | Decide your AI stance; update `robots.txt` and the sitemap |
 | **This month** | Headless auth with scoped tokens; `llms.txt` for your docs | Server-render key pages; add `llms.txt` and `.md` mirrors |
-| **This quarter** | Ship a small MCP server and a skill; get indexed by Context7 | Structured data, trust pages, Markdown negotiation |
+| **This quarter** | Ship a skill; add MCP if agents without a shell need you; get indexed by Context7 | Structured data, trust pages, Markdown negotiation |
 | **Always** | Version the output; never rename fields | Keep SEO, accessibility, and performance healthy |
 
 : {tbl-colwidths="[15,43,42]"}
 
 ::: {.callout-big}
-Run a scanner **before and after**. Fix what matters for *your* users.
+Test **real agent tasks** before and after: success, wrong actions, time, and tokens. Use scanner findings to diagnose.
 :::
 
 ## Key takeaways
@@ -1571,11 +1595,11 @@ Run a scanner **before and after**. Fix what matters for *your* users.
 ::: {.grid-2}
 
 ::: {.card .yellow .tilt-l}
-**1.** Agents are users with no eyes and finite memory. Design for **text and tokens**.
+**1.** Agents read text best and have finite memory. Design for **text and tokens**.
 :::
 
 ::: {.card .green .tilt-r}
-**2.** A great **API + CLI + MCP** trio lets agents operate your product.
+**2.** A great **API**, plus the **CLI or MCP** your users' agents need, lets them operate your product.
 :::
 
 ::: {.card .pink .tilt-r}
