@@ -103,25 +103,7 @@ Part 0 · Foundations
 
 For decades, every user reached your product through a **screen**. Now many arrive through an **agent**.
 
-```{mermaid}
-%%| eval: true
-%%| echo: false
-%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false, "padding": 16}, "themeVariables": {"fontFamily": "Space Grotesk, sans-serif", "fontSize": "20px"}}}%%
-flowchart LR
-    H1([Human]) --> G[GUI<br/>buttons, forms, pages] --> P1[Your product]
-    H2([Human]) --> A{{AI agent}} --> T[Text interfaces<br/>CLI, MCP, API, Markdown] --> P2[Your product]
-
-    classDef human fill:#ffffff,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    classDef old fill:#f5f5f0,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    classDef agent fill:#ff4081,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    classDef new fill:#ffd600,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    classDef product fill:#00c853,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    class H1,H2 human
-    class G old
-    class A agent
-    class T new
-    class P1,P2 product
-```
+![](media/product-user-paths.webp){width="900" height="346" fig-alt="Two paths into the same product: a human uses GUI buttons, forms, and pages; another human delegates to an AI agent that uses text interfaces such as CLI, MCP, API, and Markdown."}
 
 ::: {.callout-big}
 The agent is a user with **no eyes**, a **limited memory**, and **no way to answer an interactive prompt**.
@@ -133,24 +115,7 @@ The agent is a user with **no eyes**, a **limited memory**, and **no way to answ
 
 ::: {.column width="48%"}
 
-```{mermaid}
-%%| eval: true
-%%| echo: false
-%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false, "padding": 16}, "themeVariables": {"fontFamily": "Space Grotesk, sans-serif", "fontSize": "20px"}}}%%
-flowchart TD
-    G([Goal from a human]) --> T[Think<br/>pick the next step]
-    T --> C[Act<br/>call a tool]
-    C --> O[Observe<br/>read the output]
-    O --> T
-    O --> D([Done])
-
-    classDef step fill:#ffffff,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    classDef act fill:#ffd600,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    classDef done fill:#00c853,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
-    class G,T,O step
-    class C act
-    class D done
-```
+![](media/agent-tool-loop.webp){width="460" height="575" fig-alt="An agent starts with a goal from a human, thinks to pick the next step, acts by calling a tool, and observes the output. It loops from Observe back to Think until it is done."}
 
 :::
 
