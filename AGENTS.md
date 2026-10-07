@@ -98,7 +98,7 @@ Check which set is present to know which language context applies.
   revision ships, update the deck and re-verify examples against the MCP Python SDK.
 - **Mermaid performance boundary.** Keep Mermaid diagrams as Mermaid source. Do not replace them with pre-rendered SVGs solely to reduce the website bundle.
 - **No code execution.** The YAML front matter sets `execute: eval: false`. Code blocks are for display only; they are not executed during render.
-- **Compute engine.** Python decks declare `jupyter: python3` in the front matter; R decks declare `engine: knitr`. The virtualenv or renv exists to satisfy Quarto's engine, not to run slide code.
+- **Compute engine.** Python decks declare `jupyter: python3` in the front matter; R decks declare `engine: knitr`. The virtualenv or renv exists to satisfy Quarto's engine, not to run slide code. Python decks depend only on what Quarto's Jupyter engine imports: `ipykernel`, `nbclient` (which brings `nbformat` and `jupyter-client`), and `pyyaml`. Do not add the `jupyter` metapackage: it pulls in JupyterLab and Notebook, which the deck never runs, and only attracts irrelevant security alerts.
 
 ## Commands
 
