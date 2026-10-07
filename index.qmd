@@ -168,6 +168,8 @@ Part 1 · CLI and MCP
 | **Context cost** | Whatever docs it reads | Pay only for commands used | Tool schemas loaded up front |
 | **Sweet spot** | Everything builds on it | Coding agents with a terminal | Chat apps and hosted agents with no shell |
 
+: {tbl-colwidths="[16,28,28,28]"}
+
 ::: {.callout-big}
 CLI and MCP are **thin layers over a good API**. Get the API right first.
 :::
@@ -236,6 +238,8 @@ Nothing enters context until it runs.
 | **Actionable errors on stderr** | Self-correct on the next turn | `error: no todo 7; run todo list` |
 | **Examples in `--help`** | Learn usage on demand | `gh pr create --help` |
 | **Stable, versioned output** | Scripts and agents break silently | Add fields; never rename them |
+
+: {tbl-colwidths="[24,30,46]"}
 
 ::: {.source}
 Sources: [Arcjet](https://blog.arcjet.com/designing-a-cli-for-ai-agents/), [Speakeasy](https://www.speakeasy.com/blog/engineering-agent-friendly-cli), [GitHub CLI manual](https://cli.github.com/manual/gh_help_environment)
@@ -712,6 +716,8 @@ Coding agents read your docs, in **Markdown**, before they call your code.
 | `/<page>/index.md` | A Markdown twin of each HTML page | 29 KB vs 169 KB HTML |
 | `<link>` tag | `rel="alternate"` points crawlers at the `.md` twin | — |
 
+: {tbl-colwidths="[22,54,24]"}
+
 ::: {.callout-big}
 `llms.txt` to **navigate**, `.md` pages to **read one topic**, `llms-full.txt` to **load everything**.
 :::
@@ -846,6 +852,8 @@ Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.
 | **Snippets** | How many runnable examples an agent can copy. Few snippets means few examples. |
 | **Benchmark** | LLMs ask the questions developers ask, answer from your docs, and a jury scores the answers. |
 | **Trust score** | Organisation signals: age, stars, followers, contributors, referrals. |
+
+: {tbl-colwidths="[18,82]"}
 
 ::: {.callout-big}
 Ask Context7 your users' top five questions. If the snippets can't answer them, **neither can an agent**.
@@ -1361,6 +1369,8 @@ Source: Chrome, [WebMCP schema validity audit](https://developer.chrome.com/docs
 | `Accept: text/markdown` negotiation | ❌ | ✅ toggle or rewrite rule |
 | Bot management, enforced blocking | ❌ | ✅ |
 
+: {tbl-colwidths="[36,28,36]"}
+
 ::: {.callout-big}
 Some failing checks are **hosting decisions, not code bugs**. Use the static substitutes and move on.
 :::
@@ -1374,6 +1384,8 @@ Some failing checks are **hosting decisions, not code bugs**. Use the static sub
 | **Worth it** | `llms.txt`, `.md` mirrors, `Person` JSON-LD, trust pages | Markdown negotiation, OpenAPI, CLI, MCP, OAuth |
 | **Skip** | API catalogue, OAuth, MCP card, WebMCP: nothing to call | Signals for features you don't offer |
 | **Track** | Search Console, an occasional scan | Citation rate and share of voice in AI answers |
+
+: {tbl-colwidths="[14,43,43]"}
 
 ::: {.callout-big}
 Size the effort to the site. **If visitors can't *do* anything there, skip the API layer.**
@@ -1547,6 +1559,8 @@ Recap
 | **This month** | Headless auth with scoped tokens; `llms.txt` for your docs | Server-render key pages; add `llms.txt` and `.md` mirrors |
 | **This quarter** | Ship a small MCP server and a skill; get indexed by Context7 | Structured data, trust pages, Markdown negotiation |
 | **Always** | Version the output; never rename fields | Keep SEO, accessibility, and performance healthy |
+
+: {tbl-colwidths="[15,43,42]"}
 
 ::: {.callout-big}
 Run a scanner **before and after**. Fix what matters for *your* users.
