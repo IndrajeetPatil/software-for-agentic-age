@@ -1,0 +1,20 @@
+name: Build and Deploy Presentation
+
+# Draft: pushes to main do not render or deploy. Pull requests still build
+# the deck as a check, and a manual run deploys it. When the deck is ready,
+# restore the push trigger:
+#
+#   push:
+#     branches: [main, master]
+on:
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    uses: IndrajeetPatil/workflows/.github/workflows/build-presentation-python.yaml@main
+    permissions:
+      contents: read
+      pages: write
+      id-token: write

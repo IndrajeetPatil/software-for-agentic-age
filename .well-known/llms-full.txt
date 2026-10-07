@@ -1,0 +1,47 @@
+# Building Software Products for the Agentic Age
+
+Author: Indrajeet Patil
+Format: Quarto RevealJS presentation
+Canonical URL: https://www.indrapatil.com/software-for-agentic-age/
+Source: https://github.com/IndrajeetPatil/software-for-agentic-age/
+License: CC0 1.0 Universal (third-party images keep their own licences)
+Publication date: 2026-10-07
+Language: English
+
+## Summary
+
+AI agents are a new kind of user: they read text instead of pixels, pay for every token they read, and cannot answer interactive prompts. This deck explains what products and websites need so that agents can operate and read them, and argues that most of it builds on established engineering, SEO and accessibility practice.
+
+The talk assumes the audience knows what large language models and agents are. It is aimed at developers, product engineers and site owners.
+
+## Part 1: products agents can operate
+
+- Agents reach products through three doors: an HTTP API, a CLI and an MCP server. CLI and MCP are thin layers over a good API.
+- Agent-friendly CLIs provide structured output (`--json`), field selection, non-interactive flags (`--yes`), headless authentication via environment variables, meaningful exit codes, actionable errors on stderr, examples in `--help`, and stable output schemas.
+- Exemplars: the GitHub CLI (`gh --json --jq`, `GH_TOKEN`, `GH_PROMPT_DISABLED`, `gh api`) and the Azure CLI (`az --query`, `-o tsv`, `--yes --no-wait`, `az login --identity`, `az rest`).
+- MCP (Model Context Protocol) exposes tools, resources and prompts to any agent host. A minimal Python server derives tool schemas from type hints and docstrings.
+- Prefer a CLI for coding agents with a terminal and a single user's credentials; prefer MCP for agents without a shell, per-user OAuth and central governance. Tool schema overhead dominates MCP token cost; few well-described tools (for example Cloudflare's Code Mode) close the gap.
+- Ship Agent Skills (SKILL.md) or AGENTS.md so agents learn how to use a tool on demand.
+- Agents act with borrowed credentials: least privilege, dry runs, explicit consent for destructive actions, audit trails, and treating tool output as untrusted input.
+
+## Part 2: websites agents can read
+
+- Machine visitors include search crawlers, training crawlers, user-directed fetchers and browser agents. Each can be allowed or refused separately.
+- Participating in the agentic web is a choice; opting out is legitimate. robots.txt and Content Signals express preferences but do not enforce them.
+- SEO, accessibility, performance and semantic HTML remain the foundation. Agents use the accessibility tree.
+- A maturity ladder: foundations, discoverable (robots.txt, sitemap, content signals), readable (server-rendered HTML, llms.txt, Markdown via content negotiation or .md mirrors), trustworthy (structured data, trust pages, honest status codes), operable (API catalog, OAuth discovery, MCP Server Card, Agent Skills index, WebMCP, agentic commerce).
+- Never advertise a capability a site does not have. Personal, non-commercial sites rarely need anything beyond the trustworthy level.
+- Some checks depend on hosting: static hosts cannot set response headers or negotiate content; programmable edges can.
+
+## Part 3: measure and iterate
+
+- Cloudflare's isitagentready.com and Vercel's is-agentic.com scan a URL, score it and generate prompts for coding agents. The same site can score very differently on each, so read the findings rather than the number.
+- `npx is-agentic <domain>`, `@vercel/agent-readability`, and Lighthouse's experimental Agentic Browsing category support scanning from the terminal and CI.
+- Adoption is low: Cloudflare found robots.txt on 78% of top sites, Content Signals on 4% and Markdown negotiation on 3.9%.
+
+## Key takeaways
+
+- Design for text and tokens.
+- Offer an API, a CLI and an MCP server so agents can operate the product.
+- Keep SEO and accessibility first; agent extras build on them.
+- Opting out is fine; whatever the choice, send honest, consistent signals.

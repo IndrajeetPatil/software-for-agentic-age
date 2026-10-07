@@ -1,0 +1,60 @@
+# Brand definition for the deck.
+# Neo-brutalist look inspired by https://www.loot-drop.io/: a saturated
+# yellow canvas, heavy ink outlines, hard offset shadows and Space Grotesk
+# headings with Space Mono labels. style.css consumes these tokens through
+# the --brand-* CSS custom properties that Quarto generates from this file.
+
+meta:
+  name: Building Software Products for the Agentic Age
+  link:
+    home: https://www.indrapatil.com/software-for-agentic-age/
+    github: https://github.com/IndrajeetPatil/software-for-agentic-age
+
+color:
+  palette:
+    yellow: "#FFD600"
+    ink: "#0A0A0A"
+    paper: "#FAFAF5"
+    cream: "#F5F5F0"
+    amber: "#F59E0B"
+    green: "#00C853"
+    forest: "#065F46"
+    pink: "#FF4081"
+    red: "#B91C1C"
+    blue: "#2563EB"
+    grey: "#4B5563"
+  background: paper
+  foreground: ink
+  primary: ink
+  secondary: grey
+  success: forest
+  warning: amber
+  danger: red
+  info: blue
+
+typography:
+  fonts:
+    - family: Space Grotesk
+      source: google
+      weight: [400, 500, 700]
+    - family: Space Mono
+      source: google
+      weight: [400, 700]
+      style: [normal, italic]
+  base:
+    family: Space Grotesk
+    line-height: 1.35
+  headings:
+    family: Space Grotesk
+    weight: 700
+    color: ink
+  monospace: Space Mono
+  monospace-inline:
+    color: ink
+    background-color: cream
+  monospace-block:
+    background-color: cream
+    line-height: 1.4
+  link:
+    color: ink
+    decoration: underline

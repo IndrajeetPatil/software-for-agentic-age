@@ -1,0 +1,610 @@
+/*
+ * Neo-brutalist theme layered on top of `_brand.yml`.
+ * Design inspired by https://www.loot-drop.io/ (see README).
+ * Colours and fonts come from the brand file as --brand-* custom properties;
+ * this file adds the shapes: ink outlines, hard offset shadows, tilted cards.
+ */
+
+:root {
+  --ink: var(--brand-ink, #0a0a0a);
+  --paper: var(--brand-paper, #fafaf5);
+  --cream: var(--brand-cream, #f5f5f0);
+  --yellow: var(--brand-yellow, #ffd600);
+  --amber: var(--brand-amber, #f59e0b);
+  --green: var(--brand-green, #00c853);
+  --forest: var(--brand-forest, #065f46);
+  --pink: var(--brand-pink, #ff4081);
+  --red: var(--brand-red, #b91c1c);
+  --blue: var(--brand-blue, #2563eb);
+  --grey: var(--brand-grey, #4b5563);
+  --border: 3px solid var(--ink);
+  --shadow: 6px 6px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
+  --mono: "Space Mono", ui-monospace, monospace;
+}
+
+/* ---------- Typography ---------- */
+
+.reveal-viewport {
+  background-color: var(--paper);
+}
+
+.reveal {
+  --r-main-font-size: 30px;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  letter-spacing: -0.02em;
+  text-transform: none;
+}
+
+.reveal .slides section h2 {
+  /* Shrink-wrap the highlight while staying block-level. */
+  display: table;
+  font-size: 1.35em;
+  line-height: 1.15;
+  /* Marker-pen highlight under slide titles. */
+  background: linear-gradient(transparent 62%, var(--yellow) 62%, var(--yellow) 92%, transparent 92%);
+  padding: 0 0.15em;
+  margin-bottom: 0.45em;
+}
+
+/* Section dividers (level-1 headings) sit on the yellow canvas. */
+.reveal .slides section.level1 h1 {
+  font-size: 2.6em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+}
+
+.reveal .slides section.level1 p {
+  font-size: 1em;
+}
+
+.reveal strong {
+  font-weight: 700;
+}
+
+.reveal a,
+.reveal a:visited,
+.reveal .slides section a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.reveal .slide-number,
+.reveal .slide-number a {
+  font-family: var(--mono);
+  font-weight: 700;
+  background-color: var(--ink) !important;
+  color: var(--yellow) !important;
+  text-decoration: none;
+}
+
+.reveal .slide-number {
+  padding: 4px 8px;
+}
+
+.card code {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.reveal .progress {
+  color: var(--ink);
+  height: 6px;
+}
+
+/* ---------- Labels and stickers ---------- */
+
+/* Black mono label, e.g. "PART 1" or "SOURCE". */
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.55em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--yellow);
+  padding: 0.35em 0.8em;
+  margin-bottom: 0.6em;
+}
+
+.tag.red {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Tilted number badges, like the "1,749" stickers on loot-drop. */
+.sticker {
+  display: inline-block;
+  font-weight: 700;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  background: #fff;
+  padding: 0.05em 0.35em;
+  transform: rotate(-2deg);
+  margin: 0 0.15em;
+}
+
+.sticker.yellow { background: var(--yellow); }
+.sticker.amber { background: var(--amber); transform: rotate(1.5deg); }
+.sticker.green { background: var(--green); }
+.sticker.pink { background: var(--pink); }
+
+/* ---------- Cards ---------- */
+
+.card {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: #fff;
+  padding: 0.7em 0.9em;
+  margin: 0.35em 0.4em 0.9em 0;
+}
+
+.card h3,
+.card .card-title {
+  margin: 0 0 0.3em;
+  font-size: 1.05em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+.card p:last-child,
+.card ul:last-child {
+  margin-bottom: 0;
+}
+
+.card ul {
+  margin-left: 1em;
+}
+
+.card.yellow { background: var(--yellow); }
+.card.green { background: var(--green); }
+.card.pink { background: var(--pink); }
+.card.amber { background: var(--amber); }
+.card.cream { background: var(--cream); }
+.card.ink { background: var(--ink); color: #fff; }
+.card.ink .card-title,
+.card.ink h3 { color: var(--yellow); }
+.card.ink a { color: #fff; }
+.card.forest { background: var(--forest); color: #fff; }
+.card.forest a { color: #fff; }
+.card.red { background: var(--red); color: #fff; }
+
+.tilt-l { transform: rotate(-1deg); }
+.tilt-r { transform: rotate(1deg); }
+
+/* Big statement card used for key messages. */
+.callout-big {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: var(--yellow);
+  padding: 0.6em 1em;
+  font-size: 1.1em;
+  font-weight: 700;
+  text-align: center;
+  margin: 0.6em auto;
+}
+
+/* Grid of cards. */
+.grid-2,
+.grid-3,
+.grid-4 {
+  display: grid;
+  gap: 0.8em;
+  align-items: stretch;
+}
+
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.grid-2 > .card,
+.grid-3 > .card,
+.grid-4 > .card {
+  margin: 0;
+}
+
+/* Big number tiles. */
+.stat {
+  text-align: center;
+}
+
+.stat .num {
+  display: block;
+  font-size: 2.2em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.stat .label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.4em;
+}
+
+/* Horizontal bar chart built from plain HTML. */
+.bars {
+  display: grid;
+  grid-template-columns: 11em 1fr 4.5em;
+  gap: 0.45em 0.7em;
+  align-items: center;
+  font-size: 0.7em;
+}
+
+.bars .track,
+.bars .fill {
+  display: block;
+}
+
+.bars .track {
+  border: var(--border);
+  background: #fff;
+  height: 1.4em;
+}
+
+.bars .fill {
+  height: 100%;
+  background: var(--ink);
+  min-width: 3px;
+}
+
+.bars .val {
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+/* Level ladder for the agentic-web maturity model. */
+.ladder {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5em;
+  align-items: end;
+  font-size: 0.62em;
+}
+
+.ladder .step {
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 0.5em 0.6em;
+  background: #fff;
+}
+
+.ladder .step .lvl {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.85em;
+  letter-spacing: 0.06em;
+}
+
+.ladder .step .name {
+  display: block;
+  font-weight: 700;
+  font-size: 1.25em;
+  text-transform: uppercase;
+  margin: 0.15em 0 0.35em;
+}
+
+.ladder .s0 { min-height: 6.5em; background: var(--cream); }
+.ladder .s1 { min-height: 8.5em; background: var(--yellow); }
+.ladder .s2 { min-height: 10.5em; background: var(--amber); }
+.ladder .s3 { min-height: 12.5em; background: var(--green); }
+.ladder .s4 { min-height: 14.5em; background: var(--pink); }
+
+/* ---------- Sources ---------- */
+
+.source {
+  margin-top: 0.8em;
+  text-align: center;
+  font-size: 0.42em;
+  color: var(--grey);
+}
+
+.source a {
+  color: var(--grey);
+  text-decoration: underline;
+}
+
+.credit {
+  font-size: 0.45em;
+  color: var(--grey);
+  margin-top: 0.2em;
+}
+
+.credit a {
+  color: var(--grey);
+  text-decoration: underline;
+}
+
+/* ---------- Tables ---------- */
+
+.reveal table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: #fff;
+  font-size: 0.6em;
+  margin: 0.4em auto 0.8em;
+}
+
+.reveal table th {
+  background: var(--ink);
+  color: var(--yellow);
+  font-family: var(--mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.85em;
+  border-bottom: none;
+  padding: 0.5em 0.7em;
+}
+
+.reveal table td {
+  border-bottom: 2px solid var(--ink);
+  padding: 0.45em 0.7em;
+  vertical-align: top;
+}
+
+.reveal table tbody tr:nth-child(even) td {
+  background: var(--cream);
+}
+
+.reveal table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.reveal table code {
+  font-size: 0.95em;
+}
+
+/* ---------- Code ---------- */
+
+.reveal div.sourceCode {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: 0;
+  margin: 0.3em 0 0.8em;
+}
+
+.reveal div.sourceCode pre {
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+
+.reveal pre {
+  font-size: 0.6em;
+}
+
+.reveal pre code {
+  font-size: 1em;
+  line-height: 1.4;
+  max-height: 520px;
+}
+
+.card pre {
+  font-size: 0.5em;
+}
+
+/* Denser code for slides that must fit a long snippet. */
+.code-sm pre {
+  font-size: 0.52em;
+}
+
+.reveal code {
+  font-family: var(--mono);
+}
+
+/* A labelled strip above a code block, e.g. "TERMINAL" or "robots.txt". */
+.code-label {
+  display: inline-block;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.5em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--yellow);
+  padding: 0.25em 0.7em;
+  margin-bottom: -0.35em;
+}
+
+/* ---------- Images ---------- */
+
+.reveal img.shot {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: #fff;
+}
+
+.reveal img.photo {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  transform: rotate(-1.5deg);
+}
+
+/* ---------- Mermaid ---------- */
+
+.reveal .cell-output-display svg,
+.reveal .mermaid svg {
+  font-family: "Space Grotesk", sans-serif !important;
+}
+
+.reveal svg .edgeLabel p {
+  color: var(--ink) !important;
+}
+
+/* ---------- Title slide ---------- */
+
+.reveal .slides section.hero {
+  text-align: center;
+}
+
+.reveal .slides section.hero h2 {
+  display: block;
+  background: none;
+  font-size: 2.5em;
+  line-height: 0.95;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  margin: 0.5em 0 0.35em;
+}
+
+.hero-sub {
+  font-size: 1.05em;
+  margin: 0.6em 0 1.2em;
+}
+
+.hero-author {
+  display: inline-block;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 0.75em;
+  border: var(--border);
+  box-shadow: var(--shadow);
+  background: #fff;
+  padding: 0.3em 1em;
+}
+
+.hero-source {
+  font-size: 0.5em;
+  margin-top: 2em;
+}
+
+/* ---------- Pyramid ---------- */
+
+.pyramid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+  font-size: 0.7em;
+  font-weight: 700;
+  margin-bottom: 0.8em;
+}
+
+.pyramid .layer {
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  padding: 0.35em 0.6em;
+}
+
+.pyramid .l4 { width: 40%; background: var(--pink); }
+.pyramid .l3 { width: 58%; background: var(--amber); }
+.pyramid .l2 { width: 76%; background: var(--yellow); }
+.pyramid .l1 { width: 94%; background: var(--green); }
+
+.card blockquote {
+  margin: 0 0 0.3em;
+  padding: 0;
+  width: auto;
+  box-shadow: none;
+  border: none;
+  font-style: normal;
+  font-weight: 700;
+  background: none;
+}
+
+/* ---------- Code block filenames ---------- */
+
+.reveal .code-with-filename {
+  margin: 0.3em 0 0.8em;
+}
+
+.reveal .code-with-filename .code-with-filename-file {
+  background: var(--ink);
+  color: var(--yellow);
+  border: var(--border);
+  border-bottom: none;
+  border-radius: 0;
+  padding: 0.25em 0.8em;
+  display: inline-block;
+}
+
+.reveal .code-with-filename .code-with-filename-file pre {
+  font-family: var(--mono);
+  font-size: 0.45em;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--yellow);
+  margin: 0;
+}
+
+.reveal .code-with-filename div.sourceCode {
+  margin-top: 0;
+}
+
+.card div.sourceCode {
+  box-shadow: none;
+}
+
+/* ---------- Template carry-overs ---------- */
+
+/* Name dense slides for assistive technology without moving their content. */
+.reveal .slides section.sr-only-heading > h2 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Preserve readable syntax on lines outside the highlighted selection. */
+.reveal .slides div.sourceCode pre code.has-line-highlights > span:not(.highlight-line) {
+  opacity: 1;
+}
+
+.reveal .slides div.sourceCode pre code.has-line-highlights > span.highlight-line {
+  background-color: #fff3a3;
+}
+
+.reveal a.deck-icon-link {
+  color: var(--ink);
+}
+
+/* Lightweight SVG masks using Font Awesome Free 6.7.2 paths. Icons: CC BY 4.0; https://fontawesome.com/license/free */
+
+.deck-icon {
+  --deck-icon-image: none;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: currentColor;
+  -webkit-mask: var(--deck-icon-image) center / contain no-repeat;
+  mask: var(--deck-icon-image) center / contain no-repeat;
+  vertical-align: -0.125em;
+}
+
+.deck-icon-2xl {
+  width: 2em;
+  height: 2em;
+  vertical-align: -0.1875em;
+}
+
+.deck-icon-brands-github {
+  --deck-icon-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0OTYgNTEyIj48cGF0aCBkPSJNMTY1LjkgMzk3LjRjMCAyLTIuMyAzLjYtNS4yIDMuNi0zLjMuMy01LjYtMS4zLTUuNi0zLjYgMC0yIDIuMy0zLjYgNS4yLTMuNiAzLS4zIDUuNiAxLjMgNS42IDMuNnptLTMxLjEtNC41Yy0uNyAyIDEuMyA0LjMgNC4zIDQuOSAyLjYgMSA1LjYgMCA2LjItMnMtMS4zLTQuMy00LjMtNS4yYy0yLjYtLjctNS41LjMtNi4yIDIuM3ptNDQuMi0xLjdjLTIuOS43LTQuOSAyLjYtNC42IDQuOS4zIDIgMi45IDMuMyA1LjkgMi42IDIuOS0uNyA0LjktMi42IDQuNi00LjYtLjMtMS45LTMtMy4yLTUuOS0yLjl6TTI0NC44IDhDMTA2LjEgOCAwIDExMy4zIDAgMjUyYzAgMTEwLjkgNjkuOCAyMDUuOCAxNjkuNSAyMzkuMiAxMi44IDIuMyAxNy4zLTUuNiAxNy4zLTEyLjEgMC02LjItLjMtNDAuNC0uMy02MS40IDAgMC03MCAxNS04NC43LTI5LjggMCAwLTExLjQtMjkuMS0yNy44LTM2LjYgMCAwLTIyLjktMTUuNyAxLjYtMTUuNCAwIDAgMjQuOSAyIDM4LjYgMjUuOCAyMS45IDM4LjYgNTguNiAyNy41IDcyLjkgMjAuOSAyLjMtMTYgOC44LTI3LjEgMTYtMzMuNy01NS45LTYuMi0xMTIuMy0xNC4zLTExMi4zLTExMC41IDAtMjcuNSA3LjYtNDEuMyAyMy42LTU4LjktMi42LTYuNS0xMS4xLTMzLjMgMi42LTY3LjkgMjAuOS02LjUgNjkgMjcgNjkgMjcgMjAtNS42IDQxLjUtOC41IDYyLjgtOC41czQyLjggMi45IDYyLjggOC41YzAgMCA0OC4xLTMzLjYgNjktMjcgMTMuNyAzNC43IDUuMiA2MS40IDIuNiA2Ny45IDE2IDE3LjcgMjUuOCAzMS41IDI1LjggNTguOSAwIDk2LjUtNTguOSAxMDQuMi0xMTQuOCAxMTAuNSA5LjIgNy45IDE3IDIyLjkgMTcgNDYuNCAwIDMzLjctLjMgNzUuNC0uMyA4My42IDAgNi41IDQuNiAxNC40IDE3LjMgMTIuMUM0MjguMiA0NTcuOCA0OTYgMzYyLjkgNDk2IDI1MiA0OTYgMTEzLjMgMzgzLjUgOCAyNDQuOCA4ek05Ny4yIDM1Mi45Yy0xLjMgMS0xIDMuMy43IDUuMiAxLjYgMS42IDMuOSAyLjMgNS4yIDEgMS4zLTEgMS0zLjMtLjctNS4yLTEuNi0xLjYtMy45LTIuMy01LjItMXptLTEwLjgtOC4xYy0uNyAxLjMuMyAyLjkgMi4zIDMuOSAxLjYgMSAzLjYuNyA0LjMtLjcuNy0xLjMtLjMtMi45LTIuMy0zLjktMi0uNi0zLjYtLjMtNC4zLjd6bTMyLjQgMzUuNmMtMS42IDEuMy0xIDQuMyAxLjMgNi4yIDIuMyAyLjMgNS4yIDIuNiA2LjUgMSAxLjMtMS4zLjctNC4zLTEuMy02LjItMi4yLTIuMy01LjItMi42LTYuNS0xem0tMTEuNC0xNC43Yy0xLjYgMS0xLjYgMy42IDAgNS45IDEuNiAyLjMgNC4zIDMuMyA1LjYgMi4zIDEuNi0xLjMgMS42LTMuOSAwLTYuMi0xLjQtMi4zLTQtMy4zLTUuNi0yeiIvPjwvc3ZnPg==");
+}
+
+.deck-icon-brands-linkedin {
+  --deck-icon-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48cGF0aCBkPSJNNDE2IDMySDMxLjlDMTQuMyAzMiAwIDQ2LjUgMCA2NC4zdjM4My40QzAgNDY1LjUgMTQuMyA0ODAgMzEuOSA0ODBINDE2YzE3LjYgMCAzMi0xNC41IDMyLTMyLjNWNjQuM2MwLTE3LjgtMTQuNC0zMi4zLTMyLTMyLjN6TTEzNS40IDQxNkg2OVYyMDIuMmg2Ni41VjQxNnptLTMzLjItMjQzYy0yMS4zIDAtMzguNS0xNy4zLTM4LjUtMzguNVM4MC45IDk2IDEwMi4yIDk2YzIxLjIgMCAzOC41IDE3LjMgMzguNSAzOC41IDAgMjEuMy0xNy4yIDM4LjUtMzguNSAzOC41em0yODIuMSAyNDNoLTY2LjRWMzEyYzAtMjQuOC0uNS01Ni43LTM0LjUtNTYuNy0zNC42IDAtMzkuOSAyNy0zOS45IDU0LjlWNDE2aC02Ni40VjIwMi4yaDYzLjd2MjkuMmguOWM4LjktMTYuOCAzMC42LTM0LjUgNjIuOS0zNC41IDY3LjIgMCA3OS43IDQ0LjMgNzkuNyAxMDEuOVY0MTZ6Ii8+PC9zdmc+");
+}
+
+.deck-icon-solid-envelope {
+  --deck-icon-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDggNjRDMjEuNSA2NCAwIDg1LjUgMCAxMTJjMCAxNS4xIDcuMSAyOS4zIDE5LjIgMzguNEwyMzYuOCAzMTMuNmMxMS40IDguNSAyNyA4LjUgMzguNCAwTDQ5Mi44IDE1MC40YzEyLjEtOS4xIDE5LjItMjMuMyAxOS4yLTM4LjRjMC0yNi41LTIxLjUtNDgtNDgtNDhMNDggNjR6TTAgMTc2TDAgMzg0YzAgMzUuMyAyOC43IDY0IDY0IDY0bDM4NCAwYzM1LjMgMCA2NC0yOC43IDY0LTY0bDAtMjA4TDI5NC40IDMzOS4yYy0yMi44IDE3LjEtNTQgMTcuMS03Ni44IDBMMCAxNzZ6Ii8+PC9zdmc+");
+}
