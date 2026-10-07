@@ -543,6 +543,7 @@ A stub: `add_todo` stores nothing and ignores `due`. Tested with the [MCP Python
 ::: {.code-sm}
 
 ```{.default filename="POST /mcp: headers"}
+Content-Type: application/json
 Accept: application/json, text/event-stream
 MCP-Protocol-Version: 2026-07-28
 Mcp-Method: tools/call
@@ -1327,7 +1328,7 @@ Sources: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/gu
 |--------|----------|------------------|
 | **API catalogue** (RFC 9727) | `/.well-known/api-catalog` | You have a public API |
 | **OpenAPI spec** | e.g. `/openapi.json` | You have a public API |
-| **OAuth resource metadata** (RFC 9728) | `/.well-known/oauth-protected-resource` | Your API or MCP server needs a token |
+| **OAuth resource metadata** (RFC 9728) | `/.well-known/oauth-protected-resource` + resource path | Your API or MCP server needs a token |
 | **MCP Server Card** | `/.well-known/mcp/server-card.json` | You run an MCP server |
 | **Agent Skills index** | `/.well-known/agent-skills/index.json` | You have tasks worth teaching |
 | **Agentic commerce** | x402, ACP, UCP | Agents can buy from you |
@@ -1339,7 +1340,7 @@ Never advertise a capability you don't have. A **false signal is worse than none
 :::
 
 ::: {.source}
-Resource metadata names your authorisation server; that server, often an external identity provider, publishes `/.well-known/oauth-authorization-server`. Sources: Cloudflare, [isitagentready.com](https://isitagentready.com/) check list; [MCP authorisation](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
+For a server at `/mcp`, that is `/.well-known/oauth-protected-resource/mcp`; `WWW-Authenticate` can also point to it. The metadata names your authorisation server; that server, often an external identity provider, publishes `/.well-known/oauth-authorization-server`. Sources: Cloudflare, [isitagentready.com](https://isitagentready.com/) check list; [MCP authorisation](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
 :::
 
 ## Level 4: WebMCP, tools inside the page
