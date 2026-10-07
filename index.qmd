@@ -778,20 +778,12 @@ You can use uv to install Python ...
 
 ::::
 
-::: {.grid-2}
-
 ::: {.card .yellow .tilt-l}
-**Python:** the [`llmstxt` plugin](https://github.com/pawamoy/mkdocs-llmstxt) for [MkDocs](https://www.mkdocs.org/), built into [Zensical](https://zensical.org/) since 0.0.67
-:::
-
-::: {.card .green .tilt-r}
-**R:** [pkgdown](https://pkgdown.r-lib.org/) 2.2.0+ writes `llms.txt` and a `.md` for every page by default
-:::
-
+The [`llmstxt` plugin](https://github.com/pawamoy/mkdocs-llmstxt) for [MkDocs](https://www.mkdocs.org/) writes these files on every build. [Zensical](https://zensical.org/) has it built in since 0.0.67.
 :::
 
 ::: {.source}
-Abridged from uv's [`mkdocs.yml`](https://github.com/astral-sh/uv/blob/main/mkdocs.yml) and [`llms.txt`](https://docs.astral.sh/uv/llms.txt) (long lines wrapped). Sources: [mkdocs-llmstxt](https://github.com/pawamoy/mkdocs-llmstxt), [Zensical plugins](https://zensical.org/docs/compatibility/mkdocs/plugins/), [pkgdown `build_llm_docs()`](https://pkgdown.r-lib.org/reference/build_llm_docs.html)
+Abridged from uv's [`mkdocs.yml`](https://github.com/astral-sh/uv/blob/main/mkdocs.yml) and [`llms.txt`](https://docs.astral.sh/uv/llms.txt) (long lines wrapped). Sources: [mkdocs-llmstxt](https://github.com/pawamoy/mkdocs-llmstxt), [Zensical plugins](https://zensical.org/docs/compatibility/mkdocs/plugins/)
 :::
 
 ## Get indexed by Context7
