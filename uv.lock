@@ -611,9 +611,6 @@ requires-dist = [
     { name = "pyyaml", specifier = ">=6.0.3" },
 ]
 
-[package.metadata.requires-dev]
-dev = []
-
 [[package]]
 name = "stack-data"
 version = "0.6.3"
