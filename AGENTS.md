@@ -25,6 +25,7 @@ llms-full.txt        # Extended machine-readable summary
 .well-known/         # Mirrors of llms.txt and llms-full.txt
 robots.txt           # Crawl rules
 sitemap.xml          # Sitemap for search engines
+LICENSE              # CC0 dedication for original content (third-party images excluded)
 .github/             # CI workflow (reusable, from IndrajeetPatil/workflows) and Dependabot
 _extensions/         # Latest a11y extension, installed by `just install` and CI (gitignored)
 _site/               # Build output (gitignored)
@@ -139,7 +140,7 @@ When modifying `index.qmd`:
 
 ## CI/CD
 
-- The GitHub Actions workflow in `.github/workflows/` renders the deck and deploys to GitHub Pages. **While the deck is a draft, the `push` trigger is disabled**: pull requests still build, and a manual `workflow_dispatch` run deploys. Restore the commented `push` trigger when the deck is published. It calls a reusable workflow from `IndrajeetPatil/workflows` (Python and R decks use different workflow files). Do not inline the workflow.
+- The GitHub Actions workflow in `.github/workflows/` renders the deck and deploys to GitHub Pages. Pushes to `main` build and deploy; pull requests build the deck as a check, and `workflow_dispatch` allows a manual run. It calls a reusable workflow from `IndrajeetPatil/workflows` (Python and R decks use different workflow files). Do not inline the workflow.
 - **Reference the reusable workflow as `@main`, not a commit SHA.** These workflows are first-party, so tracking `main` is intentional: upstream fixes arrive immediately instead of waiting on a manual SHA bump. A previously pinned SHA went five months stale, leaving CI building with pre-release Quarto and installing a FontAwesome extension this deck does not use, long after upstream had fixed both. Dependabot cannot bump a branch ref, so there is nothing to keep in sync.
 - Install the latest a11y extension directly from upstream with
   `quarto add mcanouil/quarto-revealjs-a11y --no-prompt` in both `justfile` and CI.
