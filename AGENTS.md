@@ -79,6 +79,13 @@ Check which set is present to know which language context applies.
   `just axe --no-browser --port 8891`.
 - **Icons.** Icons use lightweight HTML spans backed by only the required SVG path data in the custom stylesheet; no icon-font or Quarto icon extension is needed.
   When adding an icon, add only its mask data, preserve the source licence attribution, keep an accessible label where the icon conveys meaning, and render the deck to verify it.
+- **Mermaid labels.** Start every Mermaid diagram with
+  `%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false, "padding": 16}, "themeVariables": {"fontFamily": "Space Grotesk, sans-serif", "fontSize": "20px"}}}%%`.
+  Quarto renders diagrams on page load inside RevealJS's scaled slide, so HTML labels are measured at the
+  current zoom and get clipped (or float in oversized boxes) at other window sizes. SVG text labels are
+  measured in the diagram's own units and stay correct at any scale. Never restyle Mermaid fonts from
+  `style.css`: a font swap after measurement clips labels. Avoid cylinder nodes (`[( )]`); they ignore
+  padding and hug their text.
 - **Mermaid performance boundary.** Keep Mermaid diagrams as Mermaid source. Do not replace them with pre-rendered SVGs solely to reduce the website bundle.
 - **No code execution.** The YAML front matter sets `execute: eval: false`. Code blocks are for display only; they are not executed during render.
 - **Compute engine.** Python decks declare `jupyter: python3` in the front matter; R decks declare `engine: knitr`. The virtualenv or renv exists to satisfy Quarto's engine, not to run slide code.

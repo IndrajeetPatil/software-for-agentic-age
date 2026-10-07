@@ -436,14 +436,11 @@
 
 /* ---------- Mermaid ---------- */
 
-.reveal .cell-output-display svg,
-.reveal .mermaid svg {
-  font-family: "Space Grotesk", sans-serif !important;
-}
-
-.reveal svg .edgeLabel p {
-  color: var(--ink) !important;
-}
+/*
+ * Do not restyle Mermaid label fonts here: Mermaid sizes each node from the
+ * text it measures at render time, so a later font swap clips labels. Set the
+ * font in each diagram's init directive instead (see AGENTS.md).
+ */
 
 /* ---------- Title slide ---------- */
 

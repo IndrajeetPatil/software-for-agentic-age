@@ -72,8 +72,8 @@ Source code for these slides can be found [on GitHub](https://github.com/Indraje
 :::
 
 - what a large language model (LLM) is
-- that an **agent** is an LLM in a loop that can call tools
-- the basics of CLIs, HTTP and HTML
+- an **agent** is an LLM calling tools in a loop
+- CLI, HTTP and HTML basics
 :::
 
 ::: {.card .yellow .tilt-r}
@@ -81,10 +81,10 @@ Source code for these slides can be found [on GitHub](https://github.com/Indraje
 🎯 You will leave with
 :::
 
-- how agents *experience* your product
-- how to make a product agents can **operate**
-- how to make a website agents can **read**
-- tools to measure where you stand
+- how agents *experience* products
+- products agents can **operate**
+- websites agents can **read**
+- tools to measure readiness
 :::
 
 :::
@@ -106,9 +106,10 @@ For decades, every user reached your product through a **screen**. Now many arri
 ```{mermaid}
 %%| eval: true
 %%| echo: false
+%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false, "padding": 16}, "themeVariables": {"fontFamily": "Space Grotesk, sans-serif", "fontSize": "20px"}}}%%
 flowchart LR
-    H1([Human]) --> G[GUI<br/>buttons, forms, pages] --> P1[(Your product)]
-    H2([Human]) --> A{{AI agent}} --> T[Text interfaces<br/>CLI, MCP, API, Markdown] --> P2[(Your product)]
+    H1([Human]) --> G[GUI<br/>buttons, forms, pages] --> P1[Your product]
+    H2([Human]) --> A{{AI agent}} --> T[Text interfaces<br/>CLI, MCP, API, Markdown] --> P2[Your product]
 
     classDef human fill:#ffffff,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
     classDef old fill:#f5f5f0,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
@@ -135,6 +136,7 @@ The agent is a user with **no eyes**, a **limited memory**, and **no patience fo
 ```{mermaid}
 %%| eval: true
 %%| echo: false
+%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false, "padding": 16}, "themeVariables": {"fontFamily": "Space Grotesk, sans-serif", "fontSize": "20px"}}}%%
 flowchart TD
     G([Goal from a human]) --> T[Think<br/>pick the next step]
     T --> C[Act<br/>call a tool]
@@ -506,12 +508,13 @@ The **Model Context Protocol** is an open standard for plugging tools and data i
 ```{mermaid}
 %%| eval: true
 %%| echo: false
+%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false, "padding": 16}, "themeVariables": {"fontFamily": "Space Grotesk, sans-serif", "fontSize": "20px"}}}%%
 flowchart LR
     subgraph Host["Agent host"]
         M[LLM] <--> C[MCP client]
     end
     C <-- "tools/list<br/>tools/call" --> S[Your MCP server]
-    S <--> API[(Your API)]
+    S <--> API[Your API]
 
     classDef box fill:#ffffff,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
     classDef yours fill:#ffd600,stroke:#0a0a0a,stroke-width:3px,color:#0a0a0a
