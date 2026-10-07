@@ -685,12 +685,12 @@ description: Manage todos with the `todo` CLI.
 **Agent Skills** are folders of instructions an agent loads **only when relevant**.
 :::
 
-::: {.card .cream}
-Only the `name` and `description` sit in context until the skill is triggered.
-:::
-
 ::: {.card .green .tilt-l}
 `AGENTS.md` does the same job for a **repository**.
+:::
+
+::: {.card .cream}
+**Libraries ship them too:** FastAPI bundles a skill in the package.
 :::
 
 :::
@@ -698,19 +698,19 @@ Only the `name` and `description` sit in context until the skill is triggered.
 ::::
 
 ::: {.source}
-Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.md/)
+Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.md/), [FastAPI: AI agent skills](https://fastapi.tiangolo.com/tutorial/#ai-agent-skills)
 :::
 
 ## Packages: docs agents can fetch
 
 Coding agents read your docs, in **Markdown**, before they call your code.
 
-| File | What it holds | md2linkedin |
-|------|---------------|-------------|
-| `/llms.txt` | Summary plus curated links to Markdown pages | 0.7 KB |
-| `/llms-full.txt` | Every docs page concatenated into one file | 33 KB |
-| `/<page>/index.md` | A Markdown twin of each HTML page | 6 KB vs 39 KB HTML |
-| `<link>` tag | `rel="alternate"` points crawlers at the `.md` twin | In every `<head>` |
+| File | What it holds | uv |
+|------|---------------|----|
+| `/llms.txt` | Summary plus curated links to Markdown pages | 5 KB |
+| `/llms-full.txt` | Every docs page concatenated into one file | — |
+| `/<page>/index.md` | A Markdown twin of each HTML page | 29 KB vs 169 KB HTML |
+| `<link>` tag | `rel="alternate"` points crawlers at the `.md` twin | — |
 
 ::: {.callout-big}
 `llms.txt` to **navigate**, `.md` pages to **read one topic**, `llms-full.txt` to **load everything**.
@@ -721,7 +721,7 @@ Coding agents read your docs, in **Markdown**, before they call your code.
 :::
 
 ::: {.source}
-Sizes from [indrapatil.com/md2linkedin](https://www.indrapatil.com/md2linkedin/), 7 Oct 2026. `/.well-known/` copies count only at the domain root ([RFC 8615](https://www.rfc-editor.org/rfc/rfc8615)). Sources: [llmstxt.org](https://llmstxt.org/), [Google](https://developers.google.com/search/docs/appearance/ai-features), [Lighthouse](https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt).
+Sizes from [uv's docs](https://docs.astral.sh/uv/llms.txt), 7 Oct 2026; — means not published. `/.well-known/` copies count only at the domain root ([RFC 8615](https://www.rfc-editor.org/rfc/rfc8615)). Sources: [llmstxt.org](https://llmstxt.org/), [Google](https://developers.google.com/search/docs/appearance/ai-features), [Lighthouse](https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt).
 :::
 
 ## Generate them at build time
@@ -735,15 +735,14 @@ Sizes from [indrapatil.com/md2linkedin](https://www.indrapatil.com/md2linkedin/)
 ```{.yaml filename="mkdocs.yml: you write"}
 plugins:
   - llmstxt:
-      full_output: llms-full.txt
-      markdown_description: |-
-        md2linkedin is a Python library and
-        CLI tool that converts Markdown ...
+      markdown_description: |
+        You can use uv to install Python
+        dependencies, run scripts, ...
       sections:
-        Home documentation:
-          - index.md
-        API documentation:
-          - reference/*.md
+        Getting started:
+          - getting-started/installation.md
+        Guides:
+          - guides/scripts.md
 ```
 
 :::
@@ -755,22 +754,22 @@ plugins:
 ::: {.code-sm}
 
 ```{.markdown filename="llms.txt: the build writes"}
-# md2linkedin
+# uv
 
-> Convert Markdown to LinkedIn-friendly
-> Unicode text
+> uv is an extremely fast Python package
+> and project manager, written in Rust.
 
-md2linkedin is a Python library and ...
+You can use uv to install Python ...
 
-## Home documentation
+## Getting started
 
-- [Home](https://www.indrapatil.com/
-  md2linkedin/index.md)
+- [Installation](https://docs.astral.sh/uv/
+  getting-started/installation/index.md)
 
-## API documentation
+## Guides
 
-- [Converter](https://www.indrapatil.com/
-  md2linkedin/reference/converter/index.md)
+- [Running scripts](https://docs.astral.sh/uv/
+  guides/scripts/index.md)
 ```
 
 :::
@@ -792,32 +791,33 @@ md2linkedin is a Python library and ...
 :::
 
 ::: {.source}
-Abridged from [md2linkedin](https://github.com/IndrajeetPatil/md2linkedin) (long lines wrapped). Sources: [mkdocs-llmstxt](https://github.com/pawamoy/mkdocs-llmstxt), [Zensical plugins](https://zensical.org/docs/compatibility/mkdocs/plugins/), [pkgdown `build_llm_docs()`](https://pkgdown.r-lib.org/reference/build_llm_docs.html)
+Abridged from uv's [`mkdocs.yml`](https://github.com/astral-sh/uv/blob/main/mkdocs.yml) and [`llms.txt`](https://docs.astral.sh/uv/llms.txt) (long lines wrapped). Sources: [mkdocs-llmstxt](https://github.com/pawamoy/mkdocs-llmstxt), [Zensical plugins](https://zensical.org/docs/compatibility/mkdocs/plugins/), [pkgdown `build_llm_docs()`](https://pkgdown.r-lib.org/reference/build_llm_docs.html)
 :::
 
 ## Get indexed by Context7
 
-![](media/context7-md2linkedin.webp){.shot width="680" height="189" fig-alt="Context7 page for md2linkedin showing 26,135 tokens, 182 snippets, trust score 9.5, MIT licence"}
+![](media/context7-fastapi.webp){.shot width="680" height="178" fig-alt="Context7 page for FastAPI showing 484,382 tokens, 3,457 snippets, trust score 9, and a benchmark score of 86.99"}
 
 ::: {.credit}
-Screenshot of [context7.com/indrajeetpatil/md2linkedin](https://context7.com/indrajeetpatil/md2linkedin), 7 Oct 2026
+Screenshot of [context7.com/websites/fastapi_tiangolo](https://context7.com/websites/fastapi_tiangolo), 7 Oct 2026
 :::
 
 ::: {.grid-2}
 
 ::: {.card .yellow .tilt-l}
-**Add** your repo at [context7.com](https://context7.com/) and steer the parser with `context7.json`. **Agents** then call `resolve-library-id` and `query-docs` over MCP.
+**Add** your repo or docs site at [context7.com](https://context7.com/) and steer the parser with `context7.json`. **Agents** then call `resolve-library-id` and `query-docs` over MCP.
 :::
 
 ::: {.code-sm}
 
-```{.bash filename="what the agent gets back"}
-# query-docs("/indrajeetpatil/md2linkedin",
-#   "convert a markdown file from the CLI")
-# → "Convert Markdown using CLI" (README.md)
-md2linkedin post.md -o linkedin_post.txt
-echo "**Hello**, *world*!" | md2linkedin
-md2linkedin post.md --preserve-links
+```{.python filename="what the agent gets back"}
+# query-docs("/websites/fastapi_tiangolo",
+#   "declare a path parameter with a type")
+# → "Declare Path Parameter with Type
+#    Annotation" (tutorial/path-params)
+@app.get("/items/{item_id}")
+async def read_item(item_id: int):
+    return {"item_id": item_id}
 ```
 
 :::
@@ -833,18 +833,18 @@ Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.
 ::: {.grid-3}
 
 ::: {.card .yellow .stat .tilt-l}
-<span class="num">182</span>
+<span class="num">3,457</span>
 <span class="label">code snippets extracted</span>
 :::
 
 ::: {.card .green .stat}
-<span class="num">26,135</span>
+<span class="num">484,382</span>
 <span class="label">tokens of docs indexed</span>
 :::
 
 ::: {.card .pink .stat .tilt-r}
-<span class="num">9.5</span>
-<span class="label">trust score</span>
+<span class="num">87</span>
+<span class="label">benchmark score</span>
 :::
 
 :::
@@ -860,7 +860,7 @@ Ask Context7 your users' top five questions. If the snippets can't answer them, 
 :::
 
 ::: {.source}
-Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). [md2linkedin](https://github.com/IndrajeetPatil/md2linkedin) had no benchmark score yet on 7 Oct 2026; scores are LLM-judged, so treat them as a guide.
+Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). FastAPI figures from Context7 on 7 Oct 2026. Scores are LLM-judged, so treat them as a guide.
 :::
 
 ## Agents act with your users' credentials
