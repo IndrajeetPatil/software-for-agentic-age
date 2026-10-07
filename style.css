@@ -338,6 +338,11 @@
   margin: 0.4em auto 0.8em;
 }
 
+/* Clear the tilt and shadow of a card grid directly above. */
+.reveal :is(.grid-2, .grid-3, .grid-4) + table {
+  margin-top: 1.4em;
+}
+
 .reveal table th {
   background: var(--ink);
   color: var(--yellow);
