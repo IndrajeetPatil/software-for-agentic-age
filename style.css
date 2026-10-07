@@ -100,7 +100,7 @@
 
 /* ---------- Labels and stickers ---------- */
 
-/* Black mono label, e.g. "PART 1" or "SOURCE". */
+/* Black mono label, e.g. "PART 1" or "AGENT MODE". */
 .tag {
   display: inline-block;
   font-family: var(--mono);
@@ -119,7 +119,7 @@
   color: #fff;
 }
 
-/* Tilted number badges, like the "1,749" stickers on loot-drop. */
+/* Tilted badges for short phrases, like the stickers on loot-drop. */
 .sticker {
   display: inline-block;
   font-weight: 700;
@@ -411,20 +411,6 @@
   font-family: var(--mono);
 }
 
-/* A labelled strip above a code block, e.g. "TERMINAL" or "robots.txt". */
-.code-label {
-  display: inline-block;
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 0.5em;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: var(--ink);
-  color: var(--yellow);
-  padding: 0.25em 0.7em;
-  margin-bottom: -0.35em;
-}
-
 /* ---------- Images ---------- */
 
 .reveal img.shot {
@@ -591,12 +577,6 @@
   -webkit-mask: var(--deck-icon-image) center / contain no-repeat;
   mask: var(--deck-icon-image) center / contain no-repeat;
   vertical-align: -0.125em;
-}
-
-.deck-icon-2xl {
-  width: 2em;
-  height: 2em;
-  vertical-align: -0.1875em;
 }
 
 .deck-icon-brands-github {
