@@ -1167,8 +1167,8 @@ The answer is in the **first response**.
 :::
 
 ```{.bash filename="terminal"}
-# What does an agent see? Expect a 200 and your answer in the HTML.
-curl -iL -A 'Claude-User/1.0' https://example.com/pricing
+# What does an agent see? Expect a 200 and the prices in the HTML.
+curl -iL -A 'Claude-User/1.0' https://vercel.com/pricing
 ```
 
 ::: {.source}
