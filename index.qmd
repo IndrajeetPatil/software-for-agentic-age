@@ -201,7 +201,7 @@ Models have read decades of shell scripts and docs.
 ::: {.card-title}
 Composable
 :::
-Pipe into `jq`, `grep`, and `xargs`.
+Pipe into [`jq`](https://jqlang.org/), `grep`, and `xargs`.
 :::
 
 ::: {.card .pink}
@@ -276,7 +276,7 @@ app()
 :::
 
 ::: {.source}
-Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with Typer 0.27.3.
+Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with [Typer](https://typer.tiangolo.com/) 0.27.3.
 :::
 
 ## The same CLI, seen by an agent
@@ -585,7 +585,7 @@ Each request carries everything the server needs, so any replica can answer: MCP
 ::::
 
 ::: {.source}
-Sent with `curl` to the minimal `server.py` from the previous slide (MCP Python SDK 2.3.0); response abridged.
+Sent with [curl](https://curl.se/) to the minimal `server.py` from the previous slide ([MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0); response abridged.
 :::
 
 ## CLI or MCP?
@@ -654,11 +654,11 @@ Source: Cloudflare, [Code Mode: give agents an entire API in 1,000 tokens](https
 
 | Company | CLI | MCP server | Docs agents can read |
 |---------|-----|------------|----------------------|
-| **GitHub** | `gh` with `--json`, `--jq`, `gh api` | [GitHub MCP Server](https://github.com/github/github-mcp-server), local and remote | Markdown docs |
-| **Microsoft Azure** | `az` with `--query`, `-o tsv`, `az rest` | [Azure MCP Server](https://github.com/microsoft/mcp) | [Microsoft Learn MCP](https://learn.microsoft.com/en-us/training/support/mcp) |
-| **Stripe** | `stripe` CLI | Remote MCP at `mcp.stripe.com` | [`docs.stripe.com/llms.txt`](https://docs.stripe.com/llms.txt) |
-| **Cloudflare** | `wrangler` | Code Mode MCP for the whole API | Markdown for Agents, `llms.txt` |
-| **Vercel** | `vercel` CLI | Remote MCP at `mcp.vercel.com` | Markdown via content negotiation |
+| **GitHub** | [`gh`](https://cli.github.com/) with `--json`, `--jq`, `gh api` | [GitHub MCP Server](https://github.com/github/github-mcp-server), local and remote | Markdown docs |
+| **Microsoft Azure** | [`az`](https://learn.microsoft.com/en-us/cli/azure/) with `--query`, `-o tsv`, `az rest` | [Azure MCP Server](https://github.com/microsoft/mcp) | [Microsoft Learn MCP](https://learn.microsoft.com/en-us/training/support/mcp) |
+| **Stripe** | [`stripe` CLI](https://docs.stripe.com/stripe-cli) | Remote MCP at `mcp.stripe.com` | [`docs.stripe.com/llms.txt`](https://docs.stripe.com/llms.txt) |
+| **Cloudflare** | [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) | [Code Mode MCP](https://blog.cloudflare.com/code-mode-mcp/) for the whole API | [Markdown for Agents](https://blog.cloudflare.com/markdown-for-agents/), `llms.txt` |
+| **Vercel** | [`vercel` CLI](https://vercel.com/docs/cli) | Remote MCP at `mcp.vercel.com` | Markdown via [content negotiation](https://vercel.com/blog/making-agent-friendly-pages-with-content-negotiation) |
 
 ::: {.callout-big}
 The leaders ship **all three interfaces**: API, CLI *and* MCP, plus docs that agents can read.
@@ -725,7 +725,7 @@ Coding agents read your docs, in **Markdown**, before they call your code.
 :::
 
 ::: {.card .amber style="font-size: 0.7em;"}
-**Hype check:** Google says AI search needs no `llms.txt`, but it's cheap and Lighthouse checks it. Start it with a **"When to use this"** line.
+**Hype check:** Google says AI search needs no `llms.txt`, but it's cheap and [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) checks it. Start it with a **"When to use this"** line.
 :::
 
 ::: {.source}
@@ -790,11 +790,11 @@ md2linkedin is a Python library and ...
 ::: {.grid-2}
 
 ::: {.card .yellow .tilt-l}
-**Python:** the `llmstxt` plugin for MkDocs, built into Zensical since 0.0.67
+**Python:** the [`llmstxt` plugin](https://github.com/pawamoy/mkdocs-llmstxt) for [MkDocs](https://www.mkdocs.org/), built into [Zensical](https://zensical.org/) since 0.0.67
 :::
 
 ::: {.card .green .tilt-r}
-**R:** pkgdown 2.2.0+ writes `llms.txt` and a `.md` for every page by default
+**R:** [pkgdown](https://pkgdown.r-lib.org/) 2.2.0+ writes `llms.txt` and a `.md` for every page by default
 :::
 
 :::
@@ -814,7 +814,7 @@ Screenshot of [context7.com/indrajeetpatil/md2linkedin](https://context7.com/ind
 ::: {.grid-2}
 
 ::: {.card .yellow .tilt-l}
-**Add** your repo at context7.com and steer the parser with `context7.json`. **Agents** then call `resolve-library-id` and `query-docs` over MCP.
+**Add** your repo at [context7.com](https://context7.com/) and steer the parser with `context7.json`. **Agents** then call `resolve-library-id` and `query-docs` over MCP.
 :::
 
 ::: {.code-sm}
@@ -833,7 +833,7 @@ md2linkedin post.md --preserve-links
 :::
 
 ::: {.source}
-Sources: Context7, [Adding libraries](https://context7.com/docs/adding-libraries) and [Library owners](https://context7.com/docs/library-owners). Output abridged from a live query on 7 Oct 2026.
+Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.com/docs/adding-libraries) and [Library owners](https://context7.com/docs/library-owners). Output abridged from a live query on 7 Oct 2026.
 :::
 
 ## Context7 as a docs quality check
@@ -868,7 +868,7 @@ Ask Context7 your users' top five questions. If the snippets can't answer them, 
 :::
 
 ::: {.source}
-Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). md2linkedin had no benchmark score yet on 7 Oct 2026; scores are LLM-judged, so treat them as a guide.
+Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). [md2linkedin](https://github.com/IndrajeetPatil/md2linkedin) had no benchmark score yet on 7 Oct 2026; scores are LLM-judged, so treat them as a guide.
 :::
 
 ## Agents act with your users' credentials
@@ -1219,7 +1219,7 @@ Can't negotiate? Publish `.md` mirrors and link them with `<link rel="alternate"
 :::
 
 ::: {.source}
-Measured with curl on 7 Oct 2026. See Vercel, [content negotiation](https://vercel.com/blog/making-agent-friendly-pages-with-content-negotiation), and Cloudflare, [Markdown for Agents](https://blog.cloudflare.com/markdown-for-agents/).
+Measured with [curl](https://curl.se/) on 7 Oct 2026. See Vercel, [content negotiation](https://vercel.com/blog/making-agent-friendly-pages-with-content-negotiation), and Cloudflare, [Markdown for Agents](https://blog.cloudflare.com/markdown-for-agents/).
 :::
 
 ## Level 3: say who you are, in data
@@ -1354,7 +1354,7 @@ A browser agent calls `search_flights` directly instead of guessing which box to
 :::
 
 ::: {.card .cream}
-Chrome origin trial; API names are still changing. **Watch, don't bet the roadmap.**
+[WebMCP](https://github.com/webmachinelearning/webmcp) is a Chrome origin trial; API names are still changing. **Watch, don't bet the roadmap.**
 :::
 
 :::
@@ -1513,7 +1513,7 @@ npx @vercel/agent-readability audit https://example.com --min-score 80
 ::: {.grid-2}
 
 ::: {.card .yellow .tilt-l}
-Chrome **Lighthouse** has an experimental *Agentic Browsing* category: accessibility tree, layout shift, `llms.txt`, WebMCP.
+Chrome **[Lighthouse](https://developer.chrome.com/docs/lighthouse/overview)** has an experimental *Agentic Browsing* category: accessibility tree, layout shift, `llms.txt`, WebMCP.
 :::
 
 ::: {.card .green .tilt-r}
@@ -1528,7 +1528,7 @@ Sources: [Vercel KB](https://vercel.com/kb/guide/make-your-site-readable-by-ai-a
 
 ## Most of the web isn't there yet
 
-Adoption among Cloudflare Radar's top 200,000 domains, Apr 2026:
+Adoption among [Cloudflare Radar](https://radar.cloudflare.com/)'s top 200,000 domains, Apr 2026:
 
 ```{=html}
 <div class="bars" role="img" aria-label="Bar chart: robots.txt present on 78% of sites, Content Signals on 4%, Markdown negotiation on 3.9%, MCP Server Cards on fewer than 15 sites">
@@ -1670,10 +1670,10 @@ Further reading
 |-------|-------|--------------------|
 | The command line is back | DEC VT100 terminal | [Jason Scott](https://commons.wikimedia.org/wiki/File:DEC_VT100_terminal.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), resized |
 | The web was built for people | First web server at CERN | [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
-| Exemplar: GitHub CLI | cli.github.com | Screenshot, GitHub, 7 Oct 2026 |
-| Get indexed by Context7 | context7.com | Screenshot, Context7 (Upstash), 7 Oct 2026 |
-| Measure and iterate | isitagentready.com | Screenshots, Cloudflare, 7 Oct 2026 |
-| Measure and iterate | is-agentic.com | Screenshots, Vercel, 7 Oct 2026 |
+| Exemplar: GitHub CLI | [cli.github.com](https://cli.github.com/) | Screenshot, GitHub, 7 Oct 2026 |
+| Get indexed by Context7 | [context7.com](https://context7.com/) | Screenshot, Context7 (Upstash), 7 Oct 2026 |
+| Measure and iterate | [isitagentready.com](https://isitagentready.com/) | Screenshots, Cloudflare, 7 Oct 2026 |
+| Measure and iterate | [is-agentic.com](https://is-agentic.com/) | Screenshots, Vercel, 7 Oct 2026 |
 
 ::: {style="text-align: center; font-size: 0.55em; margin-top: 1em;"}
 Screenshots are used for commentary and remain the property of their owners. Visual design inspired by [loot-drop.io](https://www.loot-drop.io/).
