@@ -35,7 +35,7 @@ Screenshots are used for commentary and remain the property of their owners.
 
 ## Development
 
-This project uses Python 3.14 (see `.python-version`) with [uv](https://docs.astral.sh/uv/) for dependency management, [Quarto](https://quarto.org/) for rendering slides, and [just](https://github.com/casey/just) as a command runner.
+This project uses Python 3.15 (see `.python-version`) with [uv](https://docs.astral.sh/uv/) for dependency management, [Quarto](https://quarto.org/) for rendering slides, and [just](https://github.com/casey/just) as a command runner.
 
 ### Prerequisites
 
