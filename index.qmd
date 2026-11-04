@@ -223,7 +223,7 @@ Hosts can defer MCP tool schemas and load them on demand: see Anthropic's [tool 
 ::: {.notes}
 Present the three primary access surfaces:
 1. The HTTP REST or GraphQL API: the bedrock.
-2. The Command-Line Interface (CLI): optimized for shell-enabled coding agents.
+2. The Command-Line Interface (CLI): optimised for shell-enabled coding agents.
 3. The MCP server: designed for host-governed, sandboxed, or GUI-only agents.
 
 Emphasise that both CLI and MCP should be thin, idiomatic layers over a well-designed API rather than bespoke re-implementations.
@@ -518,7 +518,7 @@ Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-
 
 ::: {.notes}
 Showcase the Azure CLI (`az`) as another enterprise exemplar:
-- JMESPath queries via `--query` paired with `-o tsv` extract exact string values without table formatting artifacts.
+- JMESPath queries via `--query` paired with `-o tsv` extract exact string values without table formatting artefacts.
 - The `--no-wait` flag initiates asynchronous cloud operations and returns control immediately.
 - Managed identities (`az login --identity`) eliminate static secrets on cloud workloads.
 :::
@@ -802,7 +802,7 @@ These vendors' users span terminals and chat apps, so they ship **all three**. C
 
 ::: {.notes}
 Examine industry leaders who excel at agent ergonomics:
-Cloudflare's Code Mode, Stripe's developer tooling, and GitHub's CLI all demonstrate clean API boundaries, comprehensive documentation, and predictable behavior.
+Cloudflare's Code Mode, Stripe's developer tooling, and GitHub's CLI all demonstrate clean API boundaries, comprehensive documentation, and predictable behaviour.
 :::
 
 ## Teach the agent: ship a skill
@@ -951,7 +951,7 @@ Abridged from uv's [`mkdocs.yml`](https://github.com/astral-sh/uv/blob/main/mkdo
 
 ::: {.notes}
 Demonstrate how to generate `llms.txt` automatically during build pipelines:
-Using static site generator plugins (such as for MkDocs or Quarto) ensures agent documentation stays perfectly synchronized with user documentation.
+Using static site generator plugins (such as for MkDocs or Quarto) ensures agent documentation stays perfectly synchronised with user documentation.
 :::
 
 ## Get indexed by Context7
@@ -1718,7 +1718,7 @@ Discoverability, content, bot access, protocol discovery, and (unscored) commerc
 
 ::: {.notes}
 Review automated evaluation scanners:
-Tools like Cloudflare's `isitagentready.com` and Vercel's `is-agentic.com` analyze URLs against discoverability, readability, and operability criteria.
+Tools like Cloudflare's `isitagentready.com` and Vercel's `is-agentic.com` analyse URLs against discoverability, readability, and operability criteria.
 :::
 
 ## Same site, two very different scores
@@ -1753,7 +1753,7 @@ stripe.com on [is-agentic.com](https://is-agentic.com/scan/stripe.com), 7 Oct 20
 
 ::: {.notes}
 Caution against treating scanner scores as absolute truths:
-Different scanners weigh metrics differently. The value lies in analyzing specific findings (e.g., missing status codes or broken Markdown links) rather than chasing an arbitrary 100/100 score.
+Different scanners weigh metrics differently. The value lies in analysing specific findings (e.g., missing status codes or broken Markdown links) rather than chasing an arbitrary 100/100 score.
 :::
 
 ## From findings to a prompt
@@ -1858,7 +1858,7 @@ Recap
 :::
 
 ::: {.notes}
-Introduce the concluding section: synthesizing lessons and framing practical implementation steps.
+Introduce the concluding section: synthesising lessons and framing practical implementation steps.
 :::
 
 ## Where to start
@@ -1881,7 +1881,7 @@ Provide a pragmatic starting guide:
 1. Ensure documentation and core content are server-rendered.
 2. Publish `llms.txt` and clean sitemaps.
 3. Build or refine an agent-friendly CLI with `--json` support.
-4. Test with real agent prompts to observe actual behavior.
+4. Test with real agent prompts to observe actual behaviour.
 :::
 
 ## Key takeaways
