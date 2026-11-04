@@ -62,6 +62,14 @@ Indrajeet Patil
 Source code for these slides can be found [on GitHub](https://github.com/IndrajeetPatil/software-for-agentic-age/).
 :::
 
+::: {.notes}
+Welcome everyone. This presentation explores what it means to build software products and websites in the age of autonomous AI agents.
+
+The core thesis is that software engineering is encountering a fundamentally new class of user: one that reads in tokens, operates primarily through text, works in automated loops, and cannot pause to answer interactive prompts or click through visual mazes.
+
+We will examine how to make our tools operable and our websites readable for agents, building directly upon solid foundations of API design, SEO, and web accessibility.
+:::
+
 ## What you'll learn today
 
 ::: {.grid-2}
@@ -93,10 +101,21 @@ Source code for these slides can be found [on GitHub](https://github.com/Indraje
 Agent-friendliness is a new layer **on top of** good engineering, not a replacement for it.
 :::
 
+::: {.notes}
+Outline the roadmap for today's session:
+- Part 1 focuses on products that agents can operate: examining the resurgence of the CLI, the design of agent-friendly command-line tools, the Model Context Protocol (MCP), and documentation formats like llms.txt.
+- Part 2 examines websites agents can read: exploring machine visitor types, the agent-readiness maturity ladder, semantic HTML, and content negotiation for Markdown.
+- Part 3 covers measurement and iteration: looking at automated scanners, terminal tools, CI regression gates, and empirical adoption rates across the web.
+:::
+
 # A new kind of user {background-color="#FFD600"}
 
 ::: {.tag}
 Part 0 · Foundations
+:::
+
+::: {.notes}
+Introduce Section 1: framing the transition from human point-and-click users to autonomous software agents that execute on behalf of human users.
 :::
 
 ## Same product, new user
@@ -107,6 +126,12 @@ For decades, every user reached your product through a **screen**. Now many arri
 
 ::: {.callout-big}
 Agents *can* see and click, but don't **require** it. Offer **text interfaces** and a **path for human approval**.
+:::
+
+::: {.notes}
+Explain that agents do not replace human users; they act as intermediaries. The underlying product and service remain the same, but the interface through which value is accessed is shifting.
+
+Highlight that agents do not care about branding aesthetics, CSS animations, or visual polish. They care about concise context, low latency, token economy, and predictable outputs.
 :::
 
 ## How an agent works with your product
@@ -137,6 +162,13 @@ Agents *can* see and click, but don't **require** it. Offer **text interfaces** 
 
 ::::
 
+::: {.notes}
+Walk through the agent interaction loop:
+When an agent encounters your product, it performs discovery, constructs an input, invokes an action, observes the result, and decides whether to continue or terminate.
+
+If an action returns an unhandled error, an interactive question, or a wall of unstructured text, the loop breaks or wastes substantial context.
+:::
+
 ## Humans and agents need different things
 
 | Need | Human user | Agent user |
@@ -152,10 +184,20 @@ Agents *can* see and click, but don't **require** it. Offer **text interfaces** 
 Good news: most of what agents need is **what good engineering already recommends**.
 :::
 
+::: {.notes}
+Contrast the differing ergonomics of humans versus software agents:
+- Humans appreciate progressive disclosure, visual affordances, confirmations, and forgiving interfaces.
+- Agents require deterministic schemas, machine-readable flags, explicit error codes, and low token overhead. Designing for both means providing appropriate interface surfaces.
+:::
+
 # Products agents can operate {background-color="#FFD600"}
 
 ::: {.tag}
 Part 1 · CLI and MCP
+:::
+
+::: {.notes}
+Introduce Section 2: concrete design patterns for building products, APIs, and developer tools that coding agents can operate effectively.
 :::
 
 ## Three ways in
@@ -176,6 +218,15 @@ CLI and MCP are **thin layers over a good API**. Get the API right first.
 
 ::: {.source}
 Hosts can defer MCP tool schemas and load them on demand: see Anthropic's [tool search tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool).
+:::
+
+::: {.notes}
+Present the three primary access surfaces:
+1. The HTTP REST or GraphQL API: the bedrock.
+2. The Command-Line Interface (CLI): optimized for shell-enabled coding agents.
+3. The MCP server: designed for host-governed, sandboxed, or GUI-only agents.
+
+Emphasise that both CLI and MCP should be thin, idiomatic layers over a well-designed API rather than bespoke re-implementations.
 :::
 
 ## The command line is back
@@ -230,6 +281,13 @@ Nothing enters context until it runs.
 
 ::::
 
+::: {.notes}
+Discuss why the command-line interface has seen a massive resurgence:
+Coding agents (like Claude Code, Codex, and Copilot CLI) operate directly in terminal environments alongside git, compilers, and file trees.
+
+A well-crafted CLI allows an agent to operate an entire cloud platform or SaaS product using standard shell execution.
+:::
+
 ## Anatomy of an agent-friendly CLI
 
 | Principle | Why agents care | Looks like |
@@ -247,6 +305,15 @@ Nothing enters context until it runs.
 
 ::: {.source}
 Sources: [Arcjet](https://blog.arcjet.com/designing-a-cli-for-ai-agents/), [Speakeasy](https://www.speakeasy.com/blog/engineering-agent-friendly-cli), [GitHub CLI manual](https://cli.github.com/manual/gh_help_environment)
+:::
+
+::: {.notes}
+Break down the anatomy of an agent-friendly CLI:
+- Structured output: `--json` with field filtering.
+- Non-interactive execution: `--yes` or `--non-interactive` flags to bypass interactive prompts.
+- Headless authentication: token-based access via environment variables or secret files.
+- Actionable error reporting: sending errors to stderr with distinct, non-zero exit codes.
+- Self-documenting commands: clear examples in `--help` output.
 :::
 
 ## A minimal agent-friendly CLI
@@ -285,6 +352,13 @@ app()
 
 ::: {.source}
 A stub: `delete` validates and reports but stores nothing. Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with [Typer](https://typer.tiangolo.com/) 0.27.3.
+:::
+
+::: {.notes}
+Walk through the minimal Python CLI implementation using Typer:
+Notice how `--json` outputs machine-readable payloads, `--yes` skips confirmation prompts, and errors write directly to stderr.
+
+Writing agent-friendly CLIs does not require complex frameworks; it requires adhering to standard POSIX and UNIX conventions.
 :::
 
 ## The same CLI, seen by an agent
@@ -340,6 +414,12 @@ $ todo delete 1 --yes
 Each error tells the agent **what went wrong** and **what to try next**.
 :::
 
+::: {.notes}
+Contrast what a human developer sees in terminal output (formatted tables, colour badges, progress spinners) versus what an agent receives with `--json`.
+
+The JSON output eliminates ambiguous parsing regexes, saves token budget, and allows direct consumption in automated pipelines.
+:::
+
 ## Exemplar: GitHub CLI (`gh`)
 
 :::: {.columns}
@@ -382,6 +462,14 @@ MIT
 
 ::: {.source}
 Source: [GitHub CLI manual](https://cli.github.com/manual/)
+:::
+
+::: {.notes}
+Highlight the GitHub CLI (`gh`) as a gold-standard exemplar:
+- `gh --json` allows precise projection of only requested fields.
+- `--jq` allows client-side filtering and transformation without extra tools.
+- `GH_PROMPT_DISABLED=1` ensures commands fail fast rather than hanging on prompts.
+- `gh api` serves as an authenticated escape hatch to any GitHub REST endpoint.
 :::
 
 ## Exemplar: Azure CLI (`az`)
@@ -428,6 +516,13 @@ Pattern: **human-friendly by default, machine-friendly by flag**, with the full 
 Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-us/cli/azure/query-azure-cli), [`az group`](https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest), [managed identity sign-in](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-managed-identity), [Azure MCP Server overview](https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/overview)
 :::
 
+::: {.notes}
+Showcase the Azure CLI (`az`) as another enterprise exemplar:
+- JMESPath queries via `--query` paired with `-o tsv` extract exact string values without table formatting artifacts.
+- The `--no-wait` flag initiates asynchronous cloud operations and returns control immediately.
+- Managed identities (`az login --identity`) eliminate static secrets on cloud workloads.
+:::
+
 ## What is MCP?
 
 The **Model Context Protocol** is an open standard for plugging tools and data into any agent host. Current spec: <span class="sticker yellow">2026-07-28</span>
@@ -468,6 +563,11 @@ flowchart LR
 
 ::: {.source}
 Source: [MCP specification 2026-07-28](https://modelcontextprotocol.io/specification/2026-07-28)
+:::
+
+::: {.notes}
+Introduce the Model Context Protocol (MCP):
+Explain MCP as an open specification developed by Anthropic to standardise how AI models connect to tools, resources, and prompt templates across disparate hosts.
 :::
 
 ## A minimal MCP server
@@ -532,6 +632,13 @@ Type hints and docstrings **become the interface**. Write them for a reader with
 
 ::: {.source}
 A stub: `add_todo` stores nothing and ignores `due`. Tested with the [MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0, which speaks protocol 2026-07-28; schema output abridged.
+:::
+
+::: {.notes}
+Walk through the minimal FastMCP Python server example:
+Notice how tool schemas, argument definitions, and descriptions are automatically inferred from standard Python type hints and docstrings.
+
+High-quality descriptions are essential: the model uses the docstring to decide when and how to call the tool.
 :::
 
 ## Every request stands alone
@@ -605,6 +712,13 @@ No sessions, so **any replica can take the request**. Cache discovery and reads 
 Sent with [curl](https://curl.se/) to the minimal `server.py` from the previous slide ([MCP Python SDK](https://py.sdk.modelcontextprotocol.io/v2/) 2.3.0); without the headers the server returns `400`. Response abridged. Specs: [Streamable HTTP](https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http), [caching](https://modelcontextprotocol.io/specification/2026-07-28/server/utilities/caching).
 :::
 
+::: {.notes}
+Explain the modern MCP specification (2026-07-28):
+Every request is self-contained, transporting protocol version and capabilities in `_meta`.
+
+This stateless design ensures requests can be routed across load-balanced server replicas without pinning to a single long-lived container.
+:::
+
 ## CLI or MCP?
 
 ::: {.grid-2}
@@ -633,6 +747,12 @@ Prefer MCP when
 
 :::
 
+::: {.notes}
+Provide a clear decision guide between CLI and MCP:
+- Choose a CLI when targeting coding agents operating in a local terminal with existing developer credentials.
+- Choose MCP when supporting web agents, GUI assistants, multi-tenant enterprise platforms with OAuth, or hosts without shell access.
+:::
+
 ## Design beats protocol
 
 A naive MCP server exposes one tool per endpoint. Cloudflare's API has **2,500+** endpoints.
@@ -659,6 +779,13 @@ Expose **discoverable, task-shaped tools**, not raw endpoints. Let the agent sea
 The numbers compare what the tool definitions cost in context, not total task tokens, latency, or success rate. Source: Cloudflare, [Code Mode: give agents an entire API in 1,000 tokens](https://blog.cloudflare.com/code-mode-mcp/)
 :::
 
+::: {.notes}
+Reinforce that interface design matters far more than protocol choice:
+A bloated MCP server with 50 poorly named tools will confuse an agent just as thoroughly as a brittle CLI.
+
+Aim for focused, composable actions, clear parameter validation, and helpful error recovery guidance.
+:::
+
 ## Who does this well?
 
 | Company | CLI | MCP server | Docs agents can read |
@@ -671,6 +798,11 @@ The numbers compare what the tool definitions cost in context, not total task to
 
 ::: {.callout-big}
 These vendors' users span terminals and chat apps, so they ship **all three**. Choose yours from **your users' workflows**.
+:::
+
+::: {.notes}
+Examine industry leaders who excel at agent ergonomics:
+Cloudflare's Code Mode, Stripe's developer tooling, and GitHub's CLI all demonstrate clean API boundaries, comprehensive documentation, and predictable behavior.
 :::
 
 ## Teach the agent: ship a skill
@@ -718,6 +850,11 @@ description: Manage todos with the `todo` CLI.
 Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.md/), [Astral's uv skill](https://github.com/astral-sh/claude-code-plugins/blob/main/plugins/astral/skills/uv/SKILL.md)
 :::
 
+::: {.notes}
+Explain how shipping an Agent Skill (`SKILL.md`) or `AGENTS.md` file teaches agents how to invoke your product:
+Skills package common workflows and commands into reusable instructions that load into the context window only when needed.
+:::
+
 ## Packages: docs agents can fetch
 
 Coding agents read your docs, in **Markdown**, before they call your code.
@@ -741,6 +878,13 @@ Coding agents read your docs, in **Markdown**, before they call your code.
 
 ::: {.source}
 Sizes from [uv's docs](https://docs.astral.sh/uv/llms.txt), 7 Oct 2026; — means not published. `/.well-known/` copies count only at the domain root ([RFC 8615](https://www.rfc-editor.org/rfc/rfc8615)). Sources: [llmstxt.org](https://llmstxt.org/), [Google](https://developers.google.com/search/docs/appearance/ai-features), [Lighthouse](https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt).
+:::
+
+::: {.notes}
+Discuss machine-readable documentation formats for software packages:
+Introduce `llms.txt` (a concise index with curated summaries) and `llms-full.txt` (the complete documentation corpus in plain text).
+
+These files allow agents to absorb package usage without scraping multiple bloated HTML pages.
 :::
 
 ## Generate them at build time
@@ -805,6 +949,11 @@ The [`llmstxt` plugin](https://github.com/pawamoy/mkdocs-llmstxt) for [MkDocs](h
 Abridged from uv's [`mkdocs.yml`](https://github.com/astral-sh/uv/blob/main/mkdocs.yml) and [`llms.txt`](https://docs.astral.sh/uv/llms.txt) (long lines wrapped). Sources: [mkdocs-llmstxt](https://github.com/pawamoy/mkdocs-llmstxt), [Zensical plugins](https://zensical.org/docs/compatibility/mkdocs/plugins/)
 :::
 
+::: {.notes}
+Demonstrate how to generate `llms.txt` automatically during build pipelines:
+Using static site generator plugins (such as for MkDocs or Quarto) ensures agent documentation stays perfectly synchronized with user documentation.
+:::
+
 ## Get indexed by Context7
 
 ![](media/context7-uv.webp){.shot width="680" height="178" fig-alt="Context7 page for uv showing 637,996 tokens, 4,273 snippets, trust score 9.4, Apache-2.0 licence, and a benchmark score of 79.68"}
@@ -837,6 +986,11 @@ uv add --group lint ruff
 
 ::: {.source}
 Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.com/docs/adding-libraries) and [Library owners](https://context7.com/docs/library-owners). Output abridged from a live query on 7 Oct 2026.
+:::
+
+::: {.notes}
+Introduce Context7 as an MCP-based documentation retrieval service:
+Context7 indexes technical documentation and exposes tools (`resolve-library-id`, `query-docs`) that allow agents to query relevant API guides on demand.
 :::
 
 ## Context7 as a docs quality check
@@ -874,6 +1028,11 @@ Ask Context7 your users' top five questions. No answers? **Your docs are hard to
 
 ::: {.source}
 Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). uv figures from Context7 on 7 Oct 2026. Scores are LLM-judged signals, not a certificate of correctness or security.
+:::
+
+::: {.notes}
+Discuss using Context7 metrics as a quality check for documentation discoverability:
+Evaluating snippet counts and retrieval benchmarks highlights areas where your docs may be opaque or hard for models to navigate.
 :::
 
 ## Agents act with your users' credentials {.smaller}
@@ -918,10 +1077,20 @@ Treat tool output as **untrusted input**: text in the data can carry instruction
 Sources: [MCP tools: user interaction](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [Stripe idempotent requests](https://docs.stripe.com/api/idempotent_requests)
 :::
 
+::: {.notes}
+Address security and credential governance:
+Agents execute with borrowed human permissions.
+Implement least privilege, provide `--dry-run` modes, ensure destructive actions are idempotent, maintain audit trails, and treat tool outputs as untrusted data.
+:::
+
 # Websites agents can read {background-color="#FFD600"}
 
 ::: {.tag}
 Part 2 · The agentic web
+:::
+
+::: {.notes}
+Introduce Section 3: exploring how to make public websites, blogs, and documentation readable and trustworthy for AI agents.
 :::
 
 ## The web was built for people with browsers
@@ -957,6 +1126,13 @@ Machines, from crawlers and scrapers to agents acting for people, now **request 
 Source: Cloudflare, [From ranking to recommended](https://blog.cloudflare.com/aeo/) (Aug 2026)
 :::
 
+::: {.notes}
+Reflect on the evolution of the web:
+The web was engineered for human eyes reading through graphical browsers, leading to single-page applications that render content client-side via JavaScript.
+
+For agents that fetch raw HTTP responses, client-side rendering often presents a blank page.
+:::
+
 ## Who are the machine visitors?
 
 | Visitor | Example user agents | What it wants | When |
@@ -972,6 +1148,16 @@ Each group can be **allowed or refused separately**. That choice is yours.
 
 ::: {.source}
 `Google-Extended` is a robots.txt control token for Gemini training, not a separate crawler. Sources: [OpenAI](https://platform.openai.com/docs/bots), [Anthropic](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler), [Google](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers)
+:::
+
+::: {.notes}
+Identify the different types of machine visitors:
+- Search engine crawlers (Google, Bing).
+- LLM training scrapers (Common Crawl, GPTBot, CCBot).
+- User-directed fetchers (browsing agents fetching a specific link).
+- Browser agents executing full UI workflows.
+
+Each visitor type has different needs, costs, and policy implications.
 :::
 
 ## Participation is a choice
@@ -1034,6 +1220,13 @@ Not taking part is **completely legitimate**. Pick deliberately, then make the s
 `robots.txt` is a request, not a lock: enforce with bot management or a WAF. Content signals state a preference; `Disallow` is what crawlers without signal support obey. Content-Signal values must sit on one line in a real file. Sources: [contentsignals.org](https://contentsignals.org/), [Cloudflare managed robots.txt](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/)
 :::
 
+::: {.notes}
+Emphasise that participating in the agentic web is an intentional choice:
+Site owners have the right to welcome or restrict machine traffic.
+
+Document how to declare preferences using `robots.txt` and Content Signals, whilst acknowledging their non-binding nature.
+:::
+
 ## The old rules still apply
 
 ::: {.pyramid}
@@ -1076,6 +1269,11 @@ Chrome Lighthouse docs
 Sources: [Google: AI features and your website](https://developers.google.com/search/docs/appearance/ai-features), [Chrome: accessibility for agents](https://developer.chrome.com/docs/lighthouse/agentic-browsing/accessibility-for-agents)
 :::
 
+::: {.notes}
+Reinforce that traditional web best practices remain foundational:
+Semantic HTML, responsive accessibility trees, fast response times, and server-side rendering are precisely the features that make pages readable to agents.
+:::
+
 ## A ladder, not a checklist
 
 ::: {.ladder}
@@ -1114,6 +1312,14 @@ API catalogue, OAuth, MCP, WebMCP
 
 ::: {.callout-big}
 Climb only as high as your site needs. **Personal sites can stop at level 3.**
+:::
+
+::: {.notes}
+Introduce the four-level maturity ladder:
+1. Discoverable (sitemaps, robots.txt).
+2. Readable (SSR HTML, Markdown negotiation).
+3. Trustworthy (Schema.org, honest HTTP status codes).
+4. Operable (API catalogues, OAuth metadata, WebMCP).
 :::
 
 ## Level 1: be discoverable
@@ -1158,6 +1364,11 @@ Crawlers obey only their **most specific group**, so named training bots skip `*
 
 ::: {.source}
 Sources: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/) (Apr 2026); [Anthropic: blocking ClaudeBot](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler)
+:::
+
+::: {.notes}
+Detail Level 1 — Discoverability:
+Ensure `sitemap.xml` and `robots.txt` are valid, and declare Content Signals headers to state whether content may be used for AI training or search indexing.
 :::
 
 ## Level 2: put content in the HTML
@@ -1207,6 +1418,11 @@ curl -iL -A 'Claude-User/1.0' https://vercel.com/pricing
 Source: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents)
 :::
 
+::: {.notes}
+Detail Level 2 — HTML Readability:
+Serve complete content in the initial HTML payload. An agent inspecting a page expects status code 200 and the actual text in semantic tags, not an empty `<div id="app"></div>`.
+:::
+
 ## Level 2: serve Markdown to agents
 
 ```{.bash filename="terminal"}
@@ -1236,6 +1452,13 @@ Can't negotiate? Publish `.md` mirrors and link them with `<link rel="alternate"
 
 ::: {.source}
 Measured with [curl](https://curl.se/) on 7 Oct 2026. See Vercel, [content negotiation](https://vercel.com/blog/making-agent-friendly-pages-with-content-negotiation), and Cloudflare, [Markdown for Agents](https://blog.cloudflare.com/markdown-for-agents/).
+:::
+
+::: {.notes}
+Explain serving Markdown directly to agents:
+Support content negotiation via `Accept: text/markdown` or provide direct links to `.md` mirrors.
+
+Markdown strips away navigation chrome and ads, dramatically cutting token consumption for the user.
 :::
 
 ## Level 3: say who you are, in data
@@ -1284,6 +1507,11 @@ Measured with [curl](https://curl.se/) on 7 Oct 2026. See Vercel, [content negot
 Source: [schema.org](https://schema.org/ProfilePage). Mismatched locale or canonical signals confuse crawlers and retrieval alike.
 :::
 
+::: {.notes}
+Detail Level 3 — Semantic Data:
+Incorporate Schema.org structured data and JSON-LD to explicitly describe entities, authors, licences, and organizational relationships.
+:::
+
 ## Level 3: earn the agent's trust
 
 ::: {.grid-2}
@@ -1322,6 +1550,11 @@ Describe the analytics you actually run. Agents quote you.
 Sources: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents); [is-agentic.com methodology](https://is-agentic.com/methodology)
 :::
 
+::: {.notes}
+Detail Level 3 — Trustworthiness:
+Emit accurate HTTP status codes (avoid returning 200 OK for soft 404 errors), maintain clear contact information, and provide transparent licence declarations.
+:::
+
 ## Level 4: advertise what agents can do
 
 | Signal | Location | Publish only if… |
@@ -1341,6 +1574,11 @@ Never advertise a capability you don't have. A **false signal is worse than none
 
 ::: {.source}
 For a server at `/mcp`, that is `/.well-known/oauth-protected-resource/mcp`; `WWW-Authenticate` can also point to it. The metadata names your authorisation server; that server, often an external identity provider, publishes `/.well-known/oauth-authorization-server`. Sources: Cloudflare, [isitagentready.com](https://isitagentready.com/) check list; [MCP authorisation](https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization)
+:::
+
+::: {.notes}
+Detail Level 4 — Machine Operability:
+Expose machine-readable metadata for APIs and protected resources using RFC 9728 and MCP Server Cards, advertising capabilities explicitly.
 :::
 
 ## Level 4: WebMCP, tools inside the page
@@ -1383,6 +1621,11 @@ A browser agent calls `search_flights` directly instead of guessing which box to
 Source: Chrome, [WebMCP schema validity audit](https://developer.chrome.com/docs/lighthouse/agentic-browsing/webmcp-schema-validity)
 :::
 
+::: {.notes}
+Introduce WebMCP and in-page tool exposure:
+Emerging specifications allow web applications to expose client-side tools directly to browser-based agents, bridging graphical apps with agentic execution.
+:::
+
 ## Your host decides some of this
 
 | Capability | Static host (e.g. GitHub Pages) | Programmable edge (Cloudflare, Vercel, Netlify) |
@@ -1397,6 +1640,11 @@ Source: Chrome, [WebMCP schema validity audit](https://developer.chrome.com/docs
 
 ::: {.callout-big}
 Some failing checks are **hosting decisions, not code bugs**. Use the static substitutes and move on.
+:::
+
+::: {.notes}
+Discuss hosting and infrastructure trade-offs:
+Static hosts (like GitHub Pages) cannot dynamically negotiate content or set custom response headers, whereas edge compute platforms (Cloudflare Workers, Vercel) provide full header and routing control.
 :::
 
 ## Personal vs commercial sites
@@ -1419,10 +1667,19 @@ Size the effort to the site. **If visitors can't *do* anything there, skip the A
 Source for answer-engine metrics: Cloudflare, [From ranking to recommended](https://blog.cloudflare.com/aeo/)
 :::
 
+::: {.notes}
+Distinguish between personal and commercial site needs:
+Personal blogs and open-source documentation rarely need complex Level 4 transactional capabilities; achieving Level 2 or 3 provides the vast majority of benefits.
+:::
+
 # Measure and iterate {background-color="#FFD600"}
 
 ::: {.tag}
 Part 3 · Tools
+:::
+
+::: {.notes}
+Introduce Section 4: methods and tools for auditing, scoring, and testing a website's agent readiness.
 :::
 
 ## Paste a URL, get a score
@@ -1459,6 +1716,11 @@ Discoverability, content, bot access, protocol discovery, and (unscored) commerc
 
 ::::
 
+::: {.notes}
+Review automated evaluation scanners:
+Tools like Cloudflare's `isitagentready.com` and Vercel's `is-agentic.com` analyze URLs against discoverability, readability, and operability criteria.
+:::
+
 ## Same site, two very different scores
 
 :::: {.columns}
@@ -1488,6 +1750,11 @@ stripe.com on [is-agentic.com](https://is-agentic.com/scan/stripe.com), 7 Oct 20
 :::
 
 ::::
+
+::: {.notes}
+Caution against treating scanner scores as absolute truths:
+Different scanners weigh metrics differently. The value lies in analyzing specific findings (e.g., missing status codes or broken Markdown links) rather than chasing an arbitrary 100/100 score.
+:::
 
 ## From findings to a prompt
 
@@ -1519,6 +1786,11 @@ stripe.com on [is-agentic.com](https://is-agentic.com/scan/stripe.com), 7 Oct 20
 Both tools turn failures into **a prompt for your coding agent**. Review the diff like any other PR.
 :::
 
+::: {.notes}
+Demonstrate translating scanner findings into actionable prompts:
+Feed scanner reports directly into coding agents to systematically resolve missing tags, update sitemaps, or repair header configurations.
+:::
+
 ## Scan from the terminal and CI
 
 ```{.bash filename="terminal"}
@@ -1548,6 +1820,11 @@ The scanners **practise what they preach**: they offer CLIs, APIs, and MCP serve
 Scores shift with methodology and certify nothing ([Is Agentic's limitations](https://is-agentic.com/methodology)). Sources: [Vercel KB](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents), [@vercel/agent-readability](https://www.npmjs.com/package/@vercel/agent-readability), [Lighthouse agentic browsing](https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring)
 :::
 
+::: {.notes}
+Explain running scanners programmatically:
+Use CLI tools like `npx is-agentic` in local environments or integrate them into CI pipelines with baseline thresholds to prevent regressions.
+:::
+
 ## Most of the web isn't there yet
 
 Adoption among [Cloudflare Radar](https://radar.cloudflare.com/)'s top 200,000 domains, Apr 2026:
@@ -1569,10 +1846,19 @@ Most sites stop at `robots.txt`. **A few small changes already put you ahead.**
 Source: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/)
 :::
 
+::: {.notes}
+Review empirical web adoption data:
+Cloudflare telemetry shows that while `robots.txt` is widespread, Content Signals and Markdown negotiation remain rare. Early adoption offers distinct discoverability advantages.
+:::
+
 # Wrapping up {background-color="#FFD600"}
 
 ::: {.tag}
 Recap
+:::
+
+::: {.notes}
+Introduce the concluding section: synthesizing lessons and framing practical implementation steps.
 :::
 
 ## Where to start
@@ -1588,6 +1874,14 @@ Recap
 
 ::: {.callout-big}
 Test **real agent tasks** before and after: success, wrong actions, time, and tokens. Use scanner findings to diagnose.
+:::
+
+::: {.notes}
+Provide a pragmatic starting guide:
+1. Ensure documentation and core content are server-rendered.
+2. Publish `llms.txt` and clean sitemaps.
+3. Build or refine an agent-friendly CLI with `--json` support.
+4. Test with real agent prompts to observe actual behavior.
 :::
 
 ## Key takeaways
@@ -1616,6 +1910,14 @@ Test **real agent tasks** before and after: success, wrong actions, time, and to
 Build for humans *and* agents: the overlap is just **good engineering**.
 :::
 
+::: {.notes}
+Recap the key takeaways:
+- Design for text and tokens.
+- Start with a solid API, then layer CLIs or MCP servers where needed.
+- Treat SEO and accessibility as foundational prerequisites.
+- Emit honest, consistent signals about site capabilities and policies.
+:::
+
 # Thank You {background-color="#FFD600"}
 
 And happy building! 🤖
@@ -1636,6 +1938,11 @@ Check out my other [slide decks](https://www.indrapatil.com/presentations/) on s
 &nbsp;&nbsp;
 <a class="deck-icon-link" href="mailto:patilindrajeet.science@gmail.com" aria-label="Email"><span class="deck-icon deck-icon-solid-envelope" aria-hidden="true"></span></a>
 
+:::
+
+::: {.notes}
+Conclude the talk:
+Thank the audience for their time, encourage responsible agentic engineering, and invite questions and discussion.
 :::
 
 ## Resources {data-visibility="uncounted"}
@@ -1688,6 +1995,10 @@ Further reading
 
 :::
 
+::: {.notes}
+Review the comprehensive reading list and documentation references for attendees wanting to dive deeper into specifications, tools, and guides.
+:::
+
 ## Image credits {data-visibility="uncounted"}
 
 | Slide | Image | Credit and licence |
@@ -1701,4 +2012,8 @@ Further reading
 
 ::: {style="text-align: center; font-size: 0.55em; margin-top: 1em;"}
 Screenshots are used for commentary and remain the property of their owners. Visual design inspired by [loot-drop.io](https://www.loot-drop.io/).
+:::
+
+::: {.notes}
+Acknowledge and credit image sources and creative commons assets used across the presentation.
 :::
