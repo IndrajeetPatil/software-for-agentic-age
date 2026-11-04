@@ -64,11 +64,7 @@ Source code for these slides can be found [on GitHub](https://github.com/Indraje
 :::
 
 ::: {.notes}
-Welcome everyone. This presentation explores what it means to build software products and websites in the age of autonomous AI agents.
-
-The core thesis is that software engineering is encountering a fundamentally new class of user: one that reads in tokens, operates primarily through text, works in automated loops, and cannot pause to answer interactive prompts or click through visual mazes.
-
-We will examine how to make our tools operable and our websites readable for agents, building directly upon solid foundations of API design, SEO, and web accessibility.
+Welcome. This talk is about building software products and websites that AI agents can use on people's behalf. These users work through text, tools, and repeated actions. We will look at what helps them find information, operate a product, and understand the result.
 :::
 
 ## What you'll learn today
@@ -103,10 +99,7 @@ Agent-friendliness is a new layer **on top of** good engineering, not a replacem
 :::
 
 ::: {.notes}
-Outline the roadmap for today's session:
-- Part 1 focuses on products that agents can operate: examining the resurgence of the CLI, the design of agent-friendly command-line tools, the Model Context Protocol (MCP), and documentation formats like llms.txt.
-- Part 2 examines websites agents can read: exploring machine visitor types, the agent-readiness maturity ladder, semantic HTML, and content negotiation for Markdown.
-- Part 3 covers measurement and iteration: looking at automated scanners, terminal tools, CI regression gates, and empirical adoption rates across the web.
+We will cover three areas. First, products that agents can operate, including command-line tools and the Model Context Protocol. Second, websites that agents can read and assess. Third, ways to measure readiness and catch regressions as a product changes.
 :::
 
 # A new kind of user {background-color="#FFD600"}
@@ -116,7 +109,7 @@ Part 0 · Foundations
 :::
 
 ::: {.notes}
-Introduce Section 1: framing the transition from human point-and-click users to autonomous software agents that execute on behalf of human users.
+Software agents are a new kind of user. They act on behalf of people, but they interact with products differently from someone clicking through a graphical interface.
 :::
 
 ## Same product, new user
@@ -130,9 +123,7 @@ Agents *can* see and click, but don't **require** it. Offer **text interfaces** 
 :::
 
 ::: {.notes}
-Explain that agents do not replace human users; they act as intermediaries. The underlying product and service remain the same, but the interface through which value is accessed is shifting.
-
-Highlight that agents do not care about branding aesthetics, CSS animations, or visual polish. They care about concise context, low latency, token economy, and predictable outputs.
+The product still serves a person's needs. An agent changes the route to that product: it needs clear context, predictable results, and an interface it can operate. Visual polish matters to human users, while a text-based agent needs the underlying information and actions to be accessible without it.
 :::
 
 ## How an agent works with your product
@@ -164,10 +155,7 @@ Highlight that agents do not care about branding aesthetics, CSS animations, or 
 ::::
 
 ::: {.notes}
-Walk through the agent interaction loop:
-When an agent encounters your product, it performs discovery, constructs an input, invokes an action, observes the result, and decides whether to continue or terminate.
-
-If an action returns an unhandled error, an interactive question, or a wall of unstructured text, the loop breaks or wastes substantial context.
+An agent first discovers what your product can do. It constructs an input, invokes an action, reads the result, and decides what to do next. An unexpected interactive question or an unstructured error can interrupt that loop or make recovery needlessly expensive.
 :::
 
 ## Humans and agents need different things
@@ -186,9 +174,7 @@ Good news: most of what agents need is **what good engineering already recommend
 :::
 
 ::: {.notes}
-Contrast the differing ergonomics of humans versus software agents:
-- Humans appreciate progressive disclosure, visual affordances, confirmations, and forgiving interfaces.
-- Agents require deterministic schemas, machine-readable flags, explicit error codes, and low token overhead. Designing for both means providing appropriate interface surfaces.
+People benefit from visual cues, progressive disclosure, and forgiving interfaces. Agents need structured inputs, explicit errors, and concise results. Supporting both means choosing suitable interfaces for each, while keeping the underlying product behaviour consistent.
 :::
 
 # Products agents can operate {background-color="#FFD600"}
@@ -198,7 +184,7 @@ Part 1 · CLI and MCP
 :::
 
 ::: {.notes}
-Introduce Section 2: concrete design patterns for building products, APIs, and developer tools that coding agents can operate effectively.
+Let’s start with products agents can operate: the interfaces through which they discover capabilities and perform useful work.
 :::
 
 ## Three ways in
@@ -222,12 +208,7 @@ Hosts can defer MCP tool schemas and load them on demand: see Anthropic's [tool 
 :::
 
 ::: {.notes}
-Present the three primary access surfaces:
-1. The HTTP REST or GraphQL API: the bedrock.
-2. The Command-Line Interface (CLI): optimised for shell-enabled coding agents.
-3. The MCP server: designed for host-governed, sandboxed, or GUI-only agents.
-
-Emphasise that both CLI and MCP should be thin, idiomatic layers over a well-designed API rather than bespoke re-implementations.
+There are three main entry points: an application programming interface, a command-line interface, and a Model Context Protocol server. The API provides the underlying capability. A CLI or an MCP server can then expose that capability in a form suited to the agent's environment.
 :::
 
 ## The command line is back
@@ -283,10 +264,7 @@ Nothing enters context until it runs.
 ::::
 
 ::: {.notes}
-Discuss why the command-line interface has seen a massive resurgence:
-Coding agents (like Claude Code, Codex, and Copilot CLI) operate directly in terminal environments alongside git, compilers, and file trees.
-
-A well-crafted CLI allows an agent to operate an entire cloud platform or SaaS product using standard shell execution.
+The command line is useful again because coding agents already work alongside Git, package managers, compilers, and files. A good CLI lets them use the same product capabilities that developers use in their own shell workflows.
 :::
 
 ## Anatomy of an agent-friendly CLI
@@ -309,12 +287,7 @@ Sources: [Arcjet](https://blog.arcjet.com/designing-a-cli-for-ai-agents/), [Spea
 :::
 
 ::: {.notes}
-Break down the anatomy of an agent-friendly CLI:
-- Structured output: `--json` with field filtering.
-- Non-interactive execution: `--yes` or `--non-interactive` flags to bypass interactive prompts.
-- Headless authentication: token-based access via environment variables or secret files.
-- Actionable error reporting: sending errors to stderr with distinct, non-zero exit codes.
-- Self-documenting commands: clear examples in `--help` output.
+An agent-friendly CLI offers structured output, non-interactive operation, and authentication that works without a browser prompt. It reports errors on the error stream, returns meaningful exit codes, and provides examples in its help. These conventions make both automation and recovery easier.
 :::
 
 ## A minimal agent-friendly CLI
@@ -356,10 +329,7 @@ A stub: `delete` validates and reports but stores nothing. Typer turns type hint
 :::
 
 ::: {.notes}
-Walk through the minimal Python CLI implementation using Typer:
-Notice how `--json` outputs machine-readable payloads, `--yes` skips confirmation prompts, and errors write directly to stderr.
-
-Writing agent-friendly CLIs does not require complex frameworks; it requires adhering to standard POSIX and UNIX conventions.
+The Python example uses Typer to expose a small command. Its JSON option returns structured data, its confirmation option supports non-interactive use, and its errors go to the error stream. The important design choices are these familiar command-line conventions, rather than a large framework.
 :::
 
 ## The same CLI, seen by an agent
@@ -416,9 +386,7 @@ Each error tells the agent **what went wrong** and **what to try next**.
 :::
 
 ::: {.notes}
-Contrast what a human developer sees in terminal output (formatted tables, colour badges, progress spinners) versus what an agent receives with `--json`.
-
-The JSON output eliminates ambiguous parsing regexes, saves token budget, and allows direct consumption in automated pipelines.
+A formatted table is convenient for a person scanning a terminal. JSON is convenient for a program selecting fields and deciding its next action. Offering both avoids asking the agent to reconstruct structured data from colours, columns, and progress messages.
 :::
 
 ## Exemplar: GitHub CLI (`gh`)
@@ -466,11 +434,7 @@ Source: [GitHub CLI manual](https://cli.github.com/manual/)
 :::
 
 ::: {.notes}
-Highlight the GitHub CLI (`gh`) as a gold-standard exemplar:
-- `gh --json` allows precise projection of only requested fields.
-- `--jq` allows client-side filtering and transformation without extra tools.
-- `GH_PROMPT_DISABLED=1` ensures commands fail fast rather than hanging on prompts.
-- `gh api` serves as an authenticated escape hatch to any GitHub REST endpoint.
+The GitHub CLI combines ordinary commands with an authenticated API escape hatch. Its JSON output and query filtering let an agent request only the fields it needs. Disabling interactive prompts also lets an automated task fail clearly instead of waiting for input that will never arrive.
 :::
 
 ## Exemplar: Azure CLI (`az`)
@@ -518,10 +482,7 @@ Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-
 :::
 
 ::: {.notes}
-Showcase the Azure CLI (`az`) as another enterprise exemplar:
-- JMESPath queries via `--query` paired with `-o tsv` extract exact string values without table formatting artefacts.
-- The `--no-wait` flag initiates asynchronous cloud operations and returns control immediately.
-- Managed identities (`az login --identity`) eliminate static secrets on cloud workloads.
+The Azure CLI offers a similar pattern. Query expressions and plain-text output can select a precise result, while asynchronous operations can return control without waiting for completion. On supported cloud workloads, managed identities provide authentication without embedding static credentials in a script.
 :::
 
 ## What is MCP?
@@ -567,8 +528,7 @@ Source: [MCP specification 2026-07-28](https://modelcontextprotocol.io/specifica
 :::
 
 ::: {.notes}
-Introduce the Model Context Protocol (MCP):
-Explain MCP as an open specification developed by Anthropic to standardise how AI models connect to tools, resources, and prompt templates across disparate hosts.
+MCP stands for Model Context Protocol. It is an open specification for connecting AI applications to tools, resources, and prompt templates. It gives different hosts a common way to discover and invoke capabilities.
 :::
 
 ## A minimal MCP server
@@ -636,10 +596,7 @@ A stub: `add_todo` stores nothing and ignores `due`. Tested with the [MCP Python
 :::
 
 ::: {.notes}
-Walk through the minimal FastMCP Python server example:
-Notice how tool schemas, argument definitions, and descriptions are automatically inferred from standard Python type hints and docstrings.
-
-High-quality descriptions are essential: the model uses the docstring to decide when and how to call the tool.
+The FastMCP example derives a tool's interface from Python type hints and a docstring. The description matters as much as the argument types: it helps the model decide whether this tool fits the current task and how to use it correctly.
 :::
 
 ## Every request stands alone
@@ -714,10 +671,7 @@ Sent with [curl](https://curl.se/) to the minimal `server.py` from the previous 
 :::
 
 ::: {.notes}
-Explain the modern MCP specification (2026-07-28):
-Every request is self-contained, transporting protocol version and capabilities in `_meta`.
-
-This stateless design ensures requests can be routed across load-balanced server replicas without pinning to a single long-lived container.
+In the specification version used by this presentation, each request carries its own protocol and capability information. The server does not need a long-lived session to interpret it. That makes requests easier to route between replicas behind a load balancer.
 :::
 
 ## CLI or MCP?
@@ -749,9 +703,7 @@ Prefer MCP when
 :::
 
 ::: {.notes}
-Provide a clear decision guide between CLI and MCP:
-- Choose a CLI when targeting coding agents operating in a local terminal with existing developer credentials.
-- Choose MCP when supporting web agents, GUI assistants, multi-tenant enterprise platforms with OAuth, or hosts without shell access.
+A CLI fits agents that already have shell access and developer credentials. MCP fits hosts that need a governed tool connection, such as a web assistant or an enterprise application. The right choice depends on where the agent runs and how access is controlled.
 :::
 
 ## Design beats protocol
@@ -781,10 +733,7 @@ The numbers compare what the tool definitions cost in context, not total task to
 :::
 
 ::: {.notes}
-Reinforce that interface design matters far more than protocol choice:
-A bloated MCP server with 50 poorly named tools will confuse an agent just as thoroughly as a brittle CLI.
-
-Aim for focused, composable actions, clear parameter validation, and helpful error recovery guidance.
+Choosing a protocol does not fix a confusing interface. Fifty poorly named tools can be as difficult to use as an inconsistent CLI. Focused actions, clear parameters, validation, and useful error messages matter whichever interface you choose.
 :::
 
 ## Who does this well?
@@ -802,8 +751,7 @@ These vendors' users span terminals and chat apps, so they ship **all three**. C
 :::
 
 ::: {.notes}
-Examine industry leaders who excel at agent ergonomics:
-Cloudflare's Code Mode, Stripe's developer tooling, and GitHub's CLI all demonstrate clean API boundaries, comprehensive documentation, and predictable behaviour.
+Cloudflare, Stripe, and GitHub provide examples of different approaches to agent ergonomics. The common thread is a clear boundary around useful operations, supported by documentation and predictable results.
 :::
 
 ## Teach the agent: ship a skill
@@ -852,8 +800,7 @@ Sources: [agentskills.io](https://agentskills.io/), [agents.md](https://agents.m
 :::
 
 ::: {.notes}
-Explain how shipping an Agent Skill (`SKILL.md`) or `AGENTS.md` file teaches agents how to invoke your product:
-Skills package common workflows and commands into reusable instructions that load into the context window only when needed.
+A skill or an agent instruction file can teach an agent how to use your product. It can describe a common workflow, the commands involved, and how to check the result. Loading that guidance when it is relevant keeps the agent's working context focused.
 :::
 
 ## Packages: docs agents can fetch
@@ -882,10 +829,7 @@ Sizes from [uv's docs](https://docs.astral.sh/uv/llms.txt), 7 Oct 2026; — mean
 :::
 
 ::: {.notes}
-Discuss machine-readable documentation formats for software packages:
-Introduce `llms.txt` (a concise index with curated summaries) and `llms-full.txt` (the complete documentation corpus in plain text).
-
-These files allow agents to absorb package usage without scraping multiple bloated HTML pages.
+The llms text files offer another entry point into package documentation. The short file is a curated index; the fuller file collects more of the documentation in one place. Both give text-based tools a way to find useful material without navigating every page's surrounding interface.
 :::
 
 ## Generate them at build time
@@ -951,8 +895,7 @@ Abridged from uv's [`mkdocs.yml`](https://github.com/astral-sh/uv/blob/main/mkdo
 :::
 
 ::: {.notes}
-Demonstrate how to generate `llms.txt` automatically during build pipelines:
-Using static site generator plugins (such as for MkDocs or Quarto) ensures agent documentation stays perfectly synchronised with user documentation.
+Generating these documentation files during the normal build helps keep them aligned with the material people read. A maintained build step is easier to keep current than a second documentation copy edited by hand.
 :::
 
 ## Get indexed by Context7
@@ -990,8 +933,7 @@ Sources: [Context7](https://context7.com/), [Adding libraries](https://context7.
 :::
 
 ::: {.notes}
-Introduce Context7 as an MCP-based documentation retrieval service:
-Context7 indexes technical documentation and exposes tools (`resolve-library-id`, `query-docs`) that allow agents to query relevant API guides on demand.
+Context7 provides documentation retrieval through MCP tools. An agent can identify a library and then request relevant API guidance. This is useful when the information it needs is too specific, or too recent, to assume from model memory.
 :::
 
 ## Context7 as a docs quality check
@@ -1032,8 +974,7 @@ Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/cont
 :::
 
 ::: {.notes}
-Discuss using Context7 metrics as a quality check for documentation discoverability:
-Evaluating snippet counts and retrieval benchmarks highlights areas where your docs may be opaque or hard for models to navigate.
+Documentation retrieval can also reveal weaknesses in the documentation itself. Sparse examples or hard-to-find snippets are reasons to inspect how a guide is organised. Retrieval metrics are a diagnostic signal, rather than a substitute for checking whether a reader can complete a real task.
 :::
 
 ## Agents act with your users' credentials {.smaller}
@@ -1079,9 +1020,7 @@ Sources: [MCP tools: user interaction](https://modelcontextprotocol.io/specifica
 :::
 
 ::: {.notes}
-Address security and credential governance:
-Agents execute with borrowed human permissions.
-Implement least privilege, provide `--dry-run` modes, ensure destructive actions are idempotent, maintain audit trails, and treat tool outputs as untrusted data.
+Agents often act with permissions borrowed from a person or application. Keep those permissions narrow, provide a dry-run mode where useful, and record consequential actions. Clear limits and audit trails matter even when the interface is easy to automate.
 :::
 
 # Websites agents can read {background-color="#FFD600"}
@@ -1091,7 +1030,7 @@ Part 2 · The agentic web
 :::
 
 ::: {.notes}
-Introduce Section 3: exploring how to make public websites, blogs, and documentation readable and trustworthy for AI agents.
+Now let’s turn from operating products to reading websites. An agent needs to discover a page, obtain its content, and understand what it can trust.
 :::
 
 ## The web was built for people with browsers
@@ -1128,10 +1067,7 @@ Source: Cloudflare, [From ranking to recommended](https://blog.cloudflare.com/ae
 :::
 
 ::: {.notes}
-Reflect on the evolution of the web:
-The web was engineered for human eyes reading through graphical browsers, leading to single-page applications that render content client-side via JavaScript.
-
-For agents that fetch raw HTTP responses, client-side rendering often presents a blank page.
+Many websites assume a person is using a browser that executes JavaScript. A text fetcher may receive only the initial HTML, before the useful content appears. If that response contains an empty application shell, the fetcher has little to work with.
 :::
 
 ## Who are the machine visitors?
@@ -1152,13 +1088,7 @@ Each group can be **allowed or refused separately**. That choice is yours.
 :::
 
 ::: {.notes}
-Identify the different types of machine visitors:
-- Search engine crawlers (Google, Bing).
-- LLM training scrapers (Common Crawl, GPTBot, CCBot).
-- User-directed fetchers (browsing agents fetching a specific link).
-- Browser agents executing full UI workflows.
-
-Each visitor type has different needs, costs, and policy implications.
+Machine visitors have different purposes. Search crawlers index pages, training scrapers collect material, user-directed fetchers retrieve a particular resource, and browser agents perform interactions. Distinguishing these visitors helps a site owner decide what to support and what to restrict.
 :::
 
 ## Participation is a choice
@@ -1222,10 +1152,7 @@ Not taking part is **completely legitimate**. Pick deliberately, then make the s
 :::
 
 ::: {.notes}
-Emphasise that participating in the agentic web is an intentional choice:
-Site owners have the right to welcome or restrict machine traffic.
-
-Document how to declare preferences using `robots.txt` and Content Signals, whilst acknowledging their non-binding nature.
+Participation is a choice for the site owner. Robots files and Content Signals can communicate preferences about machine access and reuse. They express a policy; they do not, by themselves, enforce access restrictions against every visitor.
 :::
 
 ## The old rules still apply
@@ -1271,8 +1198,7 @@ Sources: [Google: AI features and your website](https://developers.google.com/se
 :::
 
 ::: {.notes}
-Reinforce that traditional web best practices remain foundational:
-Semantic HTML, responsive accessibility trees, fast response times, and server-side rendering are precisely the features that make pages readable to agents.
+Many familiar web practices help agents too. Semantic HTML exposes meaning, server-rendered content makes the first response useful, and accessible controls make interactions easier to understand. Agent readiness starts with a well-built website.
 :::
 
 ## A ladder, not a checklist
@@ -1316,11 +1242,7 @@ Climb only as high as your site needs. **Personal sites can stop at level 3.**
 :::
 
 ::: {.notes}
-Introduce the four-level maturity ladder:
-1. Discoverable (sitemaps, robots.txt).
-2. Readable (SSR HTML, Markdown negotiation).
-3. Trustworthy (Schema.org, honest HTTP status codes).
-4. Operable (API catalogues, OAuth metadata, WebMCP).
+The maturity ladder has four levels. A site can be discoverable, readable, trustworthy, and operable. Each level builds on the previous one, so a site should address its basic content and metadata before adding complex transactional tools.
 :::
 
 ## Level 1: be discoverable
@@ -1368,8 +1290,7 @@ Sources: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudf
 :::
 
 ::: {.notes}
-Detail Level 1 — Discoverability:
-Ensure `sitemap.xml` and `robots.txt` are valid, and declare Content Signals headers to state whether content may be used for AI training or search indexing.
+Discovery begins with a useful sitemap and an accurate robots file. Content Signals can add stated preferences about search and training. These signals help communicate intent, while enforcement remains a separate question.
 :::
 
 ## Level 2: put content in the HTML
@@ -1420,8 +1341,7 @@ Source: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/gui
 :::
 
 ::: {.notes}
-Detail Level 2 — HTML Readability:
-Serve complete content in the initial HTML payload. An agent inspecting a page expects status code 200 and the actual text in semantic tags, not an empty `<div id="app"></div>`.
+A readable page returns its actual content in the initial HTML. A successful response should contain the prices or article text that the visitor requested, rather than an empty placeholder that needs JavaScript to become useful.
 :::
 
 ## Level 2: serve Markdown to agents
@@ -1456,10 +1376,7 @@ Measured with [curl](https://curl.se/) on 7 Oct 2026. See Vercel, [content negot
 :::
 
 ::: {.notes}
-Explain serving Markdown directly to agents:
-Support content negotiation via `Accept: text/markdown` or provide direct links to `.md` mirrors.
-
-Markdown strips away navigation chrome and ads, dramatically cutting token consumption for the user.
+A site can also offer Markdown through content negotiation or a linked Markdown copy. This removes much of the navigation and presentation markup, giving a text-based agent a more compact version of the content.
 :::
 
 ## Level 3: say who you are, in data
@@ -1509,8 +1426,7 @@ Source: [schema.org](https://schema.org/ProfilePage). Mismatched locale or canon
 :::
 
 ::: {.notes}
-Detail Level 3 — Semantic Data:
-Incorporate Schema.org structured data and JSON-LD to explicitly describe entities, authors, licences, and organizational relationships.
+Structured data makes identity and relationships explicit. Schema.org vocabulary and JSON linked data can describe the author, organisation, licence, and other entities on a page. That gives machines more to work with than visual placement alone.
 :::
 
 ## Level 3: earn the agent's trust
@@ -1552,8 +1468,7 @@ Sources: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/gu
 :::
 
 ::: {.notes}
-Detail Level 3 — Trustworthiness:
-Emit accurate HTTP status codes (avoid returning 200 OK for soft 404 errors), maintain clear contact information, and provide transparent licence declarations.
+Trust also depends on honest responses. A missing page should be reported as missing, rather than disguised as a successful response. Clear contact details and licence information help a visitor understand who published the material and how it may be used.
 :::
 
 ## Level 4: advertise what agents can do
@@ -1578,8 +1493,7 @@ For a server at `/mcp`, that is `/.well-known/oauth-protected-resource/mcp`; `WW
 :::
 
 ::: {.notes}
-Detail Level 4 — Machine Operability:
-Expose machine-readable metadata for APIs and protected resources using RFC 9728 and MCP Server Cards, advertising capabilities explicitly.
+An operable site advertises what an agent can do. API and authentication metadata can describe available capabilities and protected resources. Discovery should lead to a clear interface and an appropriate access boundary.
 :::
 
 ## Level 4: WebMCP, tools inside the page
@@ -1623,8 +1537,7 @@ Source: Chrome, [WebMCP schema validity audit](https://developer.chrome.com/docs
 :::
 
 ::: {.notes}
-Introduce WebMCP and in-page tool exposure:
-Emerging specifications allow web applications to expose client-side tools directly to browser-based agents, bridging graphical apps with agentic execution.
+WebMCP explores exposing tools from within a web page to browser-based agents. This connects the application's capabilities to an agent that is already working in the browser. It is an emerging part of the operability layer.
 :::
 
 ## Your host decides some of this
@@ -1644,8 +1557,7 @@ Some failing checks are **hosting decisions, not code bugs**. Use the static sub
 :::
 
 ::: {.notes}
-Discuss hosting and infrastructure trade-offs:
-Static hosts (like GitHub Pages) cannot dynamically negotiate content or set custom response headers, whereas edge compute platforms (Cloudflare Workers, Vercel) provide full header and routing control.
+Some capabilities depend on the hosting platform. Static hosting can publish HTML and Markdown files, but dynamic content negotiation and custom response headers need support from the server or an edge layer. Choose the implementation that your host can actually provide.
 :::
 
 ## Personal vs commercial sites
@@ -1669,8 +1581,7 @@ Source for answer-engine metrics: Cloudflare, [From ranking to recommended](http
 :::
 
 ::: {.notes}
-Distinguish between personal and commercial site needs:
-Personal blogs and open-source documentation rarely need complex Level 4 transactional capabilities; achieving Level 2 or 3 provides the vast majority of benefits.
+A personal blog and a commercial application do not need the same level of operability. For a blog or documentation site, clear, readable, well-attributed content may be the main goal. Transactional applications have additional requirements around actions and authentication.
 :::
 
 # Measure and iterate {background-color="#FFD600"}
@@ -1680,7 +1591,7 @@ Part 3 · Tools
 :::
 
 ::: {.notes}
-Introduce Section 4: methods and tools for auditing, scoring, and testing a website's agent readiness.
+The next step is to measure what works. Auditing and real task execution can show where an agent encounters friction and whether a change improves the experience.
 :::
 
 ## Paste a URL, get a score
@@ -1718,8 +1629,7 @@ Discoverability, content, bot access, protocol discovery, and (unscored) commerc
 ::::
 
 ::: {.notes}
-Review automated evaluation scanners:
-Tools like Cloudflare's `isitagentready.com` and Vercel's `is-agentic.com` analyse URLs against discoverability, readability, and operability criteria.
+Automated scanners can check a site's discovery, readability, and operability signals. The examples here give a quick starting point for an audit. Their findings are most useful when tied to a specific page or task.
 :::
 
 ## Same site, two very different scores
@@ -1753,8 +1663,7 @@ stripe.com on [is-agentic.com](https://is-agentic.com/scan/stripe.com), 7 Oct 20
 ::::
 
 ::: {.notes}
-Caution against treating scanner scores as absolute truths:
-Different scanners weigh metrics differently. The value lies in analysing specific findings (e.g., missing status codes or broken Markdown links) rather than chasing an arbitrary 100/100 score.
+Two scanners can give the same site very different scores because they use different criteria and weights. Inspect the individual findings and verify the important ones. Improving a real failure is more useful than chasing a perfect score.
 :::
 
 ## From findings to a prompt
@@ -1788,8 +1697,7 @@ Both tools turn failures into **a prompt for your coding agent**. Review the dif
 :::
 
 ::: {.notes}
-Demonstrate translating scanner findings into actionable prompts:
-Feed scanner reports directly into coding agents to systematically resolve missing tags, update sitemaps, or repair header configurations.
+A scanner finding can become a focused engineering task. For example, a missing tag, a broken Markdown link, or an incorrect header can be described with an expected result and a way to verify it. The report provides evidence to evaluate, rather than instructions to accept uncritically.
 :::
 
 ## Scan from the terminal and CI
@@ -1822,8 +1730,7 @@ Scores shift with methodology and certify nothing ([Is Agentic's limitations](ht
 :::
 
 ::: {.notes}
-Explain running scanners programmatically:
-Use CLI tools like `npx is-agentic` in local environments or integrate them into CI pipelines with baseline thresholds to prevent regressions.
+A command-line scanner can also run in continuous integration. Establish a baseline for your own site, then use the checks to catch regressions. The threshold should reflect the site's purpose and the findings you have actually assessed.
 :::
 
 ## Most of the web isn't there yet
@@ -1848,8 +1755,7 @@ Source: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudfl
 :::
 
 ::: {.notes}
-Review empirical web adoption data:
-Cloudflare telemetry shows that while `robots.txt` is widespread, Content Signals and Markdown negotiation remain rare. Early adoption offers distinct discoverability advantages.
+The adoption data shown here suggests that basic robots files are much more common than Content Signals or Markdown negotiation. This leaves room for improvement, but the useful next step still depends on what visitors need from a particular site.
 :::
 
 # Wrapping up {background-color="#FFD600"}
@@ -1859,7 +1765,7 @@ Recap
 :::
 
 ::: {.notes}
-Introduce the concluding section: synthesising lessons and framing practical implementation steps.
+Let’s bring these ideas together into a practical starting point for a product or website.
 :::
 
 ## Where to start
@@ -1878,11 +1784,7 @@ Test **real agent tasks** before and after: success, wrong actions, time, and to
 :::
 
 ::: {.notes}
-Provide a pragmatic starting guide:
-1. Ensure documentation and core content are server-rendered.
-2. Publish `llms.txt` and clean sitemaps.
-3. Build or refine an agent-friendly CLI with `--json` support.
-4. Test with real agent prompts to observe actual behaviour.
+Begin with readable core content and documentation. Publish useful discovery files, make command-line output easy to consume, and then try real tasks with an agent. Those attempts reveal problems that a checklist alone can miss.
 :::
 
 ## Key takeaways
@@ -1912,11 +1814,7 @@ Build for humans *and* agents: the overlap is just **good engineering**.
 :::
 
 ::: {.notes}
-Recap the key takeaways:
-- Design for text and tokens.
-- Start with a solid API, then layer CLIs or MCP servers where needed.
-- Treat SEO and accessibility as foundational prerequisites.
-- Emit honest, consistent signals about site capabilities and policies.
+Design for text and predictable actions. Start with a clear API, add a CLI or MCP interface where it fits, and retain the accessibility and search foundations of a good website. Be explicit about the site's capabilities and policies.
 :::
 
 # Thank You {background-color="#FFD600"}
@@ -1942,8 +1840,7 @@ Check out my other [slide decks](https://www.indrapatil.com/presentations/) on s
 :::
 
 ::: {.notes}
-Conclude the talk:
-Thank the audience for their time, encourage responsible agentic engineering, and invite questions and discussion.
+Thank you for listening. I hope these examples help you make your products easier for agents and people to use. Questions and discussion are welcome.
 :::
 
 ## Resources {data-visibility="uncounted"}
@@ -1997,7 +1894,7 @@ Further reading
 :::
 
 ::: {.notes}
-Review the comprehensive reading list and documentation references for attendees wanting to dive deeper into specifications, tools, and guides.
+The resources on this slide provide the specifications, documentation, and practical guides behind the examples. They are a useful starting point for implementing the parts that fit your own project.
 :::
 
 ## Image credits {data-visibility="uncounted"}
@@ -2016,5 +1913,5 @@ Screenshots are used for commentary and remain the property of their owners. Vis
 :::
 
 ::: {.notes}
-Acknowledge and credit image sources and creative commons assets used across the presentation.
+This slide credits the images used throughout the presentation. The source links and licence information are available here for anyone who wants to inspect or reuse them.
 :::
