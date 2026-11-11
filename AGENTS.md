@@ -8,6 +8,7 @@ GitHub Pages.
 
 ```text
 index.qmd            # All slide content (the only file you usually need to edit)
+DESIGN.md            # Visual design tokens, typography, and styling rules
 _quarto.yml          # Quarto project config (output dir, resources list)
 _quarto-a11y.yml     # Opt-in profile enabling the axe accessibility checker (`just axe`)
 _brand.yml           # Brand tokens: colour palette and Space Grotesk / Space Mono fonts
@@ -44,18 +45,15 @@ just axe       # Preview with the axe accessibility checker enabled
   (`:::`), columns (`.columns` / `.column`), raw HTML blocks (`{=html}`), and
   the `{.smaller}` class for dense slides. Follow the layout patterns of
   neighbouring slides.
-- **Brand first.** Colours and fonts live in `_brand.yml`. `style.css` reads
-  them as `--brand-*` custom properties and adds the neo-brutalist shapes: 3px
-  ink borders, hard offset shadows, and slightly tilted cards. Add a colour to
-  the brand palette before using it anywhere else; avoid inline `style`
-  colours. Keep the theme `simple` and the format `revealjs`.
-- **Component classes.** Use the existing classes rather than inline styles:
-  `.card` (with colour modifiers `.yellow`, `.green`, `.pink`, `.amber`,
-  `.cream`, `.ink`, `.forest`, and `.red`; tilts `.tilt-l` / `.tilt-r`),
-  `.grid-2|3|4`, `.callout-big`, `.tag`, `.sticker`, `.stat`, `.ladder`,
-  `.pyramid`, `.bars`, and `.code-sm` for dense code. Section dividers are `#`
-  headings with `background-color="#FFD600"`. New widgets follow the naming
-  patterns already in `style.css`.
+- **Design specification.** The visual design follows [DESIGN.md](DESIGN.md).
+  Always respect this document when creating or modifying slides, components,
+  styling, colours, and typography. Colours and fonts live in `_brand.yml`,
+  while `style.css` defines the neo-brutalist shapes (3px ink borders, hard
+  offset shadows, and slightly tilted cards). Use the existing component
+  classes (`.card`, `.grid-2|3|4`, `.callout-big`, `.tag`, `.sticker`, `.stat`,
+  `.ladder`, `.pyramid`, `.bars`, and tilts `.tilt-l` / `.tilt-r`) rather than
+  inline styles, and avoid hard-coding colours in `index.qmd`. Keep the theme
+  `simple` and the format `revealjs`.
 - **Visual over text.** No large blocks of prose on a slide. Prefer tables,
   Mermaid diagrams, cards, and screenshots.
 - **Spelling and punctuation.** Use British spelling in prose (colour, licence,
