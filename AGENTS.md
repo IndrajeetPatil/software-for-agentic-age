@@ -79,7 +79,7 @@ pull request.
 - `.github/workflows/build-presentation.yaml` calls a reusable workflow from
   `IndrajeetPatil/workflows`. Do not inline or modify that workflow here.
 - Reference the reusable workflow as `@main`, never a commit SHA: it is
-  first-party, and a pinned SHA once went five months stale.
+  first-party, and a pinned SHA silently falls behind it.
 
 ## Agent skills
 
