@@ -4,50 +4,17 @@ A single-page [Quarto](https://quarto.org/) presentation rendered to
 [RevealJS](https://revealjs.com/) slides and deployed as a static site via
 GitHub Pages.
 
-## Repository layout
+## Checks
 
-```text
-index.qmd            # All slide content (the only file you usually need to edit)
-DESIGN.md            # Visual design tokens, typography, and styling rules
-_quarto.yml          # Quarto project config (output dir, resources list)
-_quarto-a11y.yml     # Opt-in profile enabling the axe accessibility checker (`just axe`)
-_brand.yml           # Brand tokens: colour palette and Space Grotesk / Space Mono fonts
-accessibility.html   # Compatibility fixes supplementing the a11y extension
-style.css            # Neo-brutalist component classes layered on _brand.yml
-meta-tags.html       # OpenGraph, Twitter Card, JSON-LD, and analytics tags
-justfile             # Command runner
-media/               # Images: evidence screenshots, illustrations, social card
-llms.txt, llms-full.txt   # Machine-readable summaries (mirrored in .well-known/)
-robots.txt, sitemap.xml   # Static crawl files; rarely change
-pyproject.toml, uv.lock   # Python dependencies for Quarto's Jupyter engine (uv)
-LICENSE              # CC0 for original content (third-party images excluded)
-```
-
-`_site/`, `_extensions/`, `.quarto/` and `.venv/` are gitignored; never commit
-them.
-
-## Commands
-
-```bash
-just install   # Install Python dependencies and Quarto extensions
-just update    # Update Python dependencies
-just render    # Render index.qmd to _site/ (run after every change)
-just preview   # Live-reload dev server
-just clean     # Remove build artefacts
-just check     # Verify Quarto setup
-just axe       # Preview with the axe accessibility checker enabled
-```
+`just render` must succeed after every change; CI builds the deck on every
+pull request.
 
 ## Key conventions
 
-- **Single-file deck.** All slides live in `index.qmd`; do not split it. Slides
-  are separated by `##` headings. Use Quarto's RevealJS dialect: fenced divs
-  (`:::`), columns (`.columns` / `.column`), raw HTML blocks (`{=html}`), and
-  the `{.smaller}` class for dense slides. Follow the layout patterns of
-  neighbouring slides.
+- **Single-file deck.** All slides live in `index.qmd`; do not split it.
 - **Design specification.** The visual design follows [DESIGN.md](DESIGN.md).
-  Always respect this document when creating or modifying slides, components,
-  styling, colours, and typography. Colours and fonts live in `_brand.yml`,
+  Respect it when creating or modifying slides, components, styling, colours,
+  and typography. Colours and fonts live in `_brand.yml`,
   while `style.css` defines the neo-brutalist shapes (3px ink borders, hard
   offset shadows, and slightly tilted cards). Use the existing component
   classes (`.card`, `.grid-2|3|4`, `.callout-big`, `.tag`, `.sticker`, `.stat`,
@@ -73,14 +40,16 @@ just axe       # Preview with the axe accessibility checker enabled
   complete, audience-facing narration; keep staging cues, private reminders,
   and delivery checklists outside these blocks.
 - **Accessibility.** Images must have `fig-alt` text; raw HTML widgets use
-  `role="img"` and `aria-label`. Load the `check-accessibility` skill before
-  changing markup, styles, widgets or the a11y setup.
+  `role="img"` and `aria-label`.
 - **Icons.** Icons are HTML spans backed by only the required SVG path data in
   `style.css`; no icon font or Quarto icon extension. When adding one, add only
   its mask data, preserve the source licence attribution, and keep an
   accessible label where the icon conveys meaning.
-- **Mermaid.** Keep diagrams as Mermaid source, never pre-rendered SVGs. Start
-  every diagram with
+- **Mermaid.** Keep diagrams as Mermaid source, never pre-rendered SVGs. Open
+  every `{mermaid}` chunk with `%%| eval: true` and `%%| echo: false`: the
+  document-level `execute` options apply to diagram chunks too, and without
+  these overrides the diagram is suppressed and its source is printed instead.
+  After those chunk options, start the diagram with
   `%%{init: {"htmlLabels": false, "flowchart": {"htmlLabels": false, "padding": 16}, "themeVariables": {"fontFamily": "Space Grotesk, sans-serif", "fontSize": "20px"}}}%%`:
   HTML labels are measured at the current zoom inside RevealJS's scaled slide
   and get clipped at other sizes. Never restyle Mermaid fonts from `style.css`,
@@ -107,12 +76,10 @@ just axe       # Preview with the axe accessibility checker enabled
 
 ## CI/CD
 
-- `.github/workflows/` calls a reusable workflow from `IndrajeetPatil/workflows`:
-  pushes to `main` build and deploy to GitHub Pages, pull requests build as a
-  check. Do not inline or modify that workflow here.
+- `.github/workflows/build-presentation.yaml` calls a reusable workflow from
+  `IndrajeetPatil/workflows`. Do not inline or modify that workflow here.
 - Reference the reusable workflow as `@main`, never a commit SHA: it is
   first-party, and a pinned SHA once went five months stale.
-- Dependabot updates GitHub Actions and `uv` dependencies weekly.
 
 ## Agent skills
 
