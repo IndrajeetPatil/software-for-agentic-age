@@ -596,7 +596,7 @@ A stub: `add_todo` stores nothing and ignores `due`. Tested with the [MCP Python
 :::
 
 ::: {.notes}
-The FastMCP example derives a tool's interface from Python type hints and a docstring. The description matters as much as the argument types: it helps the model decide whether this tool fits the current task and how to use it correctly.
+The MCP server example derives a tool's interface from Python type hints and a docstring. The description matters as much as the argument types: it helps the model decide whether this tool fits the current task and how to use it correctly.
 :::
 
 ## Every request stands alone
