@@ -325,7 +325,7 @@ app()
 :::
 
 ::: {.source}
-A stub: `delete` validates and reports but stores nothing. Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with [Typer](https://typer.tiangolo.com/) 0.27.3.
+A stub: `delete` validates and reports but stores nothing. Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with [Typer](https://typer.tiangolo.com/) 0.29.2.
 :::
 
 ::: {.notes}
@@ -1077,14 +1077,14 @@ Many websites assume a person is using a browser that executes JavaScript. A tex
 | **Search crawler** | `Googlebot`, `OAI-SearchBot`, `Claude-SearchBot` | Index pages for search results | Continuously |
 | **Training crawler** | `GPTBot`, `ClaudeBot`, `CCBot` | Content for training models | Periodically |
 | **User-directed fetcher** | `ChatGPT-User`, `Claude-User`, `Perplexity-User` | Answer one person's question now | On demand |
-| **Browser agent** | Agents driving Chrome or a headless browser | Click and type on a user's behalf | On demand |
+| **Browser agent** | `Claude-Agent`, or a stock Chrome user agent | Click and type on a user's behalf | On demand |
 
 ::: {.callout-big}
 Each group can be **allowed or refused separately**. That choice is yours.
 :::
 
 ::: {.source}
-`Google-Extended` is a robots.txt control token for Gemini training, not a separate crawler. Sources: [OpenAI](https://platform.openai.com/docs/bots), [Anthropic](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler), [Google](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers)
+`Google-Extended` is a robots.txt control token for Gemini training, not a separate crawler. Sources: [OpenAI](https://developers.openai.com/api/docs/bots), [Anthropic crawlers](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler), [Anthropic-hosted browsers](https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf), [Google](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers)
 :::
 
 ::: {.notes}
@@ -1480,7 +1480,7 @@ Trust also depends on honest responses. A missing page should be reported as mis
 | **OAuth resource metadata** (RFC 9728) | `/.well-known/oauth-protected-resource` + resource path | Your API or MCP server needs a token |
 | **MCP Server Card** | `/.well-known/mcp/server-card.json` | You run an MCP server |
 | **Agent Skills index** | `/.well-known/agent-skills/index.json` | You have tasks worth teaching |
-| **Agentic commerce** | x402, ACP, UCP | Agents can buy from you |
+| **Agentic commerce** | x402, MPP, ACP, UCP | Agents can buy from you |
 
 : {tbl-colwidths="[26,44,30]"}
 
@@ -1621,7 +1621,7 @@ Discoverability, content, bot access, protocol discovery, and (unscored) commerc
 :::
 
 ::: {.card .yellow}
-100+ checks, scored 0–100, with a web UI, CLI, API **and** MCP server
+Scored 0–100, skipping checks that don't apply, with a web UI, CLI, API **and** MCP server
 :::
 
 :::
@@ -1641,7 +1641,7 @@ Automated scanners can check a site's discovery, readability, and operability si
 ![](media/isitagentready-report.webp){.shot width="400" height="292" fig-alt="isitagentready.com report for stripe.com: score 27, Level 1 Basic Web Presence"}
 
 ::: {.credit}
-stripe.com on [isitagentready.com](https://isitagentready.com/stripe.com), 7 Oct 2026
+stripe.com on [isitagentready.com](https://isitagentready.com/), 7 Oct 2026
 :::
 
 :::
