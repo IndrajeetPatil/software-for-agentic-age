@@ -11,3 +11,5 @@ project:
     - .well-known/llms.txt
     - .well-known/llms-full.txt
     - media/social-media-card.webp
+    - media/agent-journey-side-by-side.mp4
+    - media/agent-journey-poster.webp

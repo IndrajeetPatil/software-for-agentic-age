@@ -6,6 +6,7 @@ Canonical URL: https://www.indrapatil.com/software-for-agentic-age/
 Source: https://github.com/IndrajeetPatil/software-for-agentic-age/
 Licence: CC0 1.0 Universal (third-party images keep their own licences)
 Publication date: 2026-10-07
+Last updated: 2026-11-24
 Language: English
 
 ## Summary
@@ -32,6 +33,7 @@ The talk assumes the audience knows what large language models and agents are. I
 - Participating in the agentic web is a choice; opting out is legitimate. robots.txt and Content Signals express preferences but do not enforce them; to refuse training, `Disallow` training crawlers by name and add Content Signals as an extra declaration.
 - SEO, accessibility, performance, and semantic HTML remain the foundation. Agents use the accessibility tree.
 - A maturity ladder: foundations, discoverable (robots.txt, sitemap, content signals), readable (server-rendered HTML, llms.txt, Markdown via content negotiation or .md mirrors), trustworthy (structured data, trust pages, honest status codes), and operable (API catalogue, OAuth protected-resource metadata, MCP Server Card, Agent Skills index, WebMCP, agentic commerce).
+- Component libraries can make a page operable by agents. ui-sdk gives components accessible roles, names, and state, and registers generic snapshot, query, and act tools through WebMCP; hand-written WebMCP tools and hook libraries are alternatives. In a side-by-side buyer journey, an agent on a ui-sdk rebuild of a live site needed 14 actions instead of 36 and about a quarter of the page text, without using WebMCP: clear names and state did most of the work, and WebMCP tools complement the accessibility tree rather than replace it (code and report: https://github.com/IndrajeetPatil/zeiss-ui-sdk).
 - Never advertise a capability a site does not have. Personal, non-commercial sites rarely need anything beyond the trustworthy level.
 - Some checks depend on hosting: static hosts cannot set response headers or negotiate content; programmable edges can.
 
