@@ -413,7 +413,8 @@
 
 /* ---------- Images ---------- */
 
-.reveal img.shot {
+.reveal img.shot,
+.reveal video.shot {
   border: var(--border);
   box-shadow: var(--shadow);
   background: #fff;

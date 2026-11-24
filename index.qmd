@@ -1540,6 +1540,101 @@ Source: Chrome, [WebMCP schema validity audit](https://developer.chrome.com/docs
 WebMCP explores exposing tools from within a web page to browser-based agents. This connects the application's capabilities to an agent that is already working in the browser. It is an emerging part of the operability layer.
 :::
 
+## Level 4: let the components speak
+
+:::: {.columns}
+
+::: {.column width="55%"}
+
+```{.typescript filename="agent.ts"}
+import { createAgent, registerTools }
+  from "@ui-sdk/react/agent"
+
+const agent = createAgent()
+// snapshot(): components, state, actions
+// act():      "Quantity" → setValue(2)
+
+// Offer them to the browser's agent
+registerTools(agent, {
+  allow: (step) => !step.confirm,
+})
+```
+
+:::
+
+::: {.column width="45%"}
+
+::: {.card .yellow .tilt-l}
+**[ui-sdk](https://ui-sdk.dev/)**: components with roles, names, and state built in.
+:::
+
+::: {.card .green .tilt-r}
+`registerTools` makes them **WebMCP tools**. No tool written per task.
+:::
+
+:::
+
+::::
+
+::: {.callout-big}
+Not the only route: hand-written `registerTool`, `toolname` forms, or hooks like [react-webmcp](https://github.com/tech-sumit/react-webmcp).
+:::
+
+::: {.source}
+`allow` refuses steps you marked as needing a person. Sources: [ui-sdk: Built for Agents](https://ui-sdk.dev/docs/agents); [WebMCP explainer](https://github.com/webmachinelearning/webmcp)
+:::
+
+::: {.notes}
+Instead of writing one tool per task, a component library can describe itself. ui-sdk is an unstyled component library from Vercel Labs. Its components set the right roles, names, and states, so any agent reading the accessibility tree understands them. It also has an agent bridge: a snapshot of every component with its state and actions, and an act call that changes them through the component's own API. One call registers those tools with the browser through WebMCP. It is not the only way to reach WebMCP. You can register tools by hand, annotate forms, or use hook libraries. The difference is that ui-sdk derives generic tools from the components you already have.
+:::
+
+## Same journey, two builds
+
+:::: {.columns}
+
+::: {.column width="62%"}
+
+```{=html}
+<video class="shot" controls preload="none" width="600" height="338" poster="media/agent-journey-poster.webp" aria-label="Side-by-side recording of two AI agents buying the same trail camera: on zeiss.com on the left and on a ui-sdk rebuild of the same pages on the right, with live counters for actions, workarounds, failed actions, tabs, and page text read">
+  <source src="media/agent-journey-side-by-side.mp4" type="video/mp4">
+</video>
+```
+
+::: {.credit}
+Author's experiment: [zeiss.com](https://www.zeiss.com/) vs a [ui-sdk rebuild](https://github.com/IndrajeetPatil/zeiss-ui-sdk), 20 Nov 2026
+:::
+
+:::
+
+::: {.column width="38%"}
+
+| | Live site | Rebuild |
+|---|:---:|:---:|
+| Correct cart | ✅ | ✅ |
+| Actions | 36 | **14** |
+| Workarounds | 14 | **1** |
+| Failed actions | 7 | **0** |
+| Tabs / sites | 3 / 2 | **1 / 1** |
+| Tokens read | ~154k | **~35k** |
+
+: {tbl-colwidths="[44,28,28]"}
+
+:::
+
+::::
+
+::: {.callout-big}
+Neither agent used WebMCP. **Clear names and state** alone cut the work by more than half.
+:::
+
+::: {.source}
+Same task, prompt, and browser tools for both agents. The rebuild has less content and keeps the shop on one domain, which explains part of the gap. Tested through its WebMCP tools, it needed the page for links and prices: tools **complement** the accessibility tree. Code, prompts, and full report: [zeiss-ui-sdk](https://github.com/IndrajeetPatil/zeiss-ui-sdk)
+:::
+
+::: {.notes}
+Here is a small experiment. Two agents got the same task: start at the ZEISS homepage, find the trail cameras, filter the shop, and add two of the cheapest wide-angle camera to the cart. On the left is the live site; on the right, a rebuild of the same pages with ui-sdk. Both agents finished with the correct cart. On the live site, the agent needed thirty-six actions, fourteen workarounds, and three tabs across two sites, and read about four times as much page text. Neither agent used WebMCP; they read the accessibility tree. So most of the gain comes from components with clear names and honest state. The rebuild is smaller and stays on one domain, which accounts for part of the difference. When the agent used the WebMCP tools, they were efficient for changing state, but it still needed the page to follow links and read prices. The tools add to good markup; they do not replace it.
+:::
+
 ## Your host decides some of this
 
 | Capability | Static host (e.g. GitHub Pages) | Programmable edge (Cloudflare, Vercel, Netlify) |
@@ -1905,6 +2000,7 @@ The resources on this slide provide the specifications, documentation, and pract
 | The web was built for people | First web server at CERN | [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
 | Exemplar: GitHub CLI | [cli.github.com](https://cli.github.com/) | Screenshot, GitHub, 7 Oct 2026 |
 | Get indexed by Context7 | [context7.com](https://context7.com/) | Screenshot, Context7 (Upstash), 7 Oct 2026 |
+| Same journey, two builds | [zeiss.com](https://www.zeiss.com/) and a [ui-sdk rebuild](https://github.com/IndrajeetPatil/zeiss-ui-sdk) | Screen recording, author's experiment, 20 Nov 2026 |
 | Measure and iterate | [isitagentready.com](https://isitagentready.com/) | Screenshots, Cloudflare, 7 Oct 2026 |
 | Measure and iterate | [is-agentic.com](https://is-agentic.com/) | Screenshots, Vercel, 7 Oct 2026 |
 
