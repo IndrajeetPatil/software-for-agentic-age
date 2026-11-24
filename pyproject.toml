@@ -6,15 +6,15 @@ readme = "README.md"
 requires-python = ">=3.15"
 license = { text = "CC0 1.0 Universal" }
 authors = [
-    { name = "Indrajeet Patil", email = "patilindrajeet.science@gmail.com" }
+  { name = "Indrajeet Patil", email = "patilindrajeet.science@gmail.com" },
 ]
 keywords = [
-    "ai-agents",
-    "agentic-web",
-    "mcp",
-    "llms-txt",
-    "cli",
-    "software-engineering"
+  "ai-agents",
+  "agentic-web",
+  "mcp",
+  "llms-txt",
+  "cli",
+  "software-engineering",
 ]
 dependencies = ["ipykernel>=7.4.0", "nbclient>=0.11.0", "pyyaml>=6.0.4"]
 
