@@ -28,4 +28,3 @@ Composition: five centered vertically stacked nodes, with clearly visible black 
 Text (verbatim): "Goal from a human"; "Think"; "pick the next step"; "Act"; "call a tool"; "Observe"; "read the output"; "Done".
 Constraints: all labels exact, large readable type suitable for the left half of a presentation slide. Entire chart fits in frame. Keep the left return loop legible. No icons, extra labels, numbering, source, watermark, or frame.
 ```
-

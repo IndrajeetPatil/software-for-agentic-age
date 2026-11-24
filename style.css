@@ -46,7 +46,12 @@
   font-size: 1.35em;
   line-height: 1.15;
   /* Marker-pen highlight under slide titles. */
-  background: linear-gradient(transparent 62%, var(--yellow) 62%, var(--yellow) 92%, transparent 92%);
+  background: linear-gradient(
+    transparent 62%,
+    var(--yellow) 62%,
+    var(--yellow) 92%,
+    transparent 92%
+  );
   padding: 0 0.15em;
   margin-bottom: 0.45em;
 }
@@ -131,10 +136,19 @@
   margin: 0 0.15em;
 }
 
-.sticker.yellow { background: var(--yellow); }
-.sticker.amber { background: var(--amber); transform: rotate(1.5deg); }
-.sticker.green { background: var(--green); }
-.sticker.pink { background: var(--pink); }
+.sticker.yellow {
+  background: var(--yellow);
+}
+.sticker.amber {
+  background: var(--amber);
+  transform: rotate(1.5deg);
+}
+.sticker.green {
+  background: var(--green);
+}
+.sticker.pink {
+  background: var(--pink);
+}
 
 /* ---------- Cards ---------- */
 
@@ -164,21 +178,50 @@
   margin-left: 1em;
 }
 
-.card.yellow { background: var(--yellow); }
-.card.green { background: var(--green); }
-.card.pink { background: var(--pink); }
-.card.amber { background: var(--amber); }
-.card.cream { background: var(--cream); }
-.card.ink { background: var(--ink); color: #fff; }
+.card.yellow {
+  background: var(--yellow);
+}
+.card.green {
+  background: var(--green);
+}
+.card.pink {
+  background: var(--pink);
+}
+.card.amber {
+  background: var(--amber);
+}
+.card.cream {
+  background: var(--cream);
+}
+.card.ink {
+  background: var(--ink);
+  color: #fff;
+}
 .card.ink .card-title,
-.card.ink h3 { color: var(--yellow); }
-.card.ink a { color: #fff; }
-.card.forest { background: var(--forest); color: #fff; }
-.card.forest a { color: #fff; }
-.card.red { background: var(--red); color: #fff; }
+.card.ink h3 {
+  color: var(--yellow);
+}
+.card.ink a {
+  color: #fff;
+}
+.card.forest {
+  background: var(--forest);
+  color: #fff;
+}
+.card.forest a {
+  color: #fff;
+}
+.card.red {
+  background: var(--red);
+  color: #fff;
+}
 
-.tilt-l { transform: rotate(-1deg); }
-.tilt-r { transform: rotate(1deg); }
+.tilt-l {
+  transform: rotate(-1deg);
+}
+.tilt-r {
+  transform: rotate(1deg);
+}
 
 /* Big statement card used for key messages. */
 .callout-big {
@@ -201,9 +244,15 @@
   align-items: stretch;
 }
 
-.grid-2 { grid-template-columns: repeat(2, 1fr); }
-.grid-3 { grid-template-columns: repeat(3, 1fr); }
-.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
 
 .grid-2 > .card,
 .grid-3 > .card,
@@ -295,11 +344,26 @@
   margin: 0.15em 0 0.35em;
 }
 
-.ladder .s0 { min-height: 6.5em; background: var(--cream); }
-.ladder .s1 { min-height: 8.5em; background: var(--yellow); }
-.ladder .s2 { min-height: 10.5em; background: var(--amber); }
-.ladder .s3 { min-height: 12.5em; background: var(--green); }
-.ladder .s4 { min-height: 14.5em; background: var(--pink); }
+.ladder .s0 {
+  min-height: 6.5em;
+  background: var(--cream);
+}
+.ladder .s1 {
+  min-height: 8.5em;
+  background: var(--yellow);
+}
+.ladder .s2 {
+  min-height: 10.5em;
+  background: var(--amber);
+}
+.ladder .s3 {
+  min-height: 12.5em;
+  background: var(--green);
+}
+.ladder .s4 {
+  min-height: 14.5em;
+  background: var(--pink);
+}
 
 /* ---------- Sources ---------- */
 
@@ -490,10 +554,22 @@
   padding: 0.35em 0.6em;
 }
 
-.pyramid .l4 { width: 40%; background: var(--pink); }
-.pyramid .l3 { width: 58%; background: var(--amber); }
-.pyramid .l2 { width: 76%; background: var(--yellow); }
-.pyramid .l1 { width: 94%; background: var(--green); }
+.pyramid .l4 {
+  width: 40%;
+  background: var(--pink);
+}
+.pyramid .l3 {
+  width: 58%;
+  background: var(--amber);
+}
+.pyramid .l2 {
+  width: 76%;
+  background: var(--yellow);
+}
+.pyramid .l1 {
+  width: 94%;
+  background: var(--green);
+}
 
 .card blockquote {
   margin: 0 0 0.3em;
@@ -555,11 +631,21 @@
 }
 
 /* Preserve readable syntax on lines outside the highlighted selection. */
-.reveal .slides div.sourceCode pre code.has-line-highlights > span:not(.highlight-line) {
+.reveal
+  .slides
+  div.sourceCode
+  pre
+  code.has-line-highlights
+  > span:not(.highlight-line) {
   opacity: 1;
 }
 
-.reveal .slides div.sourceCode pre code.has-line-highlights > span.highlight-line {
+.reveal
+  .slides
+  div.sourceCode
+  pre
+  code.has-line-highlights
+  > span.highlight-line {
   background-color: #fff3a3;
 }
 
