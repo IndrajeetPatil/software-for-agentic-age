@@ -5,7 +5,7 @@
 This presentation covers what it takes for software products and websites to work well with AI agents:
 
 - **Products agents can operate**: agent-friendly CLIs, stateless MCP servers (spec 2026-07-28), and how GitHub (`gh`) and Azure (`az`) do it well, plus package docs for agents (`llms.txt` and its variants) and indexing them in Context7.
-- **Websites agents can read**: choosing whether to take part; robots.txt and Content Signals; `llms.txt` and Markdown for agents; and structured data and trust signals, all on top of the SEO and accessibility basics that still matter.
+- **Websites agents can read**: choosing whether to take part; robots.txt and Content Signals; `llms.txt` and Markdown for agents; structured data and trust signals; and WebMCP and agent-ready UI components, with a side-by-side video of two agents on a live site and a [ui-sdk rebuild](https://github.com/IndrajeetPatil/zeiss-ui-sdk), all on top of the SEO and accessibility basics that still matter.
 - **Measuring readiness** with Cloudflare's [Is It Agent Ready?](https://isitagentready.com/) and Vercel's [Is Agentic](https://is-agentic.com/).
 
 The slides are available here:<br>
@@ -30,8 +30,9 @@ Third-party images keep their own licences; the [CC0](LICENSE) dedication covers
 | [`media/context7-uv.webp`](media/context7-uv.webp) | Screenshot of [context7.com/astral-sh/uv](https://context7.com/astral-sh/uv), captured 7 Oct 2026 |
 | `media/isitagentready-*.webp` | Screenshots of Cloudflare's [isitagentready.com](https://isitagentready.com/), captured 7 Oct 2026 |
 | `media/is-agentic-*.webp` | Screenshots of Vercel's [is-agentic.com](https://is-agentic.com/), captured 7 Oct 2026 |
+| `media/agent-journey-*` | Screen recording of [zeiss.com](https://www.zeiss.com/) and a [ui-sdk rebuild](https://github.com/IndrajeetPatil/zeiss-ui-sdk), recorded 20 Nov 2026 |
 
-Screenshots are used for commentary and remain the property of their owners.
+Screenshots and recordings are used for commentary and remain the property of their owners.
 
 ## Development
 
@@ -81,10 +82,10 @@ Use `just axe` to preview with the accessibility report. Check slides, fragments
 and the menu in presentation and scroll views; the initial report does
 not exercise every state. Normal builds omit the axe checker.
 
-## Feedback
-
-Feedback and suggestions are welcome in [the issue tracker](https://github.com/IndrajeetPatil/software-for-agentic-age/issues).
-
 ### Read aloud
 
 Requires Quarto 1.11.9 or newer. `just install` installs the [Read Aloud extension](https://github.com/IndrajeetPatil/quarto-read-aloud). Select the speaker icon to hear the current slide’s notes, or the stop icon to cancel. Changing slides also stops speech. Voice availability depends on your browser and operating system.
+
+## Feedback
+
+Feedback and suggestions are welcome in [the issue tracker](https://github.com/IndrajeetPatil/software-for-agentic-age/issues).

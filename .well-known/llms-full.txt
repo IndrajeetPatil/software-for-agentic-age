@@ -6,6 +6,7 @@ Canonical URL: https://www.indrapatil.com/software-for-agentic-age/
 Source: https://github.com/IndrajeetPatil/software-for-agentic-age/
 Licence: CC0 1.0 Universal (third-party images keep their own licences)
 Publication date: 2026-10-07
+Last updated: 2026-11-24
 Language: English
 
 ## Summary

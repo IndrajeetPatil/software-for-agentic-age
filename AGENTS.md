@@ -27,7 +27,9 @@ pull request.
   catalogue, artefact) and the Oxford comma in lists of three or more. Leave
   code, identifiers, file names, URLs, quotations, and proper names (`license`
   in YAML, `.well-known/api-catalog`) as they are.
-- **Image classes.** Screenshots use `.shot`; photos use `.photo`.
+- **Image classes.** Screenshots and screen recordings use `.shot`; photos use
+  `.photo`. Raw HTML `<video>` files must be listed under `resources` in
+  `_quarto.yml`, or they are not copied to the built site.
 - **Sources and credits.** Every factual claim has a `.source` div at the
   bottom of its slide. Every third-party image has a `.credit` line under it
   **and** a row on the "Image credits" slide; screenshots record the capture
@@ -40,7 +42,7 @@ pull request.
   complete, audience-facing narration; keep staging cues, private reminders,
   and delivery checklists outside these blocks.
 - **Accessibility.** Images must have `fig-alt` text; raw HTML widgets use
-  `role="img"` and `aria-label`.
+  `role="img"` and `aria-label`; videos use `aria-label` and a `poster`.
 - **Icons.** Icons are HTML spans backed by only the required SVG path data in
   `style.css`; no icon font or Quarto icon extension. When adding one, add only
   its mask data, preserve the source licence attribution, and keep an

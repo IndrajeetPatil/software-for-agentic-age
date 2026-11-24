@@ -31,7 +31,7 @@ format:
 execute:
   echo: true
   eval: false
-keywords: ["ai-agents", "agentic-web", "mcp", "cli", "llms-txt", "software-engineering"]
+keywords: ["ai-agents", "agentic-web", "mcp", "cli", "llms-txt", "webmcp", "software-engineering"]
 description-meta: "What it takes for software products and websites to work well with AI agents: agent-friendly CLIs, MCP servers, and websites that agents can discover, read, and trust."
 license: "CC0 1.0 Universal"
 pagetitle: "Building Software Products for the Agentic Age"
