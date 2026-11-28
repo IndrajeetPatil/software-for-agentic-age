@@ -24,6 +24,8 @@
   /* Vertical rhythm: one gap between blocks, a tight one for captions. */
   --gap-block: 14px;
   --gap-caption: 6px;
+  /* Most extra space a sparse slide puts between its title and body. */
+  --gap-title-extra: 24px;
   /* Horizontal gutter shared by grids and columns. */
   --gutter: 34px;
 }
@@ -31,8 +33,9 @@
 /* ---------- Slide layout ---------- */
 
 /*
- * Content slides form one column: the title stays at the top and the body
- * is centred in the remaining height, with the same gap between blocks.
+ * Content slides form one column with the same gap between blocks. The body
+ * stays close under the title: sparse slides gain at most `--gap-title-extra`
+ * above the body, and any other spare height goes below it.
  * RevealJS writes `display` inline on every slide, so visible slides need
  * `!important`; hidden ones keep their inline `display: none`.
  */
@@ -44,17 +47,31 @@
 
 .reveal .slides section.slide.level2:not(.center) > * {
   margin: 0;
+  order: 2;
 }
 
 /* The title keeps its shrink-wrapped highlight. */
 .reveal .slides section.slide.level2:not(.center) > h2 {
   align-self: flex-start;
-  margin-bottom: auto;
+  order: 0;
+}
+
+/* Spacers: a capped one between title and body, an open one at the end. */
+.reveal .slides section.slide.level2:not(.center)::before,
+.reveal .slides section.slide.level2:not(.center)::after {
+  content: "";
+  flex: 1 1 0;
+}
+
+.reveal .slides section.slide.level2:not(.center)::before {
+  order: 1;
+  max-height: var(--gap-title-extra);
+  /* Cancel the flex gap the spacer adds, so dense slides keep one gap. */
+  margin-top: calc(-1 * var(--gap-block));
 }
 
 .reveal .slides section.slide.level2:not(.center)::after {
-  content: "";
-  margin-top: auto;
+  order: 3;
 }
 
 /* Captions hug the block they describe. */

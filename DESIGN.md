@@ -113,7 +113,7 @@ All colors must be defined in `_brand.yml` before being used in styles or markup
 ## Layout & Components
 
 - **Cards:** Heavy neo-brutalist boxes with 3px solid ink border and 6px solid offset shadow (`--shadow`). Modifiers include `.yellow`, `.green`, `.pink`, `.amber`, `.cream`, `.ink`, `.forest`, `.red`, and tilts (`.tilt-l`, `.tilt-r`).
-- **Slide layout:** Content slides are a single flex column. The title stays at the top, and the body is centred in the remaining height with one block gap (`--gap-block`) between its parts. Sources and credits hug the block they describe (`--gap-caption`), so each slide reads as one unit.
+- **Slide layout:** Content slides are a single flex column. The title stays at the top and the body follows close beneath it, with one block gap (`--gap-block`) between its parts. Sparse slides add at most `--gap-title-extra` between title and body; any other spare height goes below the body, never between the title and the content. Sources and credits hug the block they describe (`--gap-caption`), so each slide reads as one unit.
 - **Grids:** `.grid-2`, `.grid-3`, and `.grid-4` for structured multi-column layouts. Grids and `.columns` share one gutter (`--gutter`) and have no outer padding, so cards, tables, code blocks, and callouts line up on the same left and right edges.
 - **Columns:** Columns stack their blocks with the block gap. Add `.align-middle` to a `.columns` div when its columns differ in height, such as an image or code block beside a stack of cards.
 - **Tables and figures:** Tables span their column. Images, videos, and Mermaid diagrams are centred, with their `.credit` centred underneath.
