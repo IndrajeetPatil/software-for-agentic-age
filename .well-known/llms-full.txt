@@ -6,12 +6,14 @@ Canonical URL: https://www.indrapatil.com/software-for-agentic-age/
 Source: https://github.com/IndrajeetPatil/software-for-agentic-age/
 Licence: CC0 1.0 Universal (third-party images keep their own licences)
 Publication date: 2026-10-07
-Last updated: 2026-11-24
+Last updated: 2026-11-28
 Language: English
 
 ## Summary
 
 AI agents are a new kind of user: they work best with text, pay for every token they read, and cannot answer interactive prompts (they can read screenshots and click, but products should not require it). This deck explains what products and websites need so that agents can operate and read them, and argues that most of it builds on established engineering, SEO, and accessibility practice.
+
+The shift has already happened: fewer than half of HTML page requests on Cloudflare come from a human, daily AI agent requests on Cloudflare grew by more than 1,700% in the year to September 2026, and on Mintlify-hosted docs agents made about twice as many requests as humans made page loads in August 2026.
 
 The talk assumes the audience knows what large language models and agents are. It is aimed at developers, product engineers, and site owners.
 
