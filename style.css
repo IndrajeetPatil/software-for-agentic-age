@@ -40,7 +40,8 @@
   text-transform: none;
 }
 
-.reveal .slides section h2 {
+.reveal .slides section h2,
+.reveal .slides section h3:not(.card h3) {
   /* Shrink-wrap the highlight while staying block-level. */
   display: table;
   font-size: 1.35em;
@@ -54,6 +55,10 @@
   );
   padding: 0 0.15em;
   margin-bottom: 0.45em;
+}
+
+.reveal .slides section h3:not(.card h3) {
+  margin-top: 0.6em;
 }
 
 /* Section dividers (level-1 headings) sit on the yellow canvas. */
