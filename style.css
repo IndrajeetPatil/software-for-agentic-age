@@ -843,3 +843,70 @@
 .deck-icon-solid-envelope {
   --deck-icon-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDggNjRDMjEuNSA2NCAwIDg1LjUgMCAxMTJjMCAxNS4xIDcuMSAyOS4zIDE5LjIgMzguNEwyMzYuOCAzMTMuNmMxMS40IDguNSAyNyA4LjUgMzguNCAwTDQ5Mi44IDE1MC40YzEyLjEtOS4xIDE5LjItMjMuMyAxOS4yLTM4LjRjMC0yNi41LTIxLjUtNDgtNDgtNDhMNDggNjR6TTAgMTc2TDAgMzg0YzAgMzUuMyAyOC43IDY0IDY0IDY0bDM4NCAwYzM1LjMgMCA2NC0yOC43IDY0LTY0bDAtMjA4TDI5NC40IDMzOS4yYy0yMi44IDE3LjEtNTQgMTcuMS03Ni44IDBMMCAxNzZ6Ii8+PC9zdmc+");
 }
+
+/* Keep dense opening slides inside RevealJS's fixed-height slide canvas. */
+.reveal .slides section#the-agentic-age-has-already-arrived > .grid-3 {
+  gap: 0.8em;
+  padding-block: 0.1em 0.3em;
+}
+
+.reveal .slides section#the-agentic-age-has-already-arrived .card {
+  padding-block: 0.4em;
+}
+
+.reveal .slides section#the-agentic-age-has-already-arrived .stat .num {
+  font-size: 1.65em;
+}
+
+.reveal .slides section#the-agentic-age-has-already-arrived .stat .label {
+  font-size: 0.44em;
+  line-height: 1.2;
+}
+
+.reveal .slides section#the-agentic-age-has-already-arrived > .fragment h3 {
+  font-size: 1.05em;
+  margin-top: 0.3em;
+  margin-bottom: 0.25em;
+}
+
+.reveal .slides section#the-agentic-age-has-already-arrived > .fragment p {
+  margin: 0.2em 0;
+  font-size: 0.8em;
+}
+
+.reveal .slides section#the-agentic-age-has-already-arrived .bars {
+  font-size: 0.58em;
+  gap: 0.3em 0.6em;
+}
+
+.reveal .slides section#the-agentic-age-has-already-arrived .source {
+  margin-top: 0.35em;
+}
+
+.reveal .slides section#what-youll-learn-today > .grid-2 {
+  gap: 0.8em;
+  padding-block: 0.1em 0.3em;
+}
+
+.reveal .slides section#what-youll-learn-today .card {
+  padding: 0.45em 0.7em;
+  font-size: 0.78em;
+}
+
+.reveal .slides section#what-youll-learn-today .card-title {
+  margin-bottom: 0.2em;
+}
+
+.reveal .slides section#what-youll-learn-today .card ul {
+  margin-top: 0.25em;
+  margin-bottom: 0.15em;
+}
+
+.reveal .slides section#what-youll-learn-today .card li {
+  margin-bottom: 0.2em;
+}
+
+.reveal .slides section#what-youll-learn-today > .callout-big {
+  margin-top: 0.25em;
+  font-size: 0.9em;
+}

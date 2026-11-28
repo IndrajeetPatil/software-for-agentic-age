@@ -250,7 +250,7 @@ A toy `todo` CLI in [Typer](https://typer.tiangolo.com/). Highlights mark the ag
 
 ::: {.code-sm}
 
-```{.python filename="todo.py" code-line-numbers="4,8,13,16-17,19-20"}
+```{.python code-line-numbers="4,8,13,16-17,19-20"}
 from json import dumps
 import typer
 
@@ -371,7 +371,7 @@ A formatted table is convenient for a person scanning a terminal. JSON is conven
 ![](media/gh-cli-home.webp){.shot width="240" height="110" fig-alt="Screenshot of the GitHub CLI home page with the headline Take GitHub to the command line"}
 
 ::: {.credit}
-Screenshot of [cli.github.com](https://cli.github.com/), 7 Oct 2026
+[cli.github.com](https://cli.github.com/), 7 Oct 2026
 :::
 
 ::: {.card .green .tilt-l}
