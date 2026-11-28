@@ -46,12 +46,59 @@
       });
     };
 
+    const markTerminalOutput = () => {
+      document
+        .querySelectorAll('div[data-filename="terminal"] code')
+        .forEach((code) => {
+          let usesPrompt = false;
+          code.childNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "SPAN") {
+              const text = node.textContent.trim();
+              if (text.startsWith("$ ") || text === "$") {
+                usesPrompt = true;
+              }
+            }
+          });
+
+          if (!usesPrompt) return;
+
+          let inContinuation = false;
+
+          code.childNodes.forEach((node) => {
+            if (node.nodeType === Node.ELEMENT_NODE && node.tagName === "SPAN") {
+              const text = node.textContent.trim();
+              if (!text) {
+                inContinuation = false;
+                return;
+              }
+              if (text.startsWith("#")) {
+                inContinuation = false;
+                return;
+              }
+              if (text.startsWith("$ ") || text === "$") {
+                inContinuation = /\\[\s\r\n]*$/.test(text);
+                return;
+              }
+              if (inContinuation) {
+                inContinuation = /\\[\s\r\n]*$/.test(text);
+                return;
+              }
+              node.classList.add("terminal-output");
+            }
+          });
+        });
+    };
+
     document.addEventListener("DOMContentLoaded", () => {
       const updateCode = () => requestAnimationFrame(focusScrollableCode);
       syncSlideSemantics();
+      markTerminalOutput();
       if (window.Reveal) {
         ["ready", "overviewshown", "overviewhidden"].forEach((event) =>
           Reveal.on(event, syncSlideSemantics),
+        );
+        ["ready", "slidechanged"].forEach((event) =>
+          Reveal.on(event, markTerminalOutput),
         );
         // Let arrow/page keys scroll focused code instead of navigating the deck.
         const previousKeyboardCondition = Reveal.getConfig().keyboardCondition;

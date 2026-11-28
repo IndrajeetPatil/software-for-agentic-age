@@ -41,7 +41,7 @@
 }
 
 .reveal .slides section h2,
-.reveal .slides section h3:not(.card h3) {
+.reveal .slides section h3:not(.card h3, .panel-tabset h3) {
   /* Shrink-wrap the highlight while staying block-level. */
   display: table;
   font-size: 1.35em;
@@ -57,7 +57,7 @@
   margin-bottom: 0.45em;
 }
 
-.reveal .slides section h3:not(.card h3) {
+.reveal .slides section h3:not(.card h3, .panel-tabset h3) {
   margin-top: 0.6em;
 }
 
@@ -126,6 +126,21 @@
 
 .tag.red {
   background: var(--red);
+  color: #fff;
+}
+
+.tag.green {
+  background: var(--green);
+  color: var(--ink);
+}
+
+.tag.amber {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+.tag.blue {
+  background: var(--blue);
   color: #fff;
 }
 
@@ -233,11 +248,11 @@
   border: var(--border);
   box-shadow: var(--shadow);
   background: var(--yellow);
-  padding: 0.6em 1em;
-  font-size: 1.1em;
+  padding: 0.5em 0.9em;
+  font-size: 1.05em;
   font-weight: 700;
   text-align: center;
-  margin: 0.6em auto;
+  margin: 0.4em auto 0.2em;
 }
 
 /* Grid of cards. */
@@ -388,6 +403,21 @@
   font-size: 0.45em;
   color: var(--grey);
   margin-top: 0.2em;
+}
+
+.credit p {
+  margin: 0;
+}
+
+.reveal .column .card {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  padding: 0.5em 0.8em;
+}
+
+.reveal .column .card ul {
+  font-size: 0.8em;
+  line-height: 1.25;
 }
 
 .credit a {
@@ -623,6 +653,87 @@
 
 .card div.sourceCode {
   box-shadow: none;
+}
+
+/* Terminal code blocks: realistic terminal output styling */
+.reveal div[data-filename="terminal"] code span.ex {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.reveal div[data-filename="terminal"] code .terminal-output,
+.reveal div[data-filename="terminal"] code .terminal-output * {
+  color: var(--grey) !important;
+  font-weight: 400 !important;
+}
+
+/* ---------- Tabsets ---------- */
+
+.reveal .panel-tabset {
+  margin-top: 0.1em;
+}
+
+.reveal .panel-tabset ul.panel-tabset-tabby {
+  display: flex;
+  gap: 0.4em;
+  border-bottom: var(--border);
+  padding: 0;
+  margin: 0 0 0.4em 0;
+  list-style: none;
+}
+
+.reveal .panel-tabset ul.panel-tabset-tabby li {
+  margin: 0;
+  padding: 0;
+}
+
+.reveal .panel-tabset ul.panel-tabset-tabby li a {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.52em;
+  font-weight: 700;
+  text-transform: none;
+  padding: 0.25em 0.8em;
+  border: var(--border);
+  border-bottom: none;
+  background: var(--cream);
+  color: var(--ink);
+  text-decoration: none !important;
+  cursor: pointer;
+}
+
+.reveal .panel-tabset ul.panel-tabset-tabby li a:hover {
+  background: #fff;
+  text-decoration: none !important;
+}
+
+.reveal .panel-tabset [role="tab"][aria-selected="true"] {
+  background: var(--yellow) !important;
+  color: var(--ink) !important;
+  font-weight: 700;
+  text-decoration: none !important;
+}
+
+.reveal .panel-tabset .tab-content {
+  border: none;
+  padding: 0;
+}
+
+.reveal .panel-tabset p {
+  margin: 0.2em 0 0.3em;
+}
+
+.reveal .panel-tabset div.sourceCode {
+  margin: 0.2em 0 0.3em;
+}
+
+.reveal .panel-tabset .code-sm pre {
+  font-size: 0.43em;
+  line-height: 1.3;
+}
+
+.reveal .panel-tabset .source {
+  margin-top: 0.2em;
 }
 
 /* ---------- Template carry-overs ---------- */
