@@ -18,8 +18,11 @@ pull request.
   while `style.css` defines the neo-brutalist shapes (3px ink borders, hard
   offset shadows, and slightly tilted cards). Use the existing component
   classes (`.card`, `.grid-2|3|4`, `.callout-big`, `.tag`, `.sticker`, `.stat`,
-  `.ladder`, `.pyramid`, `.bars`, and tilts `.tilt-l` / `.tilt-r`) rather than
-  inline styles, and avoid hard-coding colours in `index.qmd`. Keep the theme
+  `.ladder`, `.pyramid`, `.bars`, tilts `.tilt-l` / `.tilt-r`, and
+  `.align-middle` on `.columns`) rather than inline styles, and avoid
+  hard-coding colours in `index.qmd`. Spacing comes from the shared slide
+  layout in `style.css` (`--gap-block`, `--gap-caption`, `--gutter`); do not
+  add per-block margins to fix the spacing of a single slide. Keep the theme
   `simple` and the format `revealjs`.
 - **Visual over text.** No large blocks of prose on a slide. Prefer tables,
   Mermaid diagrams, cards, and screenshots.
