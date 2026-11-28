@@ -21,6 +21,86 @@
   --shadow: 6px 6px 0 var(--ink);
   --shadow-sm: 3px 3px 0 var(--ink);
   --mono: "Space Mono", ui-monospace, monospace;
+  /* Vertical rhythm: one gap between blocks, a tight one for captions. */
+  --gap-block: 14px;
+  --gap-caption: 6px;
+  /* Horizontal gutter shared by grids and columns. */
+  --gutter: 34px;
+}
+
+/* ---------- Slide layout ---------- */
+
+/*
+ * Content slides form one column: the title stays at the top and the body
+ * is centred in the remaining height, with the same gap between blocks.
+ * RevealJS writes `display` inline on every slide, so visible slides need
+ * `!important`; hidden ones keep their inline `display: none`.
+ */
+.reveal .slides section.slide.level2:not(.center):not([style*="display: none"]) {
+  display: flex !important;
+  flex-direction: column;
+  gap: var(--gap-block);
+}
+
+.reveal .slides section.slide.level2:not(.center) > * {
+  margin: 0;
+}
+
+/* The title keeps its shrink-wrapped highlight. */
+.reveal .slides section.slide.level2:not(.center) > h2 {
+  align-self: flex-start;
+  margin-bottom: auto;
+}
+
+.reveal .slides section.slide.level2:not(.center)::after {
+  content: "";
+  margin-top: auto;
+}
+
+/* Captions hug the block they describe. */
+.reveal .slides section.slide.level2:not(.center) > :is(.source, .credit),
+.reveal .column > .credit {
+  margin-top: calc(var(--gap-caption) - var(--gap-block));
+}
+
+/* Inline-block labels keep their width inside flex columns. */
+.reveal .slides section.slide.level2:not(.center) > .tag,
+.reveal .column > .tag {
+  align-self: flex-start;
+}
+
+/* Images and diagrams sit centred on their column. */
+.reveal .slides p:has(> :is(img, video):only-child),
+.reveal .slides .cell {
+  text-align: center;
+  margin-block: 0;
+}
+
+.reveal .slides p > :is(img, video):only-child {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Columns share the grid gutter and stack their blocks with the slide rhythm. */
+.reveal .slides div.columns {
+  display: flex;
+  gap: var(--gutter);
+}
+
+.reveal .slides .columns > .column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-block);
+  min-width: 0;
+}
+
+.reveal .slides .columns > .column:nth-child(n) > :not(ul, ol) {
+  margin: 0;
+}
+
+/* Centre columns of unequal height against each other. */
+.reveal .slides .columns.align-middle {
+  align-items: center;
 }
 
 /* ---------- Typography ---------- */
@@ -275,8 +355,8 @@
 .grid-3,
 .grid-4 {
   display: grid;
-  gap: 1.15em;
-  padding: 0.25em 0.35em 0.55em;
+  /* Tilted, shadowed cards need the full gutter in both directions. */
+  gap: var(--gutter);
   align-items: stretch;
 }
 
@@ -296,34 +376,46 @@
   margin: 0;
 }
 
-.security-grid {
-  gap: 0.95em;
-  padding: 0.1em 0.2em 0.2em;
+.entry-figure {
+  inline-size: min(100%, 40rem);
+  margin-inline: auto;
+}
+
+/* Labels sit directly above the matching icon in the figure. */
+.entry-labels {
+  position: relative;
+  block-size: 1.1em;
+  margin-bottom: 0.2em;
 }
 
 .entry-label {
-  text-align: center;
+  position: absolute;
+  inset-block-start: 0;
+  transform: translateX(-50%);
+}
+
+.entry-label:nth-child(1) {
+  inset-inline-start: 14.5%;
+}
+.entry-label:nth-child(2) {
+  inset-inline-start: 43%;
+}
+.entry-label:nth-child(3) {
+  inset-inline-start: 72.5%;
 }
 
 .entry-label .tag {
   margin: 0;
 }
 
-.entry-figure {
-  inline-size: min(100%, 40rem);
-  margin-inline: auto;
-}
-
-.entry-labels {
-  grid-template-columns: repeat(3, 27%);
-  justify-content: start;
-  gap: 0;
-  padding: 0;
-}
-
 .card-stack {
   display: grid;
-  gap: 1.15em;
+  gap: var(--gap-block);
+}
+
+.card-stack > .card,
+.reveal .slides section.slide.level2 > .card {
+  margin: 0;
 }
 
 /* Big number tiles. */
@@ -448,6 +540,7 @@
 .credit {
   font-size: 0.45em;
   color: var(--grey);
+  text-align: center;
   margin-top: 0.2em;
 }
 
@@ -479,12 +572,9 @@
   box-shadow: var(--shadow);
   background: #fff;
   font-size: 0.6em;
+  /* Span the column so tables line up with the callouts and grids around them. */
+  width: 100%;
   margin: 0.4em auto 0.8em;
-}
-
-/* Clear the tilt and shadow of a card grid directly above. */
-.reveal :is(.grid-2, .grid-3, .grid-4) + table {
-  margin-top: 1.4em;
 }
 
 .reveal table th {
@@ -911,7 +1001,18 @@
   font-size: 0.9em;
 }
 
-.reveal .slides section#paste-a-url-get-a-score .credit {
-  margin-bottom: 1.5em;
-  transform: translateY(-0.9em);
+
+/* The closing slide centres every line, not just the links. */
+.reveal .slides section#thank-you {
+  text-align: center;
+}
+
+/* Fit the stacked request blocks inside the slide. */
+.reveal .slides section#every-request-stands-alone .code-sm pre {
+  font-size: 0.48em;
+}
+
+/* Reserve two title lines so the three robots.txt blocks start level. */
+.reveal .slides section#participation-is-a-choice .card-title {
+  min-height: 2.3em;
 }

@@ -208,9 +208,7 @@ Let’s start with products agents can operate: the interfaces through which the
 
 :::: {.entry-figure}
 
-![](media/three-ways-in.webp){width="640" height="360" fig-alt="Three distinct interfaces—an HTTP API, a command-line terminal, and an MCP server—feed a shared software product, which an AI agent uses on a person's behalf."}
-
-::: {.grid-3 .entry-labels}
+::: {.entry-labels}
 
 ::: {.entry-label}
 <span class="tag yellow">HTTP API</span>
@@ -225,6 +223,8 @@ Let’s start with products agents can operate: the interfaces through which the
 :::
 
 :::
+
+![](media/three-ways-in.webp){width="640" height="360" fig-alt="Three distinct interfaces—an HTTP API, a command-line terminal, and an MCP server—feed a shared software product, which an AI agent uses on a person's behalf."}
 
 ::::
 
@@ -364,7 +364,7 @@ A formatted table is convenient for a person scanning a terminal. JSON is conven
 
 ## Exemplar: GitHub CLI (`gh`)
 
-:::: {.columns}
+:::: {.columns .align-middle}
 
 ::: {.column width="45%"}
 
@@ -637,7 +637,7 @@ A CLI fits agents that already have shell access and developer credentials. MCP 
 
 ## Control delegated access
 
-::: {.grid-2 .security-grid}
+::: {.grid-2}
 
 ::: {.card .yellow}
 ::: {.card-title}
@@ -741,7 +741,7 @@ An interface lets an agent operate a package, but the agent also needs to learn 
 
 ## Teach the agent: ship a skill
 
-:::: {.columns}
+:::: {.columns .align-middle}
 
 ::: {.column width="55%"}
 
@@ -959,7 +959,7 @@ Now let’s turn from operating products to reading websites. An agent needs to 
 
 ## The web was built for people with browsers
 
-:::: {.columns}
+:::: {.columns .align-middle}
 
 ::: {.column width="48%"}
 
@@ -1251,7 +1251,7 @@ A site can also offer Markdown through content negotiation or a linked Markdown 
 
 ## Level 3: say who you are, in data
 
-:::: {.columns}
+:::: {.columns .align-middle}
 
 ::: {.column width="55%"}
 
@@ -1368,7 +1368,7 @@ An operable site advertises what an agent can do. API and authentication metadat
 
 ## Level 4: WebMCP, tools inside the page
 
-:::: {.columns}
+:::: {.columns .align-middle}
 
 ::: {.column width="58%"}
 
@@ -1416,7 +1416,7 @@ WebMCP explores exposing tools from within a web page to browser-based agents. T
 
 ## Level 4: let the components speak
 
-:::: {.columns}
+:::: {.columns .align-middle}
 
 ::: {.column width="55%"}
 
@@ -1464,7 +1464,7 @@ Instead of writing one tool per task, a component library can describe itself. u
 
 ## Same journey, two builds
 
-:::: {.columns}
+:::: {.columns .align-middle}
 
 ::: {.column width="62%"}
 
