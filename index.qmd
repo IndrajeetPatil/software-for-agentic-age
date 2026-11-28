@@ -995,19 +995,14 @@ Many websites assume a person is using a browser that executes JavaScript. A tex
 
 ## Who are the machine visitors?
 
-| Visitor | Example user agents | What it wants | When |
-|---------|---------------------|---------------|------|
-| **Search crawler** | `Googlebot`, `OAI-SearchBot`, `Claude-SearchBot` | Index pages for search results | Continuously |
-| **Training crawler** | `GPTBot`, `ClaudeBot`, `CCBot` | Content for training models | Periodically |
-| **User-directed fetcher** | `ChatGPT-User`, `Claude-User`, `Perplexity-User` | Answer one person's question now | On demand |
-| **Browser agent** | `Claude-Agent`, or a stock Chrome user agent | Click and type on a user's behalf | On demand |
+![](media/machine-visitors-infographic-wide.webp){.shot width="700" height="394" fig-alt="Infographic showing four machine visitors: search crawlers (Googlebot, OAI-SearchBot, Claude-SearchBot) index search pages continuously; training crawlers (GPTBot, ClaudeBot, CCBot) collect model-training content periodically; user-directed fetchers (ChatGPT-User, Claude-User, Perplexity-User) answer one person's question on demand; browser agents (Claude-Agent or a standard Chrome user agent) click and type for a user on demand."}
+
+::: {.source}
+Sources: [OpenAI bots](https://developers.openai.com/api/docs/bots), [Anthropic crawlers](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler), [Claude hosted browsers](https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf), and [Google crawlers](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers). `Google-Extended` is a training control token, not a crawler.
+:::
 
 ::: {.callout-big}
 Each group can be **allowed or refused separately**. That choice is yours.
-:::
-
-::: {.source}
-`Google-Extended` is a robots.txt control token for Gemini training, not a separate crawler. Sources: [OpenAI](https://developers.openai.com/api/docs/bots), [Anthropic crawlers](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler), [Anthropic-hosted browsers](https://support.claude.com/en/articles/18234133-how-do-anthropic-hosted-browsers-identify-themselves-when-they-browse-the-web-on-a-user-s-behalf), [Google](https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers)
 :::
 
 ::: {.notes}
@@ -1602,42 +1597,16 @@ Scored 0–100, skipping checks that don't apply, with a web UI, CLI, API **and*
 
 ::::
 
-::: {.notes}
-Automated scanners can check a site's discovery, readability, and operability signals. The examples here give a quick starting point for an audit. Their findings are most useful when tied to a specific page or task.
-:::
-
-## Same site, two very different scores
-
-:::: {.columns}
-
-::: {.column width="45%"}
-
-![](media/isitagentready-report.webp){.shot width="400" height="292" fig-alt="isitagentready.com report for stripe.com: score 27, Level 1 Basic Web Presence"}
-
-::: {.credit}
-stripe.com on [isitagentready.com](https://isitagentready.com/), 7 Oct 2026
-:::
-
-:::
-
-::: {.column width="55%"}
-
-![](media/is-agentic-report.webp){.shot width="500" height="195" fig-alt="is-agentic.com report for stripe.com: 71 out of 100, Ready with a few material gaps"}
-
-::: {.credit}
-stripe.com on [is-agentic.com](https://is-agentic.com/scan/stripe.com), 7 Oct 2026
-:::
-
 ::: {.callout-big}
-**27** vs **71**. Scanners are opinionated checklists, so read the findings, not the number.
+The same site can score differently. Read the findings, not just the number.
 :::
 
+::: {.source}
+Scanners use different criteria ([Is Agentic's methodology](https://is-agentic.com/methodology); [Cloudflare checklist](https://isitagentready.com/)).
 :::
-
-::::
 
 ::: {.notes}
-Two scanners can give the same site very different scores because they use different criteria and weights. Inspect the individual findings and verify the important ones. Improving a real failure is more useful than chasing a perfect score.
+Automated scanners can check a site's discovery, readability, and operability signals. The same site can score differently across scanners because they use different criteria and weights. Use the findings to identify real issues instead of chasing a perfect score.
 :::
 
 ## From findings to a prompt
@@ -1854,8 +1823,8 @@ The resources on this slide provide the specifications, documentation, and pract
 | The web was built for people | First web server at CERN | [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
 | Get indexed by Context7 | [context7.com](https://context7.com/) | Screenshot, Context7 (Upstash), 7 Oct 2026 |
 | Same journey, two builds | [zeiss.com](https://www.zeiss.com/) and a [ui-sdk rebuild](https://github.com/IndrajeetPatil/zeiss-ui-sdk) | Screen recording, author's experiment, 20 Nov 2026 |
-| Measure and iterate | [isitagentready.com](https://isitagentready.com/) | Screenshots, Cloudflare, 7 Oct 2026 |
-| Measure and iterate | [is-agentic.com](https://is-agentic.com/) | Screenshots, Vercel, 7 Oct 2026 |
+| Paste a URL, get a score | [isitagentready.com](https://isitagentready.com/) | Screenshot, Cloudflare, 7 Oct 2026 |
+| Paste a URL, get a score | [is-agentic.com](https://is-agentic.com/) | Screenshot, Vercel, 7 Oct 2026 |
 
 ::: {style="text-align: center; font-size: 0.55em; margin-top: 1em;"}
 Screenshots are used for commentary and remain the property of their owners. Visual design inspired by [loot-drop.io](https://www.loot-drop.io/).
