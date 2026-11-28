@@ -97,7 +97,32 @@ Sources: Cloudflare, [From ranking to recommended](https://blog.cloudflare.com/a
 :::
 
 ::: {.notes}
-Why should this matter to you now? Because the shift has already happened. Cloudflare, which sits in front of roughly a fifth of the web, reports that fewer than half of the HTML page requests it sees now come from a human. Over the past year, daily requests from AI agents on its network grew by more than seventeen hundred per cent. Developer documentation shows the same pattern: on sites hosted by Mintlify, agents made about twice as many requests as people made page loads in August 2026. These measures count requests rather than people, so they are not like-for-like, but the direction is clear. A product that only works through a screen is already failing a large and growing share of its visitors. The rest of this talk is about how to serve them well.
+Why should this matter to you now? Because the shift has already happened. Cloudflare, which sits in front of roughly a fifth of the web, reports that fewer than half of the HTML page requests it sees now come from a human. Over the past year, daily requests from AI agents on its network grew by more than seventeen hundred per cent. Developer documentation shows the same pattern: on sites hosted by Mintlify, agents made about twice as many requests as people made page loads in August 2026. These measures count requests rather than people, so they are not like-for-like, but the direction is clear. A product that only works through a screen is already failing a large and growing share of its visitors. So how well are products serving them today?
+:::
+
+## Most of the web isn't there yet
+
+Adoption among [Cloudflare Radar](https://radar.cloudflare.com/)'s top 200,000 domains, Apr 2026:
+
+```{=html}
+<div class="bars" role="img" aria-label="Bar chart: robots.txt present on 78% of sites, Content Signals on 4%, Markdown negotiation on 3.9%, MCP Server Cards on fewer than 15 sites">
+  <span><code>robots.txt</code> present</span><span class="track"><span class="fill" style="width: 78%;"></span></span><span class="val">78%</span>
+  <span>Content Signals</span><span class="track"><span class="fill" style="width: 4%;"></span></span><span class="val">4%</span>
+  <span>Markdown negotiation</span><span class="track"><span class="fill" style="width: 3.9%;"></span></span><span class="val">3.9%</span>
+  <span>MCP Server Card</span><span class="track"><span class="fill" style="width: 0%;"></span></span><span class="val">&lt;15 sites</span>
+</div>
+```
+
+::: {.callout-big}
+Agents have arrived, but most sites stop at `robots.txt`. **So what does ready look like?**
+:::
+
+::: {.source}
+Source: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/)
+:::
+
+::: {.notes}
+So agents are already here in large numbers. Are our products ready for them? Cloudflare scanned the top two hundred thousand domains on its Radar ranking to find out. Most sites publish a robots file, a convention that dates back to the nineties. Very few go further. Only about four per cent declare how their content may be used by AI, fewer than four per cent can serve a clean Markdown version of a page to an agent, and fewer than fifteen sites advertise an MCP server that agents can discover. Demand from agents has grown quickly, but most products are still built only for people with browsers. That gap is the subject of this talk: what agents need from a product, and the practical changes that close it. The good news is that because so few sites have started, a few small changes already put you ahead.
 :::
 
 ## What you'll learn today
@@ -1794,31 +1819,6 @@ Scores shift with methodology and certify nothing ([Is Agentic's limitations](ht
 
 ::: {.notes}
 A command-line scanner can also run in continuous integration. Establish a baseline for your own site, then use the checks to catch regressions. The threshold should reflect the site's purpose and the findings you have actually assessed.
-:::
-
-## Most of the web isn't there yet
-
-Adoption among [Cloudflare Radar](https://radar.cloudflare.com/)'s top 200,000 domains, Apr 2026:
-
-```{=html}
-<div class="bars" role="img" aria-label="Bar chart: robots.txt present on 78% of sites, Content Signals on 4%, Markdown negotiation on 3.9%, MCP Server Cards on fewer than 15 sites">
-  <span><code>robots.txt</code> present</span><span class="track"><span class="fill" style="width: 78%;"></span></span><span class="val">78%</span>
-  <span>Content Signals</span><span class="track"><span class="fill" style="width: 4%;"></span></span><span class="val">4%</span>
-  <span>Markdown negotiation</span><span class="track"><span class="fill" style="width: 3.9%;"></span></span><span class="val">3.9%</span>
-  <span>MCP Server Card</span><span class="track"><span class="fill" style="width: 0%;"></span></span><span class="val">&lt;15 sites</span>
-</div>
-```
-
-::: {.callout-big}
-Most sites stop at `robots.txt`. **A few small changes already put you ahead.**
-:::
-
-::: {.source}
-Source: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/)
-:::
-
-::: {.notes}
-The adoption data shown here suggests that basic robots files are much more common than Content Signals or Markdown negotiation. This leaves room for improvement, but the useful next step still depends on what visitors need from a particular site.
 :::
 
 # Wrapping up {background-color="#FFD600"}
