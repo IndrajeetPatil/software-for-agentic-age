@@ -378,7 +378,7 @@
 
 .entry-figure {
   inline-size: min(100%, 40rem);
-  margin-inline: auto;
+  align-self: center;
 }
 
 /* Labels sit directly above the matching icon in the figure. */
