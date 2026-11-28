@@ -162,7 +162,7 @@ Software agents are a new kind of user. They act on behalf of people, but they i
 
 ## Same product, new user
 
-For decades, every user reached your product through a **screen**. Now many arrive through an **agent**.
+For decades, every user reached your product (libraries, services, websites, etc.) through a **screen**. Now many arrive through an **agent**.
 
 ![](media/product-user-paths.webp){width="900" height="346" fig-alt="Two paths into the same product: a human uses GUI buttons, forms, and pages; another human delegates to an AI agent that uses text interfaces such as CLI, MCP, API, and Markdown."}
 
@@ -282,30 +282,11 @@ Nothing enters context until it runs.
 The command line is useful again because coding agents already work alongside Git, package managers, compilers, and files. A good CLI lets them use the same product capabilities that developers use in their own shell workflows.
 :::
 
-## Anatomy of an agent-friendly CLI
-
-| Principle | Why agents care | Looks like |
-|-----------|-----------------|------------|
-| **Structured output** | Parse, don't scrape tables | `--json`, `-o json` |
-| **Field selection** | Smaller output, fewer tokens | `--json name,id`, `--query` |
-| **Never block on input** | No one is there to type `y` | `--yes`, `GH_PROMPT_DISABLED=1` |
-| **Headless auth** | Agents can't click "Sign in" | `GH_TOKEN=…`, `az login --identity` (on Azure) |
-| **Meaningful exit codes** | Branch on success vs failure | `0` ok, `2` bad usage, `3` not found, `4` refused |
-| **Actionable errors on stderr** | Self-correct on the next turn | `error: no todo 7; run todo list` |
-| **Examples in `--help`** | Learn usage on demand | `gh pr create --help` |
-| **Stable, versioned output** | Scripts and agents break silently | Add fields; never rename them |
-
-: {tbl-colwidths="[24,30,46]"}
-
-::: {.source}
-Sources: [Arcjet](https://blog.arcjet.com/designing-a-cli-for-ai-agents/), [Speakeasy](https://www.speakeasy.com/blog/engineering-agent-friendly-cli), [GitHub CLI manual](https://cli.github.com/manual/gh_help_environment)
-:::
-
-::: {.notes}
-An agent-friendly CLI offers structured output, non-interactive operation, and authentication that works without a browser prompt. It reports errors on the error stream, returns meaningful exit codes, and provides examples in its help. These conventions make both automation and recovery easier.
-:::
-
 ## A minimal agent-friendly CLI
+
+::: {.panel-tabset}
+
+### todo.py
 
 A toy `todo` CLI in [Typer](https://typer.tiangolo.com/). Highlights mark the agent-friendly bits.
 
@@ -343,8 +324,29 @@ app()
 A stub: `delete` validates and reports but stores nothing. Typer turns type hints and docstrings into `--help`. Exit code `2` already means a usage error, so domain errors start at `3`. Tested with [Typer](https://typer.tiangolo.com/) 0.29.2.
 :::
 
+### Anatomy
+
+| Principle | Why agents care | Looks like |
+|-----------|-----------------|------------|
+| **Structured output** | Parse, don't scrape tables | `--json`, `-o json` |
+| **Field selection** | Smaller output, fewer tokens | `--json name,id`, `--query` |
+| **Never block on input** | No one is there to type `y` | `--yes`, `GH_PROMPT_DISABLED=1` |
+| **Headless auth** | Agents can't click "Sign in" | `GH_TOKEN=…`, `az login --identity` (on Azure) |
+| **Meaningful exit codes** | Branch on success vs failure | `0` ok, `2` bad usage, `3` not found, `4` refused |
+| **Actionable errors on stderr** | Self-correct on the next turn | `error: no todo 7; run todo list` |
+| **Examples in `--help`** | Learn usage on demand | `gh pr create --help` |
+| **Stable, versioned output** | Scripts and agents break silently | Add fields; never rename them |
+
+: {tbl-colwidths="[24,30,46]"}
+
+::: {.source}
+Sources: [Arcjet](https://blog.arcjet.com/designing-a-cli-for-ai-agents/), [Speakeasy](https://www.speakeasy.com/blog/engineering-agent-friendly-cli), [GitHub CLI manual](https://cli.github.com/manual/gh_help_environment)
+:::
+
+:::
+
 ::: {.notes}
-The Python example uses Typer to expose a small command. Its JSON option returns structured data, its confirmation option supports non-interactive use, and its errors go to the error stream. The important design choices are these familiar command-line conventions, rather than a large framework.
+The Python example uses Typer to expose a small command. Its JSON option returns structured data, its confirmation option supports non-interactive use, and its errors go to the error stream. The Anatomy tab summarises the underlying conventions: structured output, non-interactive operation, headless authentication, and actionable error messages.
 :::
 
 ## The same CLI, seen by an agent
@@ -353,7 +355,7 @@ The Python example uses Typer to expose a small command. Its JSON option returns
 
 ::: {.column width="50%"}
 
-::: {.tag}
+::: {.tag .blue}
 Human mode
 :::
 
@@ -362,7 +364,7 @@ $ todo list
 Write slides
 ```
 
-::: {.tag}
+::: {.tag .green}
 Agent mode
 :::
 
@@ -380,13 +382,11 @@ Failures that teach the agent
 :::
 
 ```{.bash filename="terminal"}
-$ todo delete 7; echo "exit $?"
+$ todo delete 7
 error: no todo 7; run `todo list`
-exit 3
 
-$ todo delete 1; echo "exit $?"
+$ todo delete 1
 error: deleting needs --yes
-exit 4
 
 $ todo delete 1 --yes
 {"deleted": 1}
@@ -408,15 +408,15 @@ A formatted table is convenient for a person scanning a terminal. JSON is conven
 
 :::: {.columns}
 
-::: {.column width="38%"}
+::: {.column width="45%"}
 
-![](media/gh-cli-home.webp){.shot width="320" height="146" fig-alt="Screenshot of the GitHub CLI home page with the headline Take GitHub to the command line"}
+![](media/gh-cli-home.webp){.shot width="240" height="110" fig-alt="Screenshot of the GitHub CLI home page with the headline Take GitHub to the command line"}
 
 ::: {.credit}
 Screenshot of [cli.github.com](https://cli.github.com/), 7 Oct 2026
 :::
 
-::: {.card .yellow .tilt-l}
+::: {.card .green .tilt-l}
 - `--json` + `--jq` almost everywhere
 - `GH_TOKEN` for headless auth
 - `GH_PROMPT_DISABLED` stops prompts
@@ -424,7 +424,9 @@ Screenshot of [cli.github.com](https://cli.github.com/), 7 Oct 2026
 
 :::
 
-::: {.column width="62%"}
+::: {.column width="55%"}
+
+::: {.code-sm}
 
 ```{.bash filename="terminal"}
 # Ask for exactly the fields you need
@@ -442,48 +444,6 @@ MIT
 
 :::
 
-::::
-
-::: {.source}
-Source: [GitHub CLI manual](https://cli.github.com/manual/)
-:::
-
-::: {.notes}
-The GitHub CLI combines ordinary commands with an authenticated API escape hatch. Its JSON output and query filtering let an agent request only the fields it needs. Disabling interactive prompts also lets an automated task fail clearly instead of waiting for input that will never arrive.
-:::
-
-## Exemplar: Azure CLI (`az`)
-
-:::: {.columns}
-
-::: {.column width="62%"}
-
-```{.bash filename="terminal"}
-# JMESPath query + TSV output: values only, no table art
-$ az vm list --show-details \
-    --query "[?powerState=='VM running'].name" -o tsv
-
-# No prompt; --no-wait returns once started
-$ az group delete --name rg-demo --yes --no-wait
-$ az group wait --name rg-demo --deleted
-
-# Managed identity: on an Azure VM or app
-$ az login --identity
-
-# Escape hatch: any Azure REST API, already authenticated
-$ az rest --method get --url "<management-endpoint>"
-```
-
-:::
-
-::: {.column width="38%"}
-
-::: {.card .green .tilt-r}
-- `--query` filters *before* output
-- `-o json`, `tsv`, or `table` everywhere
-- `--yes`, `--no-wait` for unattended runs, then `wait` to confirm
-:::
-
 :::
 
 ::::
@@ -493,11 +453,11 @@ Pattern: **human-friendly by default, machine-friendly by flag**, with the full 
 :::
 
 ::: {.source}
-Sources: [Azure CLI: query output with JMESPath](https://learn.microsoft.com/en-us/cli/azure/query-azure-cli), [`az group`](https://learn.microsoft.com/en-us/cli/azure/group?view=azure-cli-latest), [managed identity sign-in](https://learn.microsoft.com/en-us/cli/azure/authenticate-azure-cli-managed-identity), [Azure MCP Server overview](https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/overview)
+Source: [GitHub CLI manual](https://cli.github.com/manual/)
 :::
 
 ::: {.notes}
-The Azure CLI offers a similar pattern. Query expressions and plain-text output can select a precise result, while asynchronous operations can return control without waiting for completion. On supported cloud workloads, managed identities provide authentication without embedding static credentials in a script.
+The GitHub CLI combines ordinary commands with an authenticated API escape hatch. Its JSON output and query filtering let an agent request only the fields it needs. Disabling interactive prompts also lets an automated task fail clearly instead of waiting for input that will never arrive.
 :::
 
 ## What is MCP?
