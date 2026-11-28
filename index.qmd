@@ -88,19 +88,12 @@ Welcome. This talk is about building software products and websites that AI agen
 
 :::
 
-::: {.callout-big}
-Machines already request more pages than people. **Your next user may not be human.**
-:::
-
 ::: {.source}
 Sources: Cloudflare, [From ranking to recommended](https://blog.cloudflare.com/aeo/) (Aug 2026) and [The Internet has a second audience](https://blog.cloudflare.com/agentic-web/) (Sep 2026); Mintlify, [State of Knowledge 2026](https://www.mintlify.com/blog/the-state-of-knowledge-2026-highlights) (Aug 2026: 257M agent requests, 131M human page loads)
 :::
 
-::: {.notes}
-Why should this matter to you now? Because the shift has already happened. Cloudflare, which sits in front of roughly a fifth of the web, reports that fewer than half of the HTML page requests it sees now come from a human. Over the past year, daily requests from AI agents on its network grew by more than seventeen hundred per cent. Developer documentation shows the same pattern: on sites hosted by Mintlify, agents made about twice as many requests as people made page loads in August 2026. These measures count requests rather than people, so they are not like-for-like, but the direction is clear. A product that only works through a screen is already failing a large and growing share of its visitors. So how well are products serving them today?
-:::
-
-## Most of the web isn't there yet
+::: {.fragment}
+### Most of the web isn't there yet
 
 Adoption among [Cloudflare Radar](https://radar.cloudflare.com/)'s top 200,000 domains, Apr 2026:
 
@@ -113,16 +106,13 @@ Adoption among [Cloudflare Radar](https://radar.cloudflare.com/)'s top 200,000 d
 </div>
 ```
 
-::: {.callout-big}
-Agents have arrived, but most sites stop at `robots.txt`. **So what does ready look like?**
-:::
-
 ::: {.source}
 Source: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/)
 :::
+:::
 
 ::: {.notes}
-So agents are already here in large numbers. Are our products ready for them? Cloudflare scanned the top two hundred thousand domains on its Radar ranking to find out. Most sites publish a robots file, a convention that dates back to the nineties. Very few go further. Only about four per cent declare how their content may be used by AI, fewer than four per cent can serve a clean Markdown version of a page to an agent, and fewer than fifteen sites advertise an MCP server that agents can discover. Demand from agents has grown quickly, but most products are still built only for people with browsers. That gap is the subject of this talk: what agents need from a product, and the practical changes that close it. The good news is that because so few sites have started, a few small changes already put you ahead.
+Why should this matter to you now? Because the shift has already happened. Cloudflare, which sits in front of roughly a fifth of the web, reports that fewer than half of the HTML page requests it sees now come from a human. Over the past year, daily requests from AI agents on its network grew by more than seventeen hundred per cent. Developer documentation shows the same pattern: on sites hosted by Mintlify, agents made about twice as many requests as people made page loads in August 2026. These measures count requests rather than people, so they are not like-for-like, but the direction is clear. But are our products ready for them? Cloudflare scanned the top two hundred thousand domains on its Radar ranking to find out. Most sites publish a robots file, a convention that dates back to the nineties. Very few go further. Only about four per cent declare how their content may be used by AI, fewer than four per cent can serve a clean Markdown version of a page to an agent, and fewer than fifteen sites advertise an MCP server that agents can discover. Demand from agents has grown quickly, but most products are still built only for people with browsers.
 :::
 
 ## What you'll learn today
@@ -182,38 +172,6 @@ Agents *can* see and click, but don't **require** it. Offer **text interfaces** 
 
 ::: {.notes}
 The product still serves a person's needs. An agent changes the route to that product: it needs clear context, predictable results, and an interface it can operate. Visual polish matters to human users, while a text-based agent needs the underlying information and actions to be accessible without it.
-:::
-
-## How an agent works with your product
-
-:::: {.columns}
-
-::: {.column width="48%"}
-
-![](media/agent-tool-loop.webp){width="460" height="575" fig-alt="An agent starts with a goal from a human, thinks to pick the next step, acts by calling a tool, and observes the output. It loops from Observe back to Think until it is done."}
-
-:::
-
-::: {.column width="52%"}
-
-::: {.card .tilt-l}
-**Text works best.** Output, errors, and docs all land in the context window.
-:::
-
-::: {.card .amber .tilt-r}
-**Every token costs.** Noisy output burns money and crowds out the task.
-:::
-
-::: {.card .pink .tilt-l}
-**No one at the keyboard.** A `y/N` prompt stalls the loop; approval must come through the host.
-:::
-
-:::
-
-::::
-
-::: {.notes}
-An agent first discovers what your product can do. It constructs an input, invokes an action, reads the result, and decides what to do next. An unexpected interactive question or an unstructured error can interrupt that loop or make recovery needlessly expensive.
 :::
 
 ## Humans and agents need different things
