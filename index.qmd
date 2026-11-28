@@ -67,6 +67,39 @@ Source code for these slides can be found [on GitHub](https://github.com/Indraje
 Welcome. This talk is about building software products and websites that AI agents can use on people's behalf. These users work through text, tools, and repeated actions. We will look at what helps them find information, operate a product, and understand the result.
 :::
 
+## The agentic age has already arrived
+
+::: {.grid-3}
+
+::: {.card .pink .stat .tilt-l}
+<span class="num">&lt; 50%</span>
+<span class="label">of HTML page requests on Cloudflare come from a human</span>
+:::
+
+::: {.card .amber .stat .tilt-r}
+<span class="num">&gt; 1,700%</span>
+<span class="label">growth in daily AI agent requests on Cloudflare in one year</span>
+:::
+
+::: {.card .yellow .stat .tilt-l}
+<span class="num">2 : 1</span>
+<span class="label">agent requests to human page loads on Mintlify-hosted docs</span>
+:::
+
+:::
+
+::: {.callout-big}
+Machines already request more pages than people. **Your next user may not be human.**
+:::
+
+::: {.source}
+Sources: Cloudflare, [From ranking to recommended](https://blog.cloudflare.com/aeo/) (Aug 2026) and [The Internet has a second audience](https://blog.cloudflare.com/agentic-web/) (Sep 2026); Mintlify, [State of Knowledge 2026](https://www.mintlify.com/blog/the-state-of-knowledge-2026-highlights) (Aug 2026: 257M agent requests, 131M human page loads)
+:::
+
+::: {.notes}
+Why should this matter to you now? Because the shift has already happened. Cloudflare, which sits in front of roughly a fifth of the web, reports that fewer than half of the HTML page requests it sees now come from a human. Over the past year, daily requests from AI agents on its network grew by more than seventeen hundred per cent. Developer documentation shows the same pattern: on sites hosted by Mintlify, agents made about twice as many requests as people made page loads in August 2026. These measures count requests rather than people, so they are not like-for-like, but the direction is clear. A product that only works through a screen is already failing a large and growing share of its visitors. The rest of this talk is about how to serve them well.
+:::
+
 ## What you'll learn today
 
 ::: {.grid-2}
@@ -1029,13 +1062,12 @@ The first web server, CERN. Photo: [Coolcaesar](https://commons.wikimedia.org/wi
 
 ::: {.column width="52%"}
 
-::: {.card .pink .stat .tilt-r}
-<span class="num">&lt; 50%</span>
-<span class="label">of HTML page requests on Cloudflare now come from a human</span>
+::: {.card .pink .tilt-r}
+Pages assume a **browser that runs JavaScript** before the content appears.
 :::
 
 ::: {.card .cream}
-Machines, from crawlers and scrapers to agents acting for people, now **request more pages than people do**.
+A fetch-only agent reads only the **first HTML response**, which may be an empty app shell.
 :::
 
 :::
@@ -1043,7 +1075,7 @@ Machines, from crawlers and scrapers to agents acting for people, now **request 
 ::::
 
 ::: {.source}
-Source: Cloudflare, [From ranking to recommended](https://blog.cloudflare.com/aeo/) (Aug 2026)
+Source: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents)
 :::
 
 ::: {.notes}
