@@ -16,17 +16,26 @@ Text (verbatim): top row "Human"; "GUI" with subtitle "buttons, forms, pages"; "
 Constraints: preserve all six forward connections, exactly seven nodes, all text exact and large enough for a presentation. No extra captions, icons, row labels, source, watermark or frame. Leave only modest outer margins. Entire diagram in frame.
 ```
 
-## Agent tool loop: `agent-tool-loop.webp`
+## Slide: `machine-visitors-infographic-wide.webp`
+
+Generated with the built-in image generation tool on 28 November 2026, then converted to WebP with `cwebp -q 92`.
 
 ```text
 Use case: infographic-diagram
-Asset type: raster flowchart for a Quarto RevealJS presentation.
-Primary request: show an agent's goal-driven Think, Act, Observe loop, matching a neo-brutalist software presentation. Diagram only, no title.
-Scene/backdrop: solid flat paper #FAFAF5. Portrait canvas approximately 4:5 with modest outer margins.
-Style: crisp flat graphic; heavy #0A0A0A ink outlines; hard black shadows offset down and right; very slight card tilts; bold Space Grotesk-style sans-serif headings and Space Mono-style smaller subtitles. Palette restricted to paper #FAFAF5, cream #F5F5F0, ink #0A0A0A, yellow #FFD600, green #00C853. No gradients, texture, 3D or decorative clutter.
-Composition: five centered vertically stacked nodes, with clearly visible black downward arrowheads and comfortable breathing room: a rounded white "Goal from a human" card at top; a cream "Think" card with subtitle "pick the next step"; a yellow "Act" card with subtitle "call a tool"; a cream "Observe" card with subtitle "read the output"; a rounded green "Done" card at bottom. A single large separate return connector emerges from the LEFT edge of Observe, runs outside the cards to the left, then turns right with its arrowhead entering the LEFT edge of Think. Ensure this direction is Observe back to Think. The Observe-to-Done arrow continues downward. Exactly these six arrows: Goal to Think, Think to Act, Act to Observe, Observe to Think, Observe to Done. (Five arrows in total.) No other connections. All connectors avoid shadows and label areas.
-Text (verbatim): "Goal from a human"; "Think"; "pick the next step"; "Act"; "call a tool"; "Observe"; "read the output"; "Done".
-Constraints: all labels exact, large readable type suitable for the left half of a presentation slide. Entire chart fits in frame. Keep the left return loop legible. No icons, extra labels, numbering, source, watermark, or frame.
+Asset type: wide infographic for a Quarto RevealJS presentation slide
+Primary request: A well-labelled illustration that replaces a table about four kinds of machine visitors to websites. Preserve all four categories, example user-agent names, purposes, and timing.
+Scene/backdrop: Flat warm paper #FAFAF5.
+Subject: Four sections in a 2-by-2 arrangement:
+1. SEARCH CRAWLER. Examples: Googlebot, OAI-SearchBot, Claude-SearchBot. Purpose: Index pages for search results. Timing: Continuously.
+2. TRAINING CRAWLER. Examples: GPTBot, ClaudeBot, CCBot. Purpose: Collect content for model training. Timing: Periodically.
+3. USER-DIRECTED FETCHER. Examples: ChatGPT-User, Claude-User, Perplexity-User. Purpose: Answer one person's question now. Timing: On demand.
+4. BROWSER AGENT. Examples: Claude-Agent, standard Chrome user agent. Purpose: Click and type on a user's behalf. Timing: On demand.
+Style/medium: Editorial infographic in the presentation's neo-brutalist print style: Space Grotesk-like bold sans-serif headings, readable mono-like metadata, heavy black outlines, hard offset black shadows, simple line pictograms, and flat fills.
+Composition/framing: Extra-wide 16:9 landscape. Each section uses a small pictogram at left and clearly aligned text to its right. Keep the full composition low in height so it fits below a slide title and above a short source line and takeaway. Text should occupy most of each panel's width and remain large and readable.
+Color palette: Paper #FAFAF5, ink #0A0A0A, grey #4B5563, yellow #FFD600, green #00C853, amber #F59E0B, blue #2563EB, and pink #FF4081. Give each section a distinct flat accent fill and neutral ink outlines.
+Text (verbatim): Use the four labels, example lists, purpose, and timing exactly as specified above. Write field labels as Examples, Purpose, and Timing. No extra copy.
+Constraints: Keep the four types distinct. All text must fit inside its own panel without touching borders or shadows. Large readable type, clean punctuation, exact names, sufficient padding.
+Avoid: 4:3 or square layout, overlaps, tiny text, company logos, gradients, glows, soft shadows, photorealism, UI mockups, extra text, and watermarks.
 ```
 
 ## Slide: `three-ways-in.webp`

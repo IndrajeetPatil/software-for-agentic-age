@@ -910,3 +910,8 @@
   margin-top: 0.25em;
   font-size: 0.9em;
 }
+
+.reveal .slides section#paste-a-url-get-a-score .credit {
+  margin-bottom: 1.5em;
+  transform: translateY(-0.9em);
+}
