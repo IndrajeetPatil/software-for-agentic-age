@@ -392,7 +392,7 @@ A formatted table is convenient for a person scanning a terminal. JSON is conven
 
 :::: {.columns}
 
-::: {.column width="34%"}
+::: {.column width="38%"}
 
 ![](media/gh-cli-home.webp){.shot width="320" height="146" fig-alt="Screenshot of the GitHub CLI home page with the headline Take GitHub to the command line"}
 
@@ -408,7 +408,7 @@ Screenshot of [cli.github.com](https://cli.github.com/), 7 Oct 2026
 
 :::
 
-::: {.column width="66%"}
+::: {.column width="62%"}
 
 ```{.bash filename="terminal"}
 # Ask for exactly the fields you need
@@ -1434,6 +1434,8 @@ An operable site advertises what an agent can do. API and authentication metadat
 
 ::: {.column width="58%"}
 
+::: {.code-sm}
+
 ```{.html filename="search.html"}
 <form toolname="search_flights"
       tooldescription="Search flights by route and date">
@@ -1443,6 +1445,8 @@ An operable site advertises what an agent can do. API and authentication metadat
   <button>Search</button>
 </form>
 ```
+
+:::
 
 :::
 
