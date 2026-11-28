@@ -1007,6 +1007,24 @@
   text-align: center;
 }
 
+.closing-note {
+  font-size: 0.7em;
+}
+
+/* Smaller text for dense supporting cards, link lists, and notes. */
+.card.card-compact {
+  font-size: 0.7em;
+}
+
+.resource-grid {
+  font-size: 0.62em;
+}
+
+.fine-print {
+  text-align: center;
+  font-size: 0.55em;
+}
+
 /* Fit the stacked request blocks inside the slide. */
 .reveal .slides section#every-request-stands-alone .code-sm pre {
   font-size: 0.48em;

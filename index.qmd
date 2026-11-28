@@ -587,7 +587,7 @@ Mcp-Name: add_todo
 
 :::
 
-::: {.card .yellow style="font-size: 0.7em;"}
+::: {.card .yellow .card-compact}
 No sessions, so **any replica can take the request**. Cache discovery and reads by their hints; keep app state in a shared store.
 :::
 
@@ -809,7 +809,7 @@ Coding agents read your docs, in **Markdown**, before they call your code.
 `llms.txt` to **navigate**, `.md` pages to **read one topic**, `llms-full.txt` to **load everything**.
 :::
 
-::: {.card .amber style="font-size: 0.7em;"}
+::: {.card .amber .card-compact}
 **Hype check:** Google says AI search needs no `llms.txt`, but it's cheap and [Lighthouse](https://developer.chrome.com/docs/lighthouse/overview) checks it. Start it with a **"When to use this"** line.
 :::
 
@@ -1741,13 +1741,13 @@ And happy building! 🤖
 
 <br>
 
-::: {style="text-align: center; font-size: 0.7em;"}
+::: {.closing-note}
 
 Check out my other [slide decks](https://www.indrapatil.com/presentations/) on software development best practices
 
 :::
 
-::: {style="text-align: center; font-size: 1em;"}
+::: {.closing-links}
 
 <a class="deck-icon-link" href="https://www.linkedin.com/in/indrajeet-patil-ph-d-397865174/" aria-label="LinkedIn"><span class="deck-icon deck-icon-brands-linkedin" aria-hidden="true"></span></a>
 &nbsp;&nbsp;
@@ -1763,7 +1763,7 @@ Thank you for listening. I hope these examples help you make your products easie
 
 ## Resources {data-visibility="uncounted"}
 
-::: {.grid-2 style="font-size: 0.62em;"}
+::: {.grid-2 .resource-grid}
 
 ::: {.card .yellow}
 ::: {.card-title}
@@ -1826,7 +1826,7 @@ The resources on this slide provide the specifications, documentation, and pract
 | Paste a URL, get a score | [isitagentready.com](https://isitagentready.com/) | Screenshot, Cloudflare, 7 Oct 2026 |
 | Paste a URL, get a score | [is-agentic.com](https://is-agentic.com/) | Screenshot, Vercel, 7 Oct 2026 |
 
-::: {style="text-align: center; font-size: 0.55em; margin-top: 1em;"}
+::: {.fine-print}
 Screenshots are used for commentary and remain the property of their owners. Visual design inspired by [loot-drop.io](https://www.loot-drop.io/).
 :::
 
