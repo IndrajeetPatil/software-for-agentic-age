@@ -368,11 +368,7 @@ A formatted table is convenient for a person scanning a terminal. JSON is conven
 
 ::: {.column width="45%"}
 
-![](media/gh-cli-home.webp){.shot width="240" height="110" fig-alt="Screenshot of the GitHub CLI home page with the headline Take GitHub to the command line"}
-
-::: {.credit}
-[cli.github.com](https://cli.github.com/), 7 Oct 2026
-:::
+![](media/gh-cli-home.webp){.shot width="280" height="128" fig-alt="Screenshot of the GitHub CLI home page with the headline Take GitHub to the command line"}
 
 ::: {.card .green .tilt-l}
 - `--json` + `--jq` almost everywhere
@@ -411,7 +407,7 @@ Pattern: **human-friendly by default, machine-friendly by flag**, with the full 
 :::
 
 ::: {.source}
-Source: [GitHub CLI manual](https://cli.github.com/manual/)
+Sources: [GitHub CLI homepage](https://cli.github.com/) and [GitHub CLI manual](https://cli.github.com/manual/)
 :::
 
 ::: {.notes}
@@ -1694,7 +1690,7 @@ npx @vercel/agent-readability audit https://example.com --min-score 80
 ::: {.grid-2}
 
 ::: {.card .yellow .tilt-l}
-Chrome **[Lighthouse](https://developer.chrome.com/docs/lighthouse/overview)** has an experimental *Agentic Browsing* category: accessibility tree, layout shift, `llms.txt`, WebMCP.
+*Agentic Browsing* remains experimental (Chrome 150+). Lighthouse checks accessibility, layout stability, `llms.txt`, and ARD; WebMCP audits need the Origin Trial.
 :::
 
 ::: {.card .green .tilt-r}
@@ -1704,7 +1700,7 @@ The scanners **practise what they preach**: they offer CLIs, APIs, and MCP serve
 :::
 
 ::: {.source}
-Scores shift with methodology and certify nothing ([Is Agentic's limitations](https://is-agentic.com/methodology)). Sources: [Vercel KB](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents), [@vercel/agent-readability](https://www.npmjs.com/package/@vercel/agent-readability), [Lighthouse agentic browsing](https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring)
+Scores shift with methodology and certify nothing ([Is Agentic's limitations](https://is-agentic.com/methodology)). Sources: [Vercel KB](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents), [@vercel/agent-readability](https://www.npmjs.com/package/@vercel/agent-readability), [Lighthouse Agentic Browsing](https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring), and [Lighthouse 13.6 release notes](https://github.com/GoogleChrome/lighthouse/releases/tag/v13.6.0)
 :::
 
 ::: {.notes}
@@ -1841,6 +1837,7 @@ Further reading
 
 - [Google: AI features and your website](https://developers.google.com/search/docs/appearance/ai-features)
 - [Lighthouse agentic browsing audits](https://developer.chrome.com/docs/lighthouse/agentic-browsing/scoring)
+- [Agentic Resource Discovery specification](https://agenticresourcediscovery.org/spec/)
 - [Arcjet: designing a CLI for AI agents](https://blog.arcjet.com/designing-a-cli-for-ai-agents/)
 :::
 
@@ -1855,7 +1852,6 @@ The resources on this slide provide the specifications, documentation, and pract
 | Slide | Image | Credit and licence |
 |-------|-------|--------------------|
 | The web was built for people | First web server at CERN | [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
-| Exemplar: GitHub CLI | [cli.github.com](https://cli.github.com/) | Screenshot, GitHub, 7 Oct 2026 |
 | Get indexed by Context7 | [context7.com](https://context7.com/) | Screenshot, Context7 (Upstash), 7 Oct 2026 |
 | Same journey, two builds | [zeiss.com](https://www.zeiss.com/) and a [ui-sdk rebuild](https://github.com/IndrajeetPatil/zeiss-ui-sdk) | Screen recording, author's experiment, 20 Nov 2026 |
 | Measure and iterate | [isitagentready.com](https://isitagentready.com/) | Screenshots, Cloudflare, 7 Oct 2026 |

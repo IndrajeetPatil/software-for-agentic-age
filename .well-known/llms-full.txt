@@ -45,7 +45,7 @@ The talk assumes the audience knows what large language models and agents are. I
 ## Part 4: measure and iterate
 
 - Cloudflare's isitagentready.com and Vercel's is-agentic.com scan a URL, score it, and generate prompts for coding agents. The same site can score very differently on each, so read the findings rather than the number.
-- `npx is-agentic <domain>`, `@vercel/agent-readability`, and Lighthouse's experimental Agentic Browsing category support scanning from the terminal and CI. Scanner scores do not certify compatibility: test representative agent tasks and measure success, wrong actions, latency, and token cost.
+- `npx is-agentic <domain>`, `@vercel/agent-readability`, and Lighthouse's experimental Agentic Browsing category (Chrome 150+) support scanning from the terminal and CI. The category checks agent accessibility, layout stability, `llms.txt`, Agentic Resource Discovery (ARD), and WebMCP; WebMCP audits require the Origin Trial. Scanner results do not certify compatibility: test representative agent tasks and measure success, wrong actions, latency, and token cost.
 - Adoption is low: Cloudflare found robots.txt on 78% of top sites, Content Signals on 4%, and Markdown negotiation on 3.9%.
 
 ## Key takeaways
