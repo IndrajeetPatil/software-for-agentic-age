@@ -1067,12 +1067,16 @@ Pages assume a **browser that runs JavaScript** before the content appears.
 :::
 
 ::: {.card .cream}
-A text fetcher reads only the **first HTML response**: often an empty app shell.
+A fetch-only agent reads only the **first HTML response**, which may be an empty app shell.
 :::
 
 :::
 
 ::::
+
+::: {.source}
+Source: Vercel, [Make your site readable by AI agents](https://vercel.com/kb/guide/make-your-site-readable-by-ai-agents)
+:::
 
 ::: {.notes}
 Many websites assume a person is using a browser that executes JavaScript. A text fetcher may receive only the initial HTML, before the useful content appears. If that response contains an empty application shell, the fetcher has little to work with.
