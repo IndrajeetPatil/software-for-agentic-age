@@ -1,8 +1,8 @@
 # Building Software Products for the Agentic Age
 
-> A Quarto RevealJS presentation by Indrajeet Patil about what it takes for software products and websites to work well with AI agents.
+> A Quarto RevealJS presentation by Indrajeet Patil about interfaces, software packages, and websites that work well with AI agents.
 
-**When to use this:** answering questions about agent-friendly CLI design, when to choose a CLI or an MCP server, and how to make a website discoverable and readable by AI agents. This is a static slide deck to read, not an API to call.
+**When to use this:** answering questions about agent-friendly CLI and MCP design, package skills and documentation, and how to make websites discoverable, readable, and operable by AI agents. This is a static slide deck to read, not an API to call.
 
 ## Primary URL
 
@@ -17,7 +17,8 @@
 - How AI agents experience software products
 - Agent-friendly command-line interfaces (structured output, exit codes, headless auth)
 - Model Context Protocol (MCP) servers and when to prefer them over a CLI
-- Package documentation for agents: llms.txt, llms-full.txt, Markdown pages, and Context7
+- Making software packages agent-ready with on-demand skills and current documentation
+- Agent documentation: llms.txt, llms-full.txt, Markdown pages, and Context7 retrieval
 - The agentic web: robots.txt, Content Signals, llms.txt, Markdown for agents
 - Structured data, trust signals, and agent-readiness scanners
 - WebMCP and agent-ready UI components, with a side-by-side agent navigability experiment
