@@ -1128,7 +1128,7 @@ Not taking part is **completely legitimate**. Pick deliberately, then make the s
 :::
 
 ::: {.source}
-`robots.txt` is a request, not a lock: enforce with bot management or a WAF. Content signals state a preference; `Disallow` is what crawlers without signal support obey. Content-Signal values must sit on one line in a real file. Crawlers obey only their most specific group, so named bots skip `*`. Sources: [contentsignals.org](https://contentsignals.org/), [Cloudflare managed robots.txt](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/)
+`robots.txt` is a request, not a lock: enforce with bot management or a WAF. Content signals state a preference; `Disallow` is what crawlers without signal support obey. Content-Signal values must sit on one line in a real file. Sources: [contentsignals.org](https://contentsignals.org/), [Cloudflare managed robots.txt](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/)
 :::
 
 ::: {.notes}
