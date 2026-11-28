@@ -195,7 +195,6 @@ Let’s start with products agents can operate: the interfaces through which the
 | **Discovery** | OpenAPI spec, docs pages | `--help`, man pages, training data | `server/discover`, then `tools/list` returns schemas |
 | **Auth** | API keys, OAuth | Token in env var, stored login | Per-user OAuth (remote) or local credentials |
 | **Context cost** | Whatever docs it reads | Pay only for commands used | Tool schemas, up front or searched on demand (host's choice) |
-| **Sweet spot** | Everything builds on it | Coding agents with a terminal | Chat apps and hosted agents with no shell |
 
 : {tbl-colwidths="[16,28,28,28]"}
 
@@ -740,8 +739,8 @@ Choosing a protocol does not fix a confusing interface. Fifty poorly named tools
 
 | Company | CLI | MCP server | Docs agents can read |
 |---------|-----|------------|----------------------|
-| **GitHub** | [`gh`](https://cli.github.com/) with `--json`, `--jq`, `gh api` | [GitHub MCP Server](https://github.com/github/github-mcp-server), local and remote | Markdown docs |
-| **Microsoft Azure** | [`az`](https://learn.microsoft.com/en-us/cli/azure/) with `--query`, `-o tsv`, `az rest` | [Azure MCP Server](https://github.com/microsoft/mcp) | [Microsoft Learn MCP](https://learn.microsoft.com/en-us/training/support/mcp) |
+| **GitHub** | [`gh`](https://cli.github.com/) | [GitHub MCP Server](https://github.com/github/github-mcp-server), local and remote | Markdown docs |
+| **Microsoft Azure** | [`az`](https://learn.microsoft.com/en-us/cli/azure/) | [Azure MCP Server](https://github.com/microsoft/mcp) | [Microsoft Learn MCP](https://learn.microsoft.com/en-us/training/support/mcp) |
 | **Stripe** | [`stripe` CLI](https://docs.stripe.com/stripe-cli) | Remote MCP at `mcp.stripe.com` | [`docs.stripe.com/llms.txt`](https://docs.stripe.com/llms.txt) |
 | **Cloudflare** | [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) | [Code Mode MCP](https://blog.cloudflare.com/code-mode-mcp/) for the whole API | [Markdown for Agents](https://blog.cloudflare.com/markdown-for-agents/), `llms.txt` |
 | **Vercel** | [`vercel` CLI](https://vercel.com/docs/cli) | Remote MCP at `mcp.vercel.com` | Markdown via [content negotiation](https://vercel.com/blog/making-agent-friendly-pages-with-content-negotiation) |
@@ -938,25 +937,6 @@ Context7 provides documentation retrieval through MCP tools. An agent can identi
 
 ## Context7 as a docs quality check
 
-::: {.grid-3}
-
-::: {.card .yellow .stat .tilt-l}
-<span class="num">4,273</span>
-<span class="label">code snippets extracted</span>
-:::
-
-::: {.card .green .stat}
-<span class="num">637,996</span>
-<span class="label">tokens of docs indexed</span>
-:::
-
-::: {.card .pink .stat .tilt-r}
-<span class="num">80</span>
-<span class="label">benchmark score</span>
-:::
-
-:::
-
 | Signal | What it tells you |
 |--------|-------------------|
 | **Snippets** | How many code examples Context7 extracted. Few snippets means few examples; extraction doesn't prove they run. |
@@ -970,7 +950,7 @@ Ask Context7 your users' top five questions. No answers? **Your docs are hard to
 :::
 
 ::: {.source}
-Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). uv figures from Context7 on 7 Oct 2026. Scores are LLM-judged signals, not a certificate of correctness or security.
+Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/context7-quality). Scores are LLM-judged signals, not a certificate of correctness or security.
 :::
 
 ::: {.notes}
@@ -1148,11 +1128,11 @@ Not taking part is **completely legitimate**. Pick deliberately, then make the s
 :::
 
 ::: {.source}
-`robots.txt` is a request, not a lock: enforce with bot management or a WAF. Content signals state a preference; `Disallow` is what crawlers without signal support obey. Content-Signal values must sit on one line in a real file. Sources: [contentsignals.org](https://contentsignals.org/), [Cloudflare managed robots.txt](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/)
+`robots.txt` is a request, not a lock: enforce with bot management or a WAF. Content signals state a preference; `Disallow` is what crawlers without signal support obey. Content-Signal values must sit on one line in a real file. Crawlers obey only their most specific group, so named bots skip `*`. Sources: [contentsignals.org](https://contentsignals.org/), [Cloudflare managed robots.txt](https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/)
 :::
 
 ::: {.notes}
-Participation is a choice for the site owner. Robots files and Content Signals can communicate preferences about machine access and reuse. They express a policy; they do not, by themselves, enforce access restrictions against every visitor.
+Participation is a choice for the site owner. Robots files and Content Signals can communicate preferences about machine access and reuse. A crawler follows only the group that names it most specifically, so named training bots ignore the general rules and see only their refusal. These files express a policy; they do not, by themselves, enforce access restrictions against every visitor.
 :::
 
 ## The old rules still apply
@@ -1243,54 +1223,6 @@ Climb only as high as your site needs. **Personal sites can stop at level 3.**
 
 ::: {.notes}
 The maturity ladder has four levels. A site can be discoverable, readable, trustworthy, and operable. Each level builds on the previous one, so a site should address its basic content and metadata before adding complex transactional tools.
-:::
-
-## Level 1: be discoverable
-
-:::: {.columns}
-
-::: {.column width="55%"}
-
-::: {.code-sm}
-
-```{.default filename="robots.txt"}
-User-agent: *
-Allow: /
-Content-Signal: search=yes, ai-input=yes, ai-train=no
-
-# A signal alone won't stop training crawlers
-User-agent: GPTBot
-User-agent: ClaudeBot
-User-agent: CCBot
-Disallow: /
-
-Sitemap: https://example.com/sitemap.xml
-```
-
-:::
-
-:::
-
-::: {.column width="45%"}
-
-::: {.card .yellow .tilt-r}
-Crawlers obey only their **most specific group**, so named training bots skip `*` and see only `Disallow`.
-:::
-
-::: {.card .cream .tilt-l}
-`robots.txt` sits on **78%** of top sites; content signals on just **4%**.
-:::
-
-:::
-
-::::
-
-::: {.source}
-Sources: Cloudflare, [Introducing the Agent Readiness score](https://blog.cloudflare.com/agent-readiness/) (Apr 2026); [Anthropic: blocking ClaudeBot](https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler)
-:::
-
-::: {.notes}
-Discovery begins with a useful sitemap and an accurate robots file. Content Signals can add stated preferences about search and training. These signals help communicate intent, while enforcement remains a separate question.
 :::
 
 ## Level 2: put content in the HTML
