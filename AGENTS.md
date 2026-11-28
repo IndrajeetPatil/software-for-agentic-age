@@ -37,7 +37,8 @@ pull request.
 - **Code blocks.** Always tag the language (`bash`, `python`, `json`,
   `markdown`, `html`). Files with no Pandoc grammar (`robots.txt`, HTTP
   headers) use `{.default}` for plain text. Add `filename="…"` for a labelled
-  header.
+  header. Code blocks clip rather than wrap, so keep every line within
+  its column: break long lines or wrap the block in `.code-sm`.
 - **Spoken notes.** The read-aloud control speaks the `.notes` content. Write
   complete, audience-facing narration; keep staging cues, private reminders,
   and delivery checklists outside these blocks.
