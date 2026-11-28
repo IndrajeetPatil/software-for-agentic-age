@@ -31,8 +31,8 @@ format:
 execute:
   echo: true
   eval: false
-keywords: ["ai-agents", "agentic-web", "mcp", "cli", "llms-txt", "webmcp", "software-engineering"]
-description-meta: "What it takes for software products and websites to work well with AI agents: agent-friendly CLIs, MCP servers, and websites that agents can discover, read, and trust."
+keywords: ["ai-agents", "agentic-web", "mcp", "cli", "agent-skills", "package-documentation", "context7", "llms-txt", "webmcp", "software-engineering"]
+description-meta: "How to help AI agents operate software, use package skills and docs, and navigate and trust websites through CLIs, MCP servers, and the agentic web."
 license: "CC0 1.0 Universal"
 pagetitle: "Building Software Products for the Agentic Age"
 author-meta: "Indrajeet Patil"
@@ -136,6 +136,7 @@ Why should this matter to you now? Because the shift has already happened. Cloud
 
 - how agents *experience* products
 - products agents **act** on
+- software packages agents can **learn and retrieve docs for**
 - websites agents **read** and cite
 - tools to measure readiness
 :::
@@ -147,7 +148,7 @@ Agent-friendliness is a new layer **on top of** good engineering, not a replacem
 :::
 
 ::: {.notes}
-We will cover three areas. First, products that agents can operate, including command-line tools and the Model Context Protocol. Second, websites that agents can read and assess. Third, ways to measure readiness and catch regressions as a product changes.
+We will cover four areas: interfaces agents can operate, software packages they can learn to use, websites they can read and assess, and ways to measure readiness and catch regressions as products change.
 :::
 
 # A new kind of user {background-color="#FFD600"}
@@ -205,17 +206,30 @@ Let’s start with products agents can operate: the interfaces through which the
 
 ## Three ways in
 
-| | HTTP API | CLI | MCP server |
-|---|---|---|---|
-| **Agent needs** | An HTTP client and your docs | A shell | An MCP-capable host |
-| **Discovery** | OpenAPI spec, docs pages | `--help`, man pages, training data | `server/discover`, then `tools/list` returns schemas |
-| **Auth** | API keys, OAuth | Token in env var, stored login | Per-user OAuth (remote) or local credentials |
-| **Context cost** | Whatever docs it reads | Pay only for commands used | Tool schemas, up front or searched on demand (host's choice) |
+:::: {.entry-figure}
 
-: {tbl-colwidths="[16,28,28,28]"}
+![](media/three-ways-in.webp){width="640" height="360" fig-alt="Three distinct interfaces—an HTTP API, a command-line terminal, and an MCP server—feed a shared software product, which an AI agent uses on a person's behalf."}
+
+::: {.grid-3 .entry-labels}
+
+::: {.entry-label}
+<span class="tag yellow">HTTP API</span>
+:::
+
+::: {.entry-label}
+<span class="tag green">CLI</span>
+:::
+
+::: {.entry-label}
+<span class="tag pink">MCP server</span>
+:::
+
+:::
+
+::::
 
 ::: {.callout-big}
-CLI and MCP are **thin layers over a good API**. Get the API right first.
+Build a good API. Add a CLI or MCP where they fit.
 :::
 
 ::: {.source}
@@ -223,63 +237,7 @@ Hosts can defer MCP tool schemas and load them on demand: see Anthropic's [tool 
 :::
 
 ::: {.notes}
-There are three main entry points: an application programming interface, a command-line interface, and a Model Context Protocol server. The API provides the underlying capability. A CLI or an MCP server can then expose that capability in a form suited to the agent's environment.
-:::
-
-## The command line is back
-
-:::: {.columns}
-
-::: {.column width="40%"}
-
-![](media/vt100-terminal.webp){.photo width="340" height="302" fig-alt="A DEC VT100 computer terminal from the late 1970s showing a text-only screen"}
-
-::: {.credit}
-DEC VT100 terminal. Photo: [Jason Scott](https://commons.wikimedia.org/wiki/File:DEC_VT100_terminal.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/)
-:::
-
-:::
-
-::: {.column width="60%"}
-
-::: {.grid-2}
-
-::: {.card .yellow}
-::: {.card-title}
-Fluent
-:::
-Models have read decades of shell scripts and docs.
-:::
-
-::: {.card .green}
-::: {.card-title}
-Composable
-:::
-Pipe into [`jq`](https://jqlang.org/), `grep`, and `xargs`.
-:::
-
-::: {.card .pink}
-::: {.card-title}
-Self-documenting
-:::
-`--help` is read only when needed.
-:::
-
-::: {.card .amber}
-::: {.card-title}
-Cheap
-:::
-Nothing enters context until it runs.
-:::
-
-:::
-
-:::
-
-::::
-
-::: {.notes}
-The command line is useful again because coding agents already work alongside Git, package managers, compilers, and files. A good CLI lets them use the same product capabilities that developers use in their own shell workflows.
+There are three common entry points: an HTTP API, a command-line interface, and a Model Context Protocol server. Build the product capability once, then expose the interfaces that fit your users' agents.
 :::
 
 ## A minimal agent-friendly CLI
@@ -681,6 +639,52 @@ Prefer MCP when
 A CLI fits agents that already have shell access and developer credentials. MCP fits hosts that need a governed tool connection, such as a web assistant or an enterprise application. The right choice depends on where the agent runs and how access is controlled.
 :::
 
+## Control delegated access
+
+::: {.grid-2 .security-grid}
+
+::: {.card .yellow}
+::: {.card-title}
+🔑 Least privilege
+:::
+Use scoped, short-lived, read-only tokens by default.
+:::
+
+::: {.card .amber}
+::: {.card-title}
+🧪 Dry runs, safe retries
+:::
+Dry-run writes; use idempotency keys for safe retries.
+:::
+
+::: {.card .pink}
+::: {.card-title}
+🛑 Explicit intent
+:::
+Require explicit consent for destructive actions.
+:::
+
+::: {.card .green}
+::: {.card-title}
+🧾 Audit trail
+:::
+Identify agent traffic and log consequential actions.
+:::
+
+:::
+
+::: {.callout-big .callout-compact}
+Treat tool output as **untrusted input**.
+:::
+
+::: {.source}
+Sources: [MCP tools: user interaction](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [Stripe idempotent requests](https://docs.stripe.com/api/idempotent_requests)
+:::
+
+::: {.notes}
+CLI and MCP determine how an agent reaches product capabilities. Keep the access it receives narrow, make consequential writes safe to retry, ask for explicit intent before destructive actions, and record what happened. Treat text returned by tools as untrusted input because it can contain instructions aimed at the agent.
+:::
+
 ## Design beats protocol
 
 A naive MCP server exposes one tool per endpoint. Cloudflare's API has **2,500+** endpoints.
@@ -713,20 +717,30 @@ Choosing a protocol does not fix a confusing interface. Fifty poorly named tools
 
 ## Who does this well?
 
-| Company | CLI | MCP server | Docs agents can read |
-|---------|-----|------------|----------------------|
-| **GitHub** | [`gh`](https://cli.github.com/) | [GitHub MCP Server](https://github.com/github/github-mcp-server), local and remote | Markdown docs |
-| **Microsoft Azure** | [`az`](https://learn.microsoft.com/en-us/cli/azure/) | [Azure MCP Server](https://github.com/microsoft/mcp) | [Microsoft Learn MCP](https://learn.microsoft.com/en-us/training/support/mcp) |
-| **Stripe** | [`stripe` CLI](https://docs.stripe.com/stripe-cli) | Remote MCP at `mcp.stripe.com` | [`docs.stripe.com/llms.txt`](https://docs.stripe.com/llms.txt) |
-| **Cloudflare** | [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) | [Code Mode MCP](https://blog.cloudflare.com/code-mode-mcp/) for the whole API | [Markdown for Agents](https://blog.cloudflare.com/markdown-for-agents/), `llms.txt` |
-| **Vercel** | [`vercel` CLI](https://vercel.com/docs/cli) | Remote MCP at `mcp.vercel.com` | Markdown via [content negotiation](https://vercel.com/blog/making-agent-friendly-pages-with-content-negotiation) |
+| Company | CLI | MCP server |
+|---------|-----|------------|
+| **GitHub** | [`gh`](https://cli.github.com/) | [GitHub MCP Server](https://github.com/github/github-mcp-server), local and remote |
+| **Microsoft Azure** | [`az`](https://learn.microsoft.com/en-us/cli/azure/) | [Azure MCP Server](https://github.com/microsoft/mcp) |
+| **Stripe** | [`stripe` CLI](https://docs.stripe.com/stripe-cli) | Remote MCP at `mcp.stripe.com` |
+| **Cloudflare** | [`wrangler`](https://developers.cloudflare.com/workers/wrangler/) | [Code Mode MCP](https://blog.cloudflare.com/code-mode-mcp/) for the whole API |
+| **Vercel** | [`vercel` CLI](https://vercel.com/docs/cli) | Remote MCP at `mcp.vercel.com` |
 
 ::: {.callout-big}
-These vendors' users span terminals and chat apps, so they ship **all three**. Choose yours from **your users' workflows**.
+These vendors' users span terminals and chat apps, so they ship both interfaces. Choose yours from **your users' workflows**.
 :::
 
 ::: {.notes}
-Cloudflare, Stripe, and GitHub provide examples of different approaches to agent ergonomics. The common thread is a clear boundary around useful operations, supported by documentation and predictable results.
+GitHub, Azure, Stripe, Cloudflare, and Vercel provide CLI and MCP examples. Choose the interface that fits how your users' agents run.
+:::
+
+# Make software packages agent-ready {background-color="#FFD600"}
+
+::: {.tag}
+Part 2 · Agent-ready packages
+:::
+
+::: {.notes}
+An interface lets an agent operate a package, but the agent also needs to learn the right workflow and find current documentation. This section covers skills and documentation retrieval for package authors.
 :::
 
 ## Teach the agent: ship a skill
@@ -754,6 +768,8 @@ description: Manage todos with the `todo` CLI.
 
 ::: {.column width="45%"}
 
+:::: {.card-stack}
+
 ::: {.card .yellow .tilt-r}
 **Agent Skills** are folders of instructions an agent loads **only when relevant**.
 :::
@@ -765,6 +781,8 @@ description: Manage todos with the `todo` CLI.
 ::: {.card .cream}
 **Tools ship them too:** Astral publishes an official `uv` skill.
 :::
+
+::::
 
 :::
 
@@ -933,56 +951,10 @@ Source: Upstash, [Inside Context7's quality stack](https://upstash.com/blog/cont
 Documentation retrieval can also reveal weaknesses in the documentation itself. Sparse examples or hard-to-find snippets are reasons to inspect how a guide is organised. Retrieval metrics are a diagnostic signal, rather than a substitute for checking whether a reader can complete a real task.
 :::
 
-## Agents act with your users' credentials {.smaller}
-
-::: {.grid-2}
-
-::: {.card .yellow}
-::: {.card-title}
-🔑 Least privilege
-:::
-Fine-grained, scoped, short-lived tokens. Read-only by default.
-:::
-
-::: {.card .amber}
-::: {.card-title}
-🧪 Dry runs, safe retries
-:::
-`--dry-run` first; idempotency keys so retries never write twice.
-:::
-
-::: {.card .pink}
-::: {.card-title}
-🛑 Explicit intent
-:::
-A flag for anything destructive; consent comes from the user.
-:::
-
-::: {.card .green}
-::: {.card-title}
-🧾 Audit trail
-:::
-Identify agent traffic and log every action it takes.
-:::
-
-:::
-
-::: {.callout-big}
-Treat tool output as **untrusted input**: text in the data can carry instructions that hijack the agent (prompt injection).
-:::
-
-::: {.source}
-Sources: [MCP tools: user interaction](https://modelcontextprotocol.io/specification/2026-07-28/server/tools), [Stripe idempotent requests](https://docs.stripe.com/api/idempotent_requests)
-:::
-
-::: {.notes}
-Agents often act with permissions borrowed from a person or application. Keep those permissions narrow, provide a dry-run mode where useful, and record consequential actions. Clear limits and audit trails matter even when the interface is easy to automate.
-:::
-
 # Websites agents can read {background-color="#FFD600"}
 
 ::: {.tag}
-Part 2 · The agentic web
+Part 3 · The agentic web
 :::
 
 ::: {.notes}
@@ -1593,7 +1565,7 @@ A personal blog and a commercial application do not need the same level of opera
 # Measure and iterate {background-color="#FFD600"}
 
 ::: {.tag}
-Part 3 · Tools
+Part 4 · Tools
 :::
 
 ::: {.notes}
@@ -1751,14 +1723,14 @@ Let’s bring these ideas together into a practical starting point for a product
 
 ## Where to start
 
-| When | Product (CLI, MCP) | Website |
-|------|--------------------|---------|
-| **This week** | Add `--json` and non-interactive flags; fix exit codes | Decide your AI stance; update `robots.txt` and the sitemap |
-| **This month** | Headless auth with scoped tokens; `llms.txt` for your docs | Server-render key pages; add `llms.txt` and `.md` mirrors |
-| **This quarter** | Ship a skill; add MCP if agents without a shell need you; get indexed by Context7 | Structured data, trust pages, Markdown negotiation |
-| **Always** | Version the output; never rename fields | Keep SEO, accessibility, and performance healthy |
+| When | Product interfaces | Packages | Websites |
+|------|-------------------|----------|----------|
+| **This week** | Add `--json` and non-interactive flags; fix exit codes | Ship an on-demand skill for a common workflow | Decide your AI stance; update `robots.txt` and the sitemap |
+| **This month** | Headless auth with scoped tokens; add MCP if agents without a shell need it | Publish `llms.txt` and Markdown pages | Server-render key pages; add `llms.txt` and `.md` mirrors |
+| **This quarter** | Version output; keep schemas stable | Get indexed by Context7; test retrieval with real questions | Add structured data and trust pages |
+| **Always** | Keep writes safe and auditable | Keep examples and docs current | Keep SEO, accessibility, and performance healthy |
 
-: {tbl-colwidths="[15,43,42]"}
+: {tbl-colwidths="[14,28,28,30]"}
 
 ::: {.callout-big}
 Test **real agent tasks** before and after: success, wrong actions, time, and tokens. Use scanner findings to diagnose.
@@ -1777,15 +1749,15 @@ Begin with readable core content and documentation. Publish useful discovery fil
 :::
 
 ::: {.card .green .tilt-r}
-**2.** A great **API**, plus the **CLI or MCP** your users' agents need, lets them operate your product.
+**2.** A good **API** plus a **CLI or MCP** lets agents operate your product.
 :::
 
 ::: {.card .pink .tilt-r}
-**3.** For the web, **SEO and accessibility still come first**. Agent extras build on them.
+**3.** Give packages focused skills and current, retrievable documentation.
 :::
 
 ::: {.card .amber .tilt-l}
-**4.** Opting out is fine. Whatever you choose, **send honest, consistent signals**.
+**4.** **SEO and accessibility** remain the web foundation; send honest signals, and opt out if you choose.
 :::
 
 :::
@@ -1795,7 +1767,7 @@ Build for humans *and* agents: the overlap is just **good engineering**.
 :::
 
 ::: {.notes}
-Design for text and predictable actions. Start with a clear API, add a CLI or MCP interface where it fits, and retain the accessibility and search foundations of a good website. Be explicit about the site's capabilities and policies.
+Design for text and predictable actions. Choose the product interface that fits your users, give packages skills and current documentation, and retain the accessibility and search foundations of a good website. Be explicit about the site's capabilities and policies.
 :::
 
 # Thank You {background-color="#FFD600"}
@@ -1882,7 +1854,6 @@ The resources on this slide provide the specifications, documentation, and pract
 
 | Slide | Image | Credit and licence |
 |-------|-------|--------------------|
-| The command line is back | DEC VT100 terminal | [Jason Scott](https://commons.wikimedia.org/wiki/File:DEC_VT100_terminal.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), resized |
 | The web was built for people | First web server at CERN | [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
 | Exemplar: GitHub CLI | [cli.github.com](https://cli.github.com/) | Screenshot, GitHub, 7 Oct 2026 |
 | Get indexed by Context7 | [context7.com](https://context7.com/) | Screenshot, Context7 (Upstash), 7 Oct 2026 |

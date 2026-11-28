@@ -4,7 +4,8 @@
 
 This presentation covers what it takes for software products and websites to work well with AI agents:
 
-- **Products agents can operate**: agent-friendly CLIs, stateless MCP servers (spec 2026-07-28), and how GitHub (`gh`) does it well, plus package docs for agents (`llms.txt` and its variants) and indexing them in Context7.
+- **Products agents can operate**: agent-friendly CLIs, stateless MCP servers (spec 2026-07-28), and how vendors expose both interfaces.
+- **Software packages agents can learn to use**: on-demand skills, `llms.txt`, Markdown docs, and Context7 indexing.
 - **Websites agents can read**: choosing whether to take part; robots.txt and Content Signals; `llms.txt` and Markdown for agents; structured data and trust signals; and WebMCP and agent-ready UI components, with a side-by-side video of two agents on a live site and a [ui-sdk rebuild](https://github.com/IndrajeetPatil/zeiss-ui-sdk), all on top of the SEO and accessibility basics that still matter.
 - **Measuring readiness** with Cloudflare's [Is It Agent Ready?](https://isitagentready.com/) and Vercel's [Is Agentic](https://is-agentic.com/).
 
@@ -24,8 +25,8 @@ Third-party images keep their own licences; the [CC0](LICENSE) dedication covers
 
 | Image                                                        | Credit and licence                                                                                                                                                               |
 | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`media/vt100-terminal.webp`](media/vt100-terminal.webp)     | DEC VT100 terminal by [Jason Scott](https://commons.wikimedia.org/wiki/File:DEC_VT100_terminal.jpg), [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/), resized          |
 | [`media/first-web-server.webp`](media/first-web-server.webp) | First web server at CERN by [Coolcaesar](https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/), resized |
+| [`media/three-ways-in.webp`](media/three-ways-in.webp)       | Original generated illustration; prompt in [`media/diagram-prompts.md`](media/diagram-prompts.md)                                                                             |
 | [`media/gh-cli-home.webp`](media/gh-cli-home.webp)           | Screenshot of [cli.github.com](https://cli.github.com/), captured 7 Oct 2026                                                                                                     |
 | [`media/context7-uv.webp`](media/context7-uv.webp)           | Screenshot of [context7.com/astral-sh/uv](https://context7.com/astral-sh/uv), captured 7 Oct 2026                                                                                |
 | `media/isitagentready-*.webp`                                | Screenshots of Cloudflare's [isitagentready.com](https://isitagentready.com/), captured 7 Oct 2026                                                                               |
